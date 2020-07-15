@@ -7,6 +7,9 @@ export const getTransactions = () => async (dispatch, getState) => {
         type: "GET_TRANSACTIONS",
         payload: transactions
     });
+    dispatch({
+        type: "SORT_TRANSACTIONS_BY_DATE"
+    });
     return transactions;
 };
 
@@ -16,10 +19,16 @@ export const addTransaction = transaction => async (dispatch, getState) => {
         type: "TRANSACTION_NOT_LOADED"
     });
 
-    const newTransaction = await transactionService.createTransactions(transaction);
+    const newTransaction = await transactionService.createTransactions(
+        transaction
+    );
+
     dispatch({
         type: "ADD_TRANSACTION",
         payload: newTransaction
+    });
+    dispatch({
+        type: "SORT_TRANSACTIONS_BY_DATE"
     });
     return newTransaction;
 };
@@ -40,6 +49,9 @@ export const updateTransaction = (transaction, id) => async (
     dispatch({
         type: "UPDATE_TRANSACTION",
         payload: updatedTransaction
+    });
+    dispatch({
+        type: "SORT_TRANSACTIONS_BY_DATE"
     });
     return updatedTransaction;
 };

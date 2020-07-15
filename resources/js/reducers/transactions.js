@@ -8,14 +8,12 @@ export default function(state = initialState, action) {
         case "GET_TRANSACTIONS":
             return {
                 ...state,
-                transactions: action.payload,
-                isTransactionsLoaded: true
+                transactions: action.payload
             };
         case "ADD_TRANSACTION":
             return {
                 ...state,
-                transactions: [...state.transactions, action.payload],
-                isTransactionsLoaded: true
+                transactions: [...state.transactions, action.payload]
             };
         case "UPDATE_TRANSACTION":
             return {
@@ -26,8 +24,7 @@ export default function(state = initialState, action) {
                     } else {
                         return transaction;
                     }
-                }),
-                isTransactionsLoaded: true
+                })
             };
         case "DELETE_TRANSACTION":
             return {
@@ -41,6 +38,14 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 isTransactionsLoaded: false
+            };
+        case "SORT_TRANSACTIONS_BY_DATE":
+            return {
+                ...state,
+                transactions: state.transactions.sort(
+                    (a, b) => new Date(a.spent_at) - new Date(b.spent_at)
+                ),
+                isTransactionsLoaded: true
             };
         default:
             return state;

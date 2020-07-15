@@ -1,23 +1,31 @@
 // Fonts
-@import url('https://fonts.googleapis.com/css?family=Nunito');
+@import url("https://fonts.googleapis.com/css?family=Nunito");
 
 // Variables
-@import 'variables';
+@import "variables";
 
-html, body, .root, .spinner-wrapper {
+html,
+body,
+.root,
+.spinner-wrapper {
     min-height: 100vh;
+}
+div {
+    color: #324c5b;
 }
 a {
     text-decoration: none !important;
-    color: #6C757D !important;
+    color: #6c757d !important;
     font-weight: 600;
     font-size: 1.1em;
 }
-.link-success, .link-success:hover, .link-success:active{
+.link-success,
+.link-success:hover,
+.link-success:active {
     box-sizing: padding-box;
     padding-bottom: 1em;
-    color: #12C48B !important;
-    border-bottom: 2px solid #12C48B;
+    color: #12c48b !important;
+    border-bottom: 2px solid #12c48b;
     text-decoration: none !important;
 }
 .spinner-border {
@@ -25,5 +33,9 @@ a {
     width: 5em !important;
     height: 5em !important;
 }
+.gray-on-hover:hover {
+    background: #f4f6f8;
+}
+
 // Bootstrap
-@import '~bootstrap/scss/bootstrap';
+@import "~bootstrap/scss/bootstrap";

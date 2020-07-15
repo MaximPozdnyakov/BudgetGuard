@@ -7,9 +7,13 @@ body,
   min-height: 100vh;
 }
 
+div {
+  color: #324c5b;
+}
+
 a {
   text-decoration: none !important;
-  color: #6C757D !important;
+  color: #6c757d !important;
   font-weight: 600;
   font-size: 1.1em;
 }
@@ -19,8 +23,8 @@ a {
 .link-success:active {
   box-sizing: padding-box;
   padding-bottom: 1em;
-  color: #12C48B !important;
-  border-bottom: 2px solid #12C48B;
+  color: #12c48b !important;
+  border-bottom: 2px solid #12c48b;
   text-decoration: none !important;
 }
 
@@ -28,6 +32,10 @@ a {
   align-self: center !important;
   width: 5em !important;
   height: 5em !important;
+}
+
+.gray-on-hover:hover {
+  background: #f4f6f8;
 }
 
 /*!
