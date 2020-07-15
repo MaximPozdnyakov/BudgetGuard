@@ -6,12 +6,12 @@ import { Container } from 'react-bootstrap';
 
 import Operations from './Operations/Operations';
 import Overview from './Overview/Overview';
-import Nav from './Navbar/Nav';
+import Header from './Navbar/Header';
 
 function App() {
     return (
         <>
-            <Nav/>
+            <Header/>
             <Container>
                 <Switch>
                     <Route exact path="/" component={ Operations }/>

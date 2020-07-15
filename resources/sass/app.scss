@@ -4,5 +4,19 @@
 // Variables
 @import 'variables';
 
+.link-success, .link-success:hover, .link-success:active{
+    box-sizing: padding-box;
+    padding-bottom: 1em;
+    color: #12C48B !important;
+    border-bottom: 2px solid #12C48B;
+    text-decoration: none !important;
+}
+a {
+    text-decoration: none !important;
+    color: #6C757D !important;
+    font-weight: 600;
+    font-size: 1.1em;
+}
+
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
