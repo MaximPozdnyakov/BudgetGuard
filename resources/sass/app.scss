@@ -4,12 +4,8 @@
 // Variables
 @import 'variables';
 
-.link-success, .link-success:hover, .link-success:active{
-    box-sizing: padding-box;
-    padding-bottom: 1em;
-    color: #12C48B !important;
-    border-bottom: 2px solid #12C48B;
-    text-decoration: none !important;
+html, body, .root, .spinner-wrapper {
+    min-height: 100vh;
 }
 a {
     text-decoration: none !important;
@@ -17,6 +13,17 @@ a {
     font-weight: 600;
     font-size: 1.1em;
 }
-
+.link-success, .link-success:hover, .link-success:active{
+    box-sizing: padding-box;
+    padding-bottom: 1em;
+    color: #12C48B !important;
+    border-bottom: 2px solid #12C48B;
+    text-decoration: none !important;
+}
+.spinner-border {
+    align-self: center !important;
+    width: 5em !important;
+    height: 5em !important;
+}
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';

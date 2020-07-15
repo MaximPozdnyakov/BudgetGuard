@@ -16,7 +16,7 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        return App\Transaction::all();
+        return Transaction::all();
     }
 
     /**
@@ -34,7 +34,7 @@ class TransactionController extends Controller
             'spent_at' => 'required|date',
         ]);
 
-        $transaction = new App\Transaction;
+        $transaction = new Transaction;
         $transaction->moneyAmount = $request->moneyAmount;
         $transaction->moneySign = $request->moneySign;
         $transaction->category = $request->category;
@@ -53,7 +53,7 @@ class TransactionController extends Controller
      */
     public function show($id)
     {
-        return App\Transaction::findOrFail($id);
+        return Transaction::findOrFail($id);
     }
 
     /**
@@ -72,7 +72,7 @@ class TransactionController extends Controller
             'spent_at' => 'required|date',
         ]);
 
-        $transaction = App\Transaction::findOrFail($id)->update([
+        $transaction = Transaction::findOrFail($id)->update([
             'moneyAmount' => $request->moneyAmount,
             'moneySign' => $request->moneySign,
             'category' => $request->category,
@@ -90,7 +90,7 @@ class TransactionController extends Controller
      */
     public function destroy($id)
     {
-        $transaction = App\Transaction::findOrFail($id);
+        $transaction = Transaction::findOrFail($id);
         $transaction->delete();
         return $transaction;
     }

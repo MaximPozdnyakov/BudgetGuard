@@ -22,20 +22,16 @@ function Header() {
                     </svg>
                 </Navbar.Brand>
                 <Navbar.Toggle />
-                <Nav>
-                    <Nav.Item>
-                        <Nav.Link>
-                            <NavLink exact to="/" activeClassName="link-success">
-                                Operations
-                            </NavLink>
-                        </Nav.Link>
+                <Nav className="align-content-center mt-2">
+                    <Nav.Item className="mr-3">
+                        <NavLink exact to="/" activeClassName="link-success">
+                            Operations
+                        </NavLink>
                     </Nav.Item>
                     <Nav.Item>
-                        <Nav.Link>
-                            <NavLink exact to="overview" activeClassName="link-success">
-                                Overview
-                            </NavLink>
-                        </Nav.Link>
+                        <NavLink exact to="overview" activeClassName="link-success">
+                            Overview
+                        </NavLink>
                     </Nav.Item>
                 </Nav>
                 <Navbar.Text className="align-content-center">

@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::view('/{path?}', 'welcome');
+Route::view('/{path?}', 'welcome')->where('path', '^((?!api).)*$');
 
 Auth::routes();
 

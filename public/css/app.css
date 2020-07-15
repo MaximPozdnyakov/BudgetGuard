@@ -1,5 +1,19 @@
 @import url(https://fonts.googleapis.com/css?family=Nunito);@charset "UTF-8";
 
+html,
+body,
+.root,
+.spinner-wrapper {
+  min-height: 100vh;
+}
+
+a {
+  text-decoration: none !important;
+  color: #6C757D !important;
+  font-weight: 600;
+  font-size: 1.1em;
+}
+
 .link-success,
 .link-success:hover,
 .link-success:active {
@@ -10,11 +24,10 @@
   text-decoration: none !important;
 }
 
-a {
-  text-decoration: none !important;
-  color: #6C757D !important;
-  font-weight: 600;
-  font-size: 1.1em;
+.spinner-border {
+  align-self: center !important;
+  width: 5em !important;
+  height: 5em !important;
 }
 
 /*!

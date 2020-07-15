@@ -1,8 +1,8 @@
 import transactionService from "../services/transactionService";
 
 // GET Transactions
-export const getTransactions = async () => async (dispatch, getState) => {
-    const transactions = transactionService.fetchTransactions();
+export const getTransactions = () => async (dispatch, getState) => {
+    const transactions = await transactionService.fetchTransactions();
     dispatch({
         type: "GET_TRANSACTIONS",
         payload: transactions
@@ -11,12 +11,12 @@ export const getTransactions = async () => async (dispatch, getState) => {
 };
 
 // ADD Transaction
-export const addTransaction = async transaction => (dispatch, getState) => {
+export const addTransaction = transaction => async (dispatch, getState) => {
     dispatch({
         type: "TRANSACTION_NOT_LOADED"
     });
 
-    const newTransaction = transactionService.createTransactions(transaction);
+    const newTransaction = await transactionService.createTransactions(transaction);
     dispatch({
         type: "ADD_TRANSACTION",
         payload: newTransaction
@@ -25,7 +25,7 @@ export const addTransaction = async transaction => (dispatch, getState) => {
 };
 
 // UPDATE Transaction
-export const updateTransaction = async (transaction, id) => (
+export const updateTransaction = (transaction, id) => async (
     dispatch,
     getState
 ) => {
@@ -33,7 +33,7 @@ export const updateTransaction = async (transaction, id) => (
         type: "TRANSACTION_NOT_LOADED"
     });
 
-    const updatedTransaction = transactionService.updateTransactions(
+    const updatedTransaction = await transactionService.updateTransactions(
         transaction,
         id
     );
@@ -45,12 +45,12 @@ export const updateTransaction = async (transaction, id) => (
 };
 
 // DELETE Transaction
-export const deleteTransaction = id => (dispatch, getState) => {
+export const deleteTransaction = id => async (dispatch, getState) => {
     dispatch({
         type: "TRANSACTION_NOT_LOADED"
     });
 
-    const deletedTransaction = transactionService.deleteTransactions(id);
+    const deletedTransaction = await transactionService.deleteTransactions(id);
     dispatch({
         type: "DELETE_TRANSACTION",
         payload: id
