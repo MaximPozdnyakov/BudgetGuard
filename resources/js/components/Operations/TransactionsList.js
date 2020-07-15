@@ -10,12 +10,14 @@ import TransactionsListByDate from "./TransactionsListByDate";
 
 function TransactionsList(props) {
     const transactionsGroupsByDateObject = _.groupBy(
-        props.transactions,
+        props.transactions.filter(transaction => {
+            const spent_at = new Date(transaction.spent_at);
+            return (
+                props.dateRange[1].getTime() - spent_at.getTime() >= 0 &&
+                props.dateRange[0].getTime() - spent_at.getTime() <= 0
+            );
+        }),
         "spent_at"
-    );
-    console.log(
-        "transactionsGroupsByDateObject",
-        transactionsGroupsByDateObject
     );
     let transactionsGroupsByDateArray = [];
     for (let transactionDate in transactionsGroupsByDateObject) {

@@ -36,6 +36,9 @@ a {
 .gray-on-hover:hover {
     background: #f4f6f8;
 }
+.div.react-daterange-picker__inputGroup {
+    padding: 1em !important;
+}
 
 // Bootstrap
 @import "~bootstrap/scss/bootstrap";

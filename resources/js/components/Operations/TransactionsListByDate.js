@@ -18,7 +18,7 @@ function TransactionsListByDate(props) {
         <>
             <h6 className="font-weight-bold px-3 pt-3 mb-0">{date}</h6>
             {transactions}
-            <div class="border-top"></div>
+            <div className="border-top"></div>
         </>
     );
 }

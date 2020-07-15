@@ -7,7 +7,9 @@ import { Container, Button } from "react-bootstrap";
 import TransactionsList from "./TransactionsList";
 
 function Operations() {
-    const [date, onDateChange] = useState([new Date(), new Date()]);
+    const currentDate = new Date();
+    const monthAgo = new Date(currentDate.setMonth(currentDate.getMonth() - 1));
+    const [dateRange, onDateRangeChange] = useState([monthAgo, new Date()]);
     return (
         <Container>
             <div className="d-flex justify-content-between">
@@ -29,9 +31,12 @@ function Operations() {
                     </svg>
                     <span className="align-self-start">Add transaction</span>
                 </Button>
-                <DateRangePicker onChange={onDateChange} value={date} />
+                <DateRangePicker
+                    onChange={onDateRangeChange}
+                    value={dateRange}
+                />
             </div>
-            <TransactionsList />
+            <TransactionsList dateRange={dateRange} />
         </Container>
     );
 }
