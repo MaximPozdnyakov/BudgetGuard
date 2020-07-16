@@ -9,16 +9,20 @@ import { connect } from "react-redux";
 import TransactionsListByDate from "./TransactionsListByDate";
 
 function TransactionsList(props) {
+    const { transactions, dateRange, categories } = props;
+
     const transactionsGroupsByDateObject = _.groupBy(
-        props.transactions.filter(transaction => {
+        transactions.filter(transaction => {
             const spent_at = new Date(transaction.spent_at);
             return (
-                props.dateRange[1].getTime() - spent_at.getTime() >= 0 &&
-                props.dateRange[0].getTime() - spent_at.getTime() <= 0
+                dateRange[1].getTime() - spent_at.getTime() >= 0 &&
+                dateRange[0].getTime() - spent_at.getTime() <= 0 &&
+                categories.includes(transaction.category)
             );
         }),
         "spent_at"
     );
+
     let transactionsGroupsByDateArray = [];
     for (let transactionDate in transactionsGroupsByDateObject) {
         transactionsGroupsByDateArray.unshift(
@@ -36,7 +40,9 @@ function TransactionsList(props) {
 }
 
 const mapStateToProps = state => ({
-    transactions: state.transactions.transactions
+    transactions: state.transactions.transactions,
+    dateRange: state.transactions.transactionsFilters.dateRange,
+    categories: state.transactions.transactionsFilters.categories
 });
 
 export default connect(mapStateToProps)(TransactionsList);

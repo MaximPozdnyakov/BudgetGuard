@@ -10,7 +10,9 @@ export const getTransactions = () => async (dispatch, getState) => {
     dispatch({
         type: "SORT_TRANSACTIONS_BY_DATE"
     });
-    return transactions;
+    dispatch({
+        type: "TRANSACTION_LOADED"
+    });
 };
 
 // ADD Transaction
@@ -30,7 +32,12 @@ export const addTransaction = transaction => async (dispatch, getState) => {
     dispatch({
         type: "SORT_TRANSACTIONS_BY_DATE"
     });
-    return newTransaction;
+    dispatch({
+        type: "UPDATE_TRANSACTIONS_FILTERS"
+    });
+    dispatch({
+        type: "TRANSACTION_LOADED"
+    });
 };
 
 // UPDATE Transaction
@@ -53,7 +60,12 @@ export const updateTransaction = (transaction, id) => async (
     dispatch({
         type: "SORT_TRANSACTIONS_BY_DATE"
     });
-    return updatedTransaction;
+    dispatch({
+        type: "UPDATE_TRANSACTIONS_FILTERS"
+    });
+    dispatch({
+        type: "TRANSACTION_LOADED"
+    });
 };
 
 // DELETE Transaction
@@ -67,5 +79,24 @@ export const deleteTransaction = id => async (dispatch, getState) => {
         type: "DELETE_TRANSACTION",
         payload: id
     });
-    return deletedTransaction;
+    dispatch({
+        type: "UPDATE_TRANSACTIONS_FILTERS"
+    });
+    dispatch({
+        type: "TRANSACTION_LOADED"
+    });
+};
+
+export const setDateRange = dateRange => dispatch => {
+    dispatch({
+        type: "SET_DATE_RANGE",
+        payload: dateRange
+    });
+};
+
+export const setCategories = categories => dispatch => {
+    dispatch({
+        type: "SET_CATEGORIES",
+        payload: categories.map(option => option.value)
+    });
 };
