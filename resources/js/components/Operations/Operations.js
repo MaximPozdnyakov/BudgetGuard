@@ -8,7 +8,7 @@ import DateRangePicker from "@wojtekmaj/react-daterange-picker";
 import { Container, Button } from "react-bootstrap";
 
 import TransactionsList from "./TransactionsList";
-import Filters from "./Filters/Filters";
+import Filters from "../Filters/Filters";
 
 function Operations(props) {
     const { dateRange, setDateRange } = props;
@@ -35,7 +35,12 @@ function Operations(props) {
                         Add transaction
                     </span>
                 </Button>
-                <DateRangePicker onChange={setDateRange} value={dateRange} />
+                <DateRangePicker
+                    clearIcon={null}
+                    rangeDivider=""
+                    onChange={setDateRange}
+                    value={dateRange}
+                />
             </div>
             <Filters />
             <TransactionsList />

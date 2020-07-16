@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import { connect } from "react-redux";
-import { setSearch } from "../../../actions/transactions";
+import { setSearch } from "../../actions/transactions";
 
 import { Form } from "react-bootstrap";
 

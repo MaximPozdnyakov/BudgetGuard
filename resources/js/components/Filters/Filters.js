@@ -2,9 +2,9 @@ import React from "react";
 
 import CategoryFilter from "./CategoryFilter";
 import MoneyFilter from "./MoneyFilter";
+import DescriptionFilter from "./DescriptionFilter";
 
 import { Form, Row, Col } from "react-bootstrap";
-import DescriptionFilter from "./DescriptionFilter";
 
 function Filters() {
     return (

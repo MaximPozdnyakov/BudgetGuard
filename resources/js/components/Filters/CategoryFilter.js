@@ -1,7 +1,7 @@
 import React from "react";
 
 import { connect } from "react-redux";
-import { setCategories } from "../../../actions/transactions";
+import { setCategories } from "../../actions/transactions";
 
 import Select from "react-select";
 import makeAnimated from "react-select/animated";

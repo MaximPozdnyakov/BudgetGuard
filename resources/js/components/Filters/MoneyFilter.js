@@ -3,7 +3,7 @@ import React from "react";
 import { Range, getTrackBackground } from "react-range";
 
 import { connect } from "react-redux";
-import { setMoneyRange } from "../../../actions/transactions";
+import { setMoneyRange } from "../../actions/transactions";
 
 import { Form } from "react-bootstrap";
 
