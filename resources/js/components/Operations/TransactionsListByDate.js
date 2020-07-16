@@ -10,6 +10,7 @@ function TransactionsListByDate(props) {
             category={transaction.category}
             moneyAmount={transaction.moneyAmount}
             moneySign={transaction.moneySign}
+            description={transaction.description}
             key={transaction.id}
         />
     ));

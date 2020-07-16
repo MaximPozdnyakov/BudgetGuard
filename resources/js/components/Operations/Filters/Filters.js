@@ -3,7 +3,8 @@ import React from "react";
 import CategoryFilter from "./CategoryFilter";
 import MoneyFilter from "./MoneyFilter";
 
-import { Form } from "react-bootstrap";
+import { Form, Row, Col } from "react-bootstrap";
+import DescriptionFilter from "./DescriptionFilter";
 
 function Filters() {
     return (
@@ -12,8 +13,15 @@ function Filters() {
             <Form>
                 <CategoryFilter />
             </Form>
-            <Form>
-                <MoneyFilter />
+            <Form className="w-100 d-flex justify-content-between">
+                <Row className="w-100">
+                    <Col xs={5}>
+                        <MoneyFilter />
+                    </Col>
+                    <Col xs={{ span: 5, offset: 2 }}>
+                        <DescriptionFilter />
+                    </Col>
+                </Row>
             </Form>
         </div>
     );

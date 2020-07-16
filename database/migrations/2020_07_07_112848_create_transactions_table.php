@@ -20,6 +20,7 @@ class CreateTransactionsTable extends Migration
             $table->string('category');
             $table->date('spent_at');
             $table->timestamps();
+            $table->string('description');
         });
     }
 

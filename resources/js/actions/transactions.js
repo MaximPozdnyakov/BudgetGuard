@@ -107,3 +107,10 @@ export const setMoneyRange = moneyRange => dispatch => {
         payload: moneyRange
     });
 };
+
+export const setSearch = search => dispatch => {
+    dispatch({
+        type: "SET_SEARCH",
+        payload: search
+    });
+};

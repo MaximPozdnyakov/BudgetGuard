@@ -38,7 +38,7 @@ function MoneyFilter(props) {
                         >
                             <div
                                 ref={props.ref}
-                                className="w-25 rounded"
+                                className="w-100 rounded"
                                 style={{
                                     height: "5px",
                                     background: getTrackBackground({
@@ -67,7 +67,7 @@ function MoneyFilter(props) {
                     )}
                 />
                 <output
-                    className="mt-2 d-flex justify-content-between w-25"
+                    className="mt-2 d-flex justify-content-between w-100"
                     id="output"
                 >
                     <div>{moneyRange[0].toFixed(1)}</div>

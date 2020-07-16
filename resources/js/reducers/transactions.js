@@ -118,6 +118,14 @@ export default function(state = initialState, action) {
                     moneyRange: action.payload
                 }
             };
+        case "SET_SEARCH":
+            return {
+                ...state,
+                transactionsFilters: {
+                    ...state.transactionsFilters,
+                    search: action.payload
+                }
+            };
         default:
             return state;
     }
