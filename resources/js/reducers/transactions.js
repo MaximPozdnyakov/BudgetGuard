@@ -30,7 +30,7 @@ export default function(state = initialState, action) {
                         _.groupBy(action.payload, "category")
                     ),
                     search: "",
-                    moneyRange: [Math.min(money), Math.max(money)]
+                    moneyRange: [Math.min(...money), Math.max(...money)]
                 }
             };
         case "ADD_TRANSACTION":
@@ -89,8 +89,8 @@ export default function(state = initialState, action) {
                         _.groupBy(state.transactions, "category")
                     ),
                     moneyRange: [
-                        Math.min(transactionsMoney),
-                        Math.max(transactionsMoney)
+                        Math.min(...transactionsMoney),
+                        Math.max(...transactionsMoney)
                     ]
                 }
             };
@@ -108,6 +108,14 @@ export default function(state = initialState, action) {
                 transactionsFilters: {
                     ...state.transactionsFilters,
                     categories: action.payload
+                }
+            };
+        case "SET_MONEY_RANGE":
+            return {
+                ...state,
+                transactionsFilters: {
+                    ...state.transactionsFilters,
+                    moneyRange: action.payload
                 }
             };
         default:

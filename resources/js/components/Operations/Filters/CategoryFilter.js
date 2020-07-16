@@ -20,24 +20,22 @@ function CategoryFilter(props) {
         }
     );
     return (
-        <Form className="d-flex justify-content-between">
-            <Form.Group controlId="categoriesSelect">
-                <Form.Label className="text-secondary">Category</Form.Label>
-                <Select
-                    defaultValue={categories.map(category => {
-                        return {
-                            value: category,
-                            label: category
-                        };
-                    })}
-                    isMulti
-                    closeMenuOnSelect={false}
-                    options={allCategories}
-                    components={animatedComponents}
-                    onChange={setCategories}
-                />
-            </Form.Group>
-        </Form>
+        <Form.Group controlId="categoriesSelect">
+            <Form.Label className="text-secondary">By category</Form.Label>
+            <Select
+                defaultValue={categories.map(category => {
+                    return {
+                        value: category,
+                        label: category
+                    };
+                })}
+                isMulti
+                closeMenuOnSelect={false}
+                options={allCategories}
+                components={animatedComponents}
+                onChange={setCategories}
+            />
+        </Form.Group>
     );
 }
 

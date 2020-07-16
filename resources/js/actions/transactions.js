@@ -100,3 +100,10 @@ export const setCategories = categories => dispatch => {
         payload: categories.map(option => option.value)
     });
 };
+
+export const setMoneyRange = moneyRange => dispatch => {
+    dispatch({
+        type: "SET_MONEY_RANGE",
+        payload: moneyRange
+    });
+};
