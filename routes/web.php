@@ -12,8 +12,10 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::view('/{path?}', 'welcome')->where('path', '^((?!api).)*$');
-
 Auth::routes();
 
+Route::middleware(['auth'])->group(function () {
+    Route::view('login', 'welcome')->withoutMiddleware(['auth']);
+    Route::view('register', 'welcome')->withoutMiddleware(['auth']);
+    Route::view('/{path?}', 'welcome')->where('path', '^((?!api).)*$');
+});

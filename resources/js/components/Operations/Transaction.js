@@ -175,13 +175,12 @@ function Transaction(props) {
                                 controlId="pickCategory"
                                 className="d-flex flex-column"
                             >
-                                <Form.Label className="text-secondary">
+                                <Form.Label className="mb-0 text-secondary">
                                     Date
                                 </Form.Label>
                                 <DatePicker
                                     onChange={onChangeSpentAt}
                                     value={spentAt}
-                                    className="mt-1"
                                     clearIcon={null}
                                 />
                             </Form.Group>

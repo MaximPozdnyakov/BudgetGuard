@@ -60,6 +60,18 @@ a {
 .Toastify__toast--success {
     background: #12c48b !important;
 }
-
+.react-daterange-picker__wrapper {
+    background: #fff !important;
+    padding: 0.5em;
+    border: none !important;
+    color: #495057 !important;
+}
+.react-date-picker__wrapper {
+    border: 1px solid hsl(0, 0%, 80%) !important;
+    border-radius: 4px !important;
+    height: 37px !important;
+    padding: 0.375rem 0.75rem !important;
+    color: #495057 !important;
+}
 // Bootstrap
 @import "~bootstrap/scss/bootstrap";

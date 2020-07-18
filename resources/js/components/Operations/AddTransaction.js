@@ -153,7 +153,6 @@ function AddTransaction(props) {
                                 <DatePicker
                                     onChange={onChangeSpentAt}
                                     value={spentAt}
-                                    className="mt-1"
                                     clearIcon={null}
                                 />
                             </Form.Group>
