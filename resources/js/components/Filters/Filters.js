@@ -15,7 +15,7 @@ function Filters(props) {
     return (
         <If condition={transactions.length !== 0}>
             <Then>
-                <div className="mt-5 bg-white p-3">
+                <div className="mt-3 bg-white p-3">
                     <h6 className="font-weight-bold">Filters</h6>
                     <Form>
                         <CategoryFilter />

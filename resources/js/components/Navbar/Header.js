@@ -1,12 +1,15 @@
 import React from "react";
-import { Navbar, Nav, } from "react-bootstrap";
+import { Navbar, Nav } from "react-bootstrap";
 import { NavLink, Link } from "react-router-dom";
 
 function Header() {
     return (
         <Navbar className="border-bottom px-5 mb-5 bg-white">
             <div className="d-flex justify-content-between w-100">
-                <Navbar.Brand className="font-weight-bold text-dark align-content-center" href="#home">
+                <Navbar.Brand
+                    className="font-weight-bold text-dark align-content-center"
+                    href="#home"
+                >
                     Budget App
                     <svg
                         viewBox="0 0 24 24"
@@ -29,7 +32,11 @@ function Header() {
                         </NavLink>
                     </Nav.Item>
                     <Nav.Item>
-                        <NavLink exact to="overview" activeClassName="link-success">
+                        <NavLink
+                            exact
+                            to="overview"
+                            activeClassName="link-success"
+                        >
                             Overview
                         </NavLink>
                     </Nav.Item>

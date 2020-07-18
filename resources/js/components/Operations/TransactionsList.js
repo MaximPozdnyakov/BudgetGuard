@@ -65,14 +65,14 @@ function TransactionsList(props) {
     return (
         <If condition={filteredTransaction.length === 0}>
             <Then>
-                <ListGroup className="bg-white mt-5 text-center p-4">
+                <ListGroup className="bg-white mt-3 text-center p-4">
                     <h4 className="mb-0 font-weight-bold">
                         No transactions found
                     </h4>
                 </ListGroup>
             </Then>
             <Else>
-                <ListGroup className="bg-white mt-5">
+                <ListGroup className="bg-white mt-3">
                     {transactionsGroupsByDateArray}
                 </ListGroup>
             </Else>
