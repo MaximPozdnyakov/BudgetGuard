@@ -18,9 +18,9 @@ class CreateTransactionsTable extends Migration
             $table->float('moneyAmount');
             $table->boolean('moneySign');
             $table->string('category');
-            $table->date('spent_at');
+            $table->timestamp('spent_at', 0);
             $table->timestamps();
-            $table->string('description');
+            $table->string('description')->nullable();
         });
     }
 

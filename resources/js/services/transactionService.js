@@ -3,7 +3,7 @@ import { api } from "./api";
 export default {
     async fetchTransactions() {
         try {
-            const transactions = await api.get('transactions/');
+            const transactions = await api.get("transactions/");
             return transactions.data;
         } catch (err) {
             return {

@@ -2,6 +2,8 @@ import React from "react";
 
 import _ from "lodash";
 
+import moment from "moment";
+
 import { ListGroup } from "react-bootstrap";
 
 import { connect } from "react-redux";
@@ -22,18 +24,32 @@ function TransactionsList(props) {
         } else {
             money = transaction.moneyAmount;
         }
+
+        let description;
+        if (transaction.description) {
+            description = transaction.description;
+        } else {
+            description = "";
+        }
         return (
             dateRange[1].getTime() - spent_at.getTime() >= 0 &&
             dateRange[0].getTime() - spent_at.getTime() <= 0 &&
             categories.includes(transaction.category) &&
             money >= moneyRange[0] &&
             money <= moneyRange[1] &&
-            transaction.description.includes(search)
+            description.includes(search)
         );
     });
 
+    const filteredTransactionWithFormattedDate = filteredTransaction.map(
+        transaction => ({
+            ...transaction,
+            spent_at: moment(transaction.spent_at).format("L")
+        })
+    );
+
     const transactionsGroupsByDateObject = _.groupBy(
-        filteredTransaction,
+        filteredTransactionWithFormattedDate,
         "spent_at"
     );
 

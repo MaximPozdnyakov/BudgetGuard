@@ -31,8 +31,8 @@ class TransactionController extends Controller
             'moneyAmount' => 'required|numeric',
             'moneySign' => 'required|boolean',
             'category' => 'required|string',
-            'spent_at' => 'required|date',
-            'description' => 'required|string'
+            'spent_at' => 'required',
+            'description' => 'nullable|string'
         ]);
 
         $transaction = new Transaction;
@@ -71,8 +71,8 @@ class TransactionController extends Controller
             'moneyAmount' => 'required|numeric',
             'moneySign' => 'required|boolean',
             'category' => 'required|string',
-            'spent_at' => 'required|date',
-            'description' => 'required|string'
+            'spent_at' => 'required',
+            'description' => 'nullable|string'
         ]);
 
         $transaction = Transaction::findOrFail($id)->update([

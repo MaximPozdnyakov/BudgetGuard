@@ -1,30 +1,43 @@
 import React from "react";
 
+import { connect } from "react-redux";
+
+import { If, Then } from "react-if";
+
 import CategoryFilter from "./CategoryFilter";
 import MoneyFilter from "./MoneyFilter";
 import DescriptionFilter from "./DescriptionFilter";
 
 import { Form, Row, Col } from "react-bootstrap";
 
-function Filters() {
+function Filters(props) {
+    const { transactions } = props;
     return (
-        <div className="mt-5 bg-white p-3">
-            <h6 className="font-weight-bold">Filters</h6>
-            <Form>
-                <CategoryFilter />
-            </Form>
-            <Form className="w-100 d-flex justify-content-between">
-                <Row className="w-100">
-                    <Col xs={5}>
-                        <MoneyFilter />
-                    </Col>
-                    <Col xs={{ span: 5, offset: 2 }}>
-                        <DescriptionFilter />
-                    </Col>
-                </Row>
-            </Form>
-        </div>
+        <If condition={transactions.length !== 0}>
+            <Then>
+                <div className="mt-5 bg-white p-3">
+                    <h6 className="font-weight-bold">Filters</h6>
+                    <Form>
+                        <CategoryFilter />
+                    </Form>
+                    <Form className="w-100 d-flex justify-content-between">
+                        <Row className="w-100">
+                            <Col xs={5}>
+                                <MoneyFilter />
+                            </Col>
+                            <Col xs={{ span: 5, offset: 2 }}>
+                                <DescriptionFilter />
+                            </Col>
+                        </Row>
+                    </Form>
+                </div>
+            </Then>
+        </If>
     );
 }
 
-export default Filters;
+const mapStateToProps = state => ({
+    transactions: state.transactions.transactions
+});
+
+export default connect(mapStateToProps)(Filters);

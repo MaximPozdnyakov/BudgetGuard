@@ -1,18 +1,28 @@
 import transactionService from "../services/transactionService";
 
+import { setErrors } from "./messages";
+
 // GET Transactions
 export const getTransactions = () => async (dispatch, getState) => {
     const transactions = await transactionService.fetchTransactions();
-    dispatch({
-        type: "GET_TRANSACTIONS",
-        payload: transactions
-    });
-    dispatch({
-        type: "SORT_TRANSACTIONS_BY_DATE"
-    });
-    dispatch({
-        type: "TRANSACTION_LOADED"
-    });
+
+    if (transactions.isError) {
+        dispatch(setErrors(transactions.errors));
+        dispatch({
+            type: "TRANSACTION_LOADED"
+        });
+    } else {
+        dispatch({
+            type: "GET_TRANSACTIONS",
+            payload: transactions
+        });
+        dispatch({
+            type: "SORT_TRANSACTIONS_BY_DATE"
+        });
+        dispatch({
+            type: "TRANSACTION_LOADED"
+        });
+    }
 };
 
 // ADD Transaction
@@ -20,24 +30,30 @@ export const addTransaction = transaction => async (dispatch, getState) => {
     dispatch({
         type: "TRANSACTION_NOT_LOADED"
     });
-
-    const newTransaction = await transactionService.createTransactions(
+    const newTransaction = await transactionService.createTransaction(
         transaction
     );
 
-    dispatch({
-        type: "ADD_TRANSACTION",
-        payload: newTransaction
-    });
-    dispatch({
-        type: "SORT_TRANSACTIONS_BY_DATE"
-    });
-    dispatch({
-        type: "UPDATE_TRANSACTIONS_FILTERS"
-    });
-    dispatch({
-        type: "TRANSACTION_LOADED"
-    });
+    if (newTransaction.isError) {
+        dispatch(setErrors(newTransaction.errors));
+        dispatch({
+            type: "TRANSACTION_LOADED"
+        });
+    } else {
+        dispatch({
+            type: "ADD_TRANSACTION",
+            payload: newTransaction
+        });
+        dispatch({
+            type: "SORT_TRANSACTIONS_BY_DATE"
+        });
+        dispatch({
+            type: "UPDATE_TRANSACTIONS_FILTERS"
+        });
+        dispatch({
+            type: "TRANSACTION_LOADED"
+        });
+    }
 };
 
 // UPDATE Transaction
@@ -49,23 +65,30 @@ export const updateTransaction = (transaction, id) => async (
         type: "TRANSACTION_NOT_LOADED"
     });
 
-    const updatedTransaction = await transactionService.updateTransactions(
+    const updatedTransaction = await transactionService.updateTransaction(
         transaction,
         id
     );
-    dispatch({
-        type: "UPDATE_TRANSACTION",
-        payload: updatedTransaction
-    });
-    dispatch({
-        type: "SORT_TRANSACTIONS_BY_DATE"
-    });
-    dispatch({
-        type: "UPDATE_TRANSACTIONS_FILTERS"
-    });
-    dispatch({
-        type: "TRANSACTION_LOADED"
-    });
+    if (updatedTransaction.isError) {
+        dispatch(setErrors(updatedTransaction.errors));
+        dispatch({
+            type: "TRANSACTION_LOADED"
+        });
+    } else {
+        dispatch({
+            type: "UPDATE_TRANSACTION",
+            payload: updatedTransaction
+        });
+        dispatch({
+            type: "SORT_TRANSACTIONS_BY_DATE"
+        });
+        dispatch({
+            type: "UPDATE_TRANSACTIONS_FILTERS"
+        });
+        dispatch({
+            type: "TRANSACTION_LOADED"
+        });
+    }
 };
 
 // DELETE Transaction
@@ -74,17 +97,24 @@ export const deleteTransaction = id => async (dispatch, getState) => {
         type: "TRANSACTION_NOT_LOADED"
     });
 
-    const deletedTransaction = await transactionService.deleteTransactions(id);
-    dispatch({
-        type: "DELETE_TRANSACTION",
-        payload: id
-    });
-    dispatch({
-        type: "UPDATE_TRANSACTIONS_FILTERS"
-    });
-    dispatch({
-        type: "TRANSACTION_LOADED"
-    });
+    const deletedTransaction = await transactionService.deleteTransaction(id);
+    if (deletedTransaction.isError) {
+        dispatch(setErrors(deletedTransaction.errors));
+        dispatch({
+            type: "TRANSACTION_LOADED"
+        });
+    } else {
+        dispatch({
+            type: "DELETE_TRANSACTION",
+            payload: id
+        });
+        dispatch({
+            type: "UPDATE_TRANSACTIONS_FILTERS"
+        });
+        dispatch({
+            type: "TRANSACTION_LOADED"
+        });
+    }
 };
 
 export const setDateRange = dateRange => dispatch => {

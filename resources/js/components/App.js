@@ -1,31 +1,81 @@
-import React, { useEffect } from 'react'
+import React, { useEffect } from "react";
 
-import { If, Else, Then } from 'react-if';
+import { If, Else, Then } from "react-if";
 
-import { connect } from 'react-redux';
-import { getTransactions } from '../actions/transactions';
+import { connect } from "react-redux";
+import { getTransactions } from "../actions/transactions";
 
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch } from "react-router-dom";
 
-import { Container, Spinner } from 'react-bootstrap';
+import { Container, Spinner } from "react-bootstrap";
 
-import Operations from './Operations/Operations';
-import Overview from './Overview/Overview';
-import Header from './Navbar/Header';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+import Operations from "./Operations/Operations";
+import Overview from "./Overview/Overview";
+import Header from "./Navbar/Header";
 
 function App(props) {
+    const { messages } = props;
+
     useEffect(() => {
         props.getTransactions();
     }, []);
 
+    useEffect(() => {
+        if (Object.keys(messages).length !== 0) {
+            if (messages.type === "error") {
+                for (let typeOfMessage in messages) {
+                    messages.descriptions[typeOfMessage].forEach(message =>
+                        toast.error(message, {
+                            position: "bottom-left",
+                            autoClose: 5000,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined
+                        })
+                    );
+                }
+            } else {
+                for (let typeOfMessage in messages) {
+                    messages.descriptions[typeOfMessage].forEach(message =>
+                        toast.success(message, {
+                            position: "bottom-left",
+                            autoClose: 5000,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined
+                        })
+                    );
+                }
+            }
+        }
+    }, [messages]);
+
     return (
         <If condition={props.isTransactionsLoaded}>
             <Then>
-                <Header/>
+                <ToastContainer
+                    position="bottom-left"
+                    autoClose={5000}
+                    hideProgressBar={false}
+                    newestOnTop
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                />
+                <Header />
                 <Container>
                     <Switch>
-                        <Route exact path="/" component={ Operations }/>
-                        <Route exact path="/overview" component={ Overview }/>
+                        <Route exact path="/" component={Operations} />
+                        <Route exact path="/overview" component={Overview} />
                     </Switch>
                 </Container>
             </Then>
@@ -35,10 +85,11 @@ function App(props) {
                 </div>
             </Else>
         </If>
-    )
+    );
 }
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
     isTransactionsLoaded: state.transactions.isTransactionsLoaded,
+    messages: state.messages.messages
 });
 
 export default connect(mapStateToProps, { getTransactions })(App);
