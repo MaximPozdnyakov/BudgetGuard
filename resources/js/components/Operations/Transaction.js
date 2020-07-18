@@ -268,7 +268,6 @@ function Transaction(props) {
                                 props.moneySign ? "text-success" : "text-danger"
                             }`}
                         >
-                            {" "}
                             {props.moneySign ? "+" : "-"}
                             <NumberFormat
                                 value={props.moneyAmount}

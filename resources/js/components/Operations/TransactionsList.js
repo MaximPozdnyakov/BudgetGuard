@@ -20,9 +20,9 @@ function TransactionsList(props) {
 
         let money;
         if (!transaction.moneySign) {
-            money = -1 * transaction.moneyAmount;
+            money = -1 * Number(transaction.moneyAmount);
         } else {
-            money = transaction.moneyAmount;
+            money = Number(transaction.moneyAmount);
         }
 
         let description;
