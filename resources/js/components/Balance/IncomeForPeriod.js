@@ -19,9 +19,9 @@ function IncomeForPeriod(props) {
     });
     const allMoney = filteredTransactions.map(transaction => {
         if (!transaction.moneySign) {
-            return -1 * transaction.moneyAmount;
+            return -1 * Number(transaction.moneyAmount);
         }
-        return transaction.moneyAmount;
+        return Number(transaction.moneyAmount);
     });
     const balance = _.sum(allMoney).toFixed(2);
     return (

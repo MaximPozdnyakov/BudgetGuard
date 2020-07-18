@@ -83,7 +83,7 @@ class TransactionController extends Controller
             'description' => $request->description
             ]);
 
-        return $transaction;
+        return Transaction::findOrFail($id);
     }
 
     /**

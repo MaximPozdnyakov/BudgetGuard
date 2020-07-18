@@ -11,10 +11,15 @@ import Transaction from "./Transaction";
 function TransactionsListByDate(props) {
     const transactions = props.transactions.map(transaction => (
         <Transaction
+            id={transaction.id}
             category={transaction.category}
             moneyAmount={transaction.moneyAmount}
             moneySign={transaction.moneySign}
             description={transaction.description}
+            spent_at={transaction.spent_at}
+            note={
+                transaction.description === null ? "" : transaction.description
+            }
             key={transaction.id}
         />
     ));
@@ -30,12 +35,8 @@ function TransactionsListByDate(props) {
     return (
         <>
             <div className="d-flex justify-content-between px-3 pt-3 font-weight-bold">
-                <h5 className="mb-0">{date}</h5>
-                <h5
-                    className={`mb-0 ${
-                        balance > 0 ? "text-success" : "text-danger"
-                    }`}
-                >
+                <h6 className="mb-0">{date}</h6>
+                <h6 className={`mb-0 font-weight-bold text-secondary`}>
                     {balance > 0 ? "+" : ""}
                     <NumberFormat
                         value={balance}
@@ -43,7 +44,7 @@ function TransactionsListByDate(props) {
                         thousandSeparator={true}
                     />
                     {" USD"}
-                </h5>
+                </h6>
             </div>
             {transactions}
             <div className="border-top"></div>

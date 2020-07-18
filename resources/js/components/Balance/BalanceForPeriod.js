@@ -18,10 +18,11 @@ function BalanceForPeriod(props) {
     });
     const allMoney = filteredTransactions.map(transaction => {
         if (!transaction.moneySign) {
-            return -1 * transaction.moneyAmount;
+            return -1 * Number(transaction.moneyAmount);
         }
-        return transaction.moneyAmount;
+        return Number(transaction.moneyAmount);
     });
+    console.log("allMoney", allMoney);
     const balance = _.sum(allMoney).toFixed(2);
     return (
         <div>

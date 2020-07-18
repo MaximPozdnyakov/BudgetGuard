@@ -103,7 +103,7 @@ function AddTransaction(props) {
     }
 
     const addTransactionForm = (
-        <Popover id="addTransactionForm" className="w-50">
+        <Popover id="addTransactionForm" style={{ width: "56.3vw" }}>
             <Popover.Content className="p-3">
                 <Button
                     variant="secondary rounded-circle"

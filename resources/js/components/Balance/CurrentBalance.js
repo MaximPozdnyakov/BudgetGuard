@@ -11,7 +11,7 @@ function CurrentBalance(props) {
 
     const allMoney = transactions.map(transaction => {
         if (!transaction.moneySign) {
-            return Number(-1 * transaction.moneyAmount);
+            return -1 * Number(transaction.moneyAmount);
         }
         return Number(transaction.moneyAmount);
     });

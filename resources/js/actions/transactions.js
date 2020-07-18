@@ -64,11 +64,11 @@ export const updateTransaction = (transaction, id) => async (
     dispatch({
         type: "TRANSACTION_NOT_LOADED"
     });
-
     const updatedTransaction = await transactionService.updateTransaction(
         transaction,
         id
     );
+    console.log("updatedTransaction", updatedTransaction);
     if (updatedTransaction.isError) {
         dispatch(setErrors(updatedTransaction.errors));
         dispatch({

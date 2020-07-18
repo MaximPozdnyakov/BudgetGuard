@@ -23,7 +23,7 @@ export default {
             };
         }
     },
-    async updatePost(payload, transactionId) {
+    async updateTransaction(payload, transactionId) {
         try {
             const updatedTransaction = await api.patch(
                 `transactions/${transactionId}/`,
