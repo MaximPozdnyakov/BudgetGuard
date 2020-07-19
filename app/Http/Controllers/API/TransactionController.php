@@ -9,8 +9,22 @@ use App\Transaction;
 
 use Illuminate\Support\Facades\Auth;
 
+use Illuminate\Support\Facades\Gate;
+
 class TransactionController extends Controller
 {
+    /**
+     * Display a wallets, where owner is current user.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        Gate::authorize('authOrFail');
+
+        return Transaction::where('owner', Auth::id())->get();
+    }
+
     /**
      * Store a newly spent resource in storage.
      *
@@ -42,19 +56,6 @@ class TransactionController extends Controller
         $transaction->save();
 
         return $transaction;
-    }
-
-    /**
-     * Display the specified resources by owner id.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($ownerId)
-    {
-        Gate::authorize('show-transactions', $ownerId);
-
-        return Transaction::where('owner', $ownerId);
     }
 
     /**

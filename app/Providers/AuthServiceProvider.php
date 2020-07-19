@@ -34,12 +34,14 @@ class AuthServiceProvider extends ServiceProvider
             return Auth::check() && Wallet::findOrFail($walletId)::where('owner', Auth::id())->first();;
         });
 
-        Gate::define('show-transactions', function ($ownerId) {
-            return Auth::check() && $ownerId == Auth::id();
+        Gate::define('authOrFail', function () {
+            return Auth::check();
         });
 
         Gate::define('update-delete-transaction', function ($transactionId) {
             return Auth::check() && Transaction::findOrFail($transactionId)::where('owner', Auth::id())->first();
         });
+
+        
     }
 }

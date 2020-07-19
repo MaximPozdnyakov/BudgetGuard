@@ -18,4 +18,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::apiResources(['transactions' => 'API\TransactionController']);
+Route::apiResources(['transactions' => 'API\TransactionController'])->except([
+    'show'
+]);
+
+Route::get(['wallets' => 'API\WalletController@index']);
