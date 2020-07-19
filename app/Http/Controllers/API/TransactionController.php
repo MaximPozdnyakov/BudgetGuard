@@ -7,18 +7,10 @@ use Illuminate\Http\Request;
 
 use App\Transaction;
 
+use Illuminate\Support\Facades\Auth;
+
 class TransactionController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        return Transaction::all();
-    }
-
     /**
      * Store a newly spent resource in storage.
      *
@@ -32,8 +24,11 @@ class TransactionController extends Controller
             'moneySign' => 'required|boolean',
             'category' => 'required|string',
             'spent_at' => 'required',
-            'description' => 'nullable|string'
+            'description' => 'nullable|string',
+            'wallet' => 'required',
         ]);
+
+        Gate::authorize('add-transaction', $request->wallet);
 
         $transaction = new Transaction;
         $transaction->moneyAmount = $request->moneyAmount;
@@ -41,6 +36,8 @@ class TransactionController extends Controller
         $transaction->category = $request->category;
         $transaction->spent_at = $request->spent_at;
         $transaction->description = $request->description;
+        $transaction->wallet = $request->wallet;
+        $transaction->owner = Auth::id();
 
         $transaction->save();
 
@@ -48,14 +45,16 @@ class TransactionController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified resources by owner id.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($ownerId)
     {
-        return Transaction::findOrFail($id);
+        Gate::authorize('show-transactions', $ownerId);
+
+        return Transaction::where('owner', $ownerId);
     }
 
     /**
@@ -74,6 +73,8 @@ class TransactionController extends Controller
             'spent_at' => 'required',
             'description' => 'nullable|string'
         ]);
+
+        Gate::authorize('update-delete-transaction', $id);
 
         $transaction = Transaction::findOrFail($id)->update([
             'moneyAmount' => $request->moneyAmount,
@@ -94,6 +95,8 @@ class TransactionController extends Controller
      */
     public function destroy($id)
     {
+        Gate::authorize('update-delete-transaction', $id);
+
         $transaction = Transaction::findOrFail($id);
         $transaction->delete();
         return $transaction;

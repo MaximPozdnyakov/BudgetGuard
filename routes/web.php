@@ -2,20 +2,11 @@
 
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+use App\Http\Middleware\RedirectIfAuthenticated;
+
 Auth::routes();
 
-Route::middleware(['auth'])->group(function () {
-    Route::view('login', 'welcome')->withoutMiddleware(['auth']);
-    Route::view('register', 'welcome')->withoutMiddleware(['auth']);
-    Route::view('/{path?}', 'welcome')->where('path', '^((?!api).)*$');
-});
+Route::view('/{path?}', 'welcome')->where('path', '^((?!api).)*$')->middleware('auth');
+Route::view('login', 'welcome')->middleware(RedirectIfAuthenticated::class)->withoutMiddleware(['auth']);
+Route::view('register', 'welcome')->middleware(RedirectIfAuthenticated::class)->withoutMiddleware(['auth']);
+

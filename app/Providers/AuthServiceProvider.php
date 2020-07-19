@@ -5,6 +5,11 @@ namespace App\Providers;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 
+use Illuminate\Support\Facades\Auth;
+
+use App\Wallet;
+use App\Transaction;
+
 class AuthServiceProvider extends ServiceProvider
 {
     /**
@@ -25,6 +30,16 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        Gate::define('add-transaction', function ($walletId) {
+            return Auth::check() && Wallet::findOrFail($walletId)::where('owner', Auth::id())->first();;
+        });
+
+        Gate::define('show-transactions', function ($ownerId) {
+            return Auth::check() && $ownerId == Auth::id();
+        });
+
+        Gate::define('update-delete-transaction', function ($transactionId) {
+            return Auth::check() && Transaction::findOrFail($transactionId)::where('owner', Auth::id())->first();
+        });
     }
 }
