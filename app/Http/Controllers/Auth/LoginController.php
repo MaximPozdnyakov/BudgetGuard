@@ -21,6 +21,15 @@ class LoginController extends Controller
 
     use AuthenticatesUsers;
 
+    public function authenticate(Request $request)
+    {
+        $credentials = $request->only('email', 'password');
+
+        if (Auth::attempt($credentials)) {
+            return redirect('/');
+        }
+    }
+
     /**
      * Where to redirect users after login.
      *

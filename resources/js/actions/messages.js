@@ -1,9 +1,10 @@
-export const setErrors = errors => (dispatch, getState) => {
+export const setMessage = (messages, type, isError) => (dispatch, getState) => {
     dispatch({
         type: "SET_MESSAGES",
         payload: {
-            type: "error",
-            descriptions: errors
+            isError,
+            type,
+            messages
         }
     });
 };

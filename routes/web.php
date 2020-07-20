@@ -4,9 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Middleware\RedirectIfAuthenticated;
 
-Auth::routes();
-
-Route::view('/{path?}', 'welcome')->where('path', '^((?!api).)*$')->middleware('auth');
-Route::view('login', 'welcome')->middleware(RedirectIfAuthenticated::class)->withoutMiddleware(['auth']);
-Route::view('register', 'welcome')->middleware(RedirectIfAuthenticated::class)->withoutMiddleware(['auth']);
+Route::view('/{path?}', 'welcome')->where('path', '^((?!api).)*$');
+// Route::view('login', 'welcome')->withoutMiddleware(['auth']);
+// Route::view('register', 'welcome')->withoutMiddleware(['auth']);
 

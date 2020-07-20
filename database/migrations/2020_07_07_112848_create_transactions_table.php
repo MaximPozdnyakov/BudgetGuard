@@ -19,10 +19,14 @@ class CreateTransactionsTable extends Migration
             $table->boolean('moneySign');
             $table->string('category');
             $table->timestamp('spent_at', 0);
-            $table->foreignId('owner')->references('id')->on('users');
-            $table->foreignId('wallet')->references('id')->on('wallets');
             $table->timestamps();
             $table->string('description')->nullable();
+
+            $table->unsignedBigInteger('owner');
+            $table->foreign('owner')
+                ->references('id')
+                ->on('users')
+                ->onDelete('cascade');
         });
     }
 

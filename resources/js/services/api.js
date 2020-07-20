@@ -6,3 +6,10 @@ export const api = axios.create({
         "Content-Type": "application/json"
     }
 });
+
+export const auth = axios.create({
+    baseURL: "/api/auth",
+    headers: {
+        "Content-Type": "application/json"
+    }
+});

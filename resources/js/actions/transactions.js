@@ -1,13 +1,13 @@
 import transactionService from "../services/transactionService";
 
-import { setErrors } from "./messages";
+import { setMessage } from "./messages";
 
 // GET Transactions
 export const getTransactions = () => async (dispatch, getState) => {
     const transactions = await transactionService.fetchTransactions();
 
     if (transactions.isError) {
-        dispatch(setErrors(transactions.errors));
+        dispatch(setMessage(transactions.errors));
         dispatch({
             type: "TRANSACTION_LOADED"
         });
@@ -35,7 +35,7 @@ export const addTransaction = transaction => async (dispatch, getState) => {
     );
 
     if (newTransaction.isError) {
-        dispatch(setErrors(newTransaction.errors));
+        dispatch(setMessage(newTransaction.errors));
         dispatch({
             type: "TRANSACTION_LOADED"
         });
@@ -70,7 +70,7 @@ export const updateTransaction = (transaction, id) => async (
     );
     console.log("updatedTransaction", updatedTransaction);
     if (updatedTransaction.isError) {
-        dispatch(setErrors(updatedTransaction.errors));
+        dispatch(setMessage(updatedTransaction.errors));
         dispatch({
             type: "TRANSACTION_LOADED"
         });
@@ -99,7 +99,7 @@ export const deleteTransaction = id => async (dispatch, getState) => {
 
     const deletedTransaction = await transactionService.deleteTransaction(id);
     if (deletedTransaction.isError) {
-        dispatch(setErrors(deletedTransaction.errors));
+        dispatch(setMessage(deletedTransaction.errors));
         dispatch({
             type: "TRANSACTION_LOADED"
         });

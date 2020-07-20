@@ -4,8 +4,9 @@ import { If, Else, Then } from "react-if";
 
 import { connect } from "react-redux";
 import { getTransactions } from "../actions/transactions";
+import userActions from "../actions/users";
 
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, Redirect } from "react-router-dom";
 
 import { Container, Spinner } from "react-bootstrap";
 
@@ -15,19 +16,33 @@ import "react-toastify/dist/ReactToastify.css";
 import Operations from "./Operations/Operations";
 import Overview from "./Overview/Overview";
 import Header from "./Navbar/Header";
+import Register from "./Auth/Register";
+import Login from "./Auth/Login";
+import ProtectedRoute from "./Utils/ProtectedRoute";
+import RedirectIfAuthenticated from "./Utils/RedirectIfAuthenticated";
 
 function App(props) {
-    const { messages } = props;
+    const {
+        messages,
+        getAuthenticatedUser,
+        getTransactions,
+        isTransactionsLoaded,
+        isUserLoaded
+    } = props;
 
     useEffect(() => {
-        props.getTransactions();
+        // getTransactions();
     }, []);
 
     useEffect(() => {
-        if (Object.keys(messages).length !== 0) {
-            if (messages.type === "error") {
-                for (let typeOfMessage in messages) {
-                    messages.descriptions[typeOfMessage].forEach(message =>
+        getAuthenticatedUser();
+    }, [localStorage.getItem("token")]);
+
+    useEffect(() => {
+        if (messages.type === "toast") {
+            if (messages.isError) {
+                for (let typeOfMessage in messages.messages) {
+                    messages.messages[typeOfMessage].forEach(message =>
                         toast.error(message, {
                             position: "bottom-left",
                             autoClose: 5000,
@@ -40,25 +55,21 @@ function App(props) {
                     );
                 }
             } else {
-                for (let typeOfMessage in messages) {
-                    messages.descriptions[typeOfMessage].forEach(message =>
-                        toast.success(message, {
-                            position: "bottom-left",
-                            autoClose: 5000,
-                            hideProgressBar: false,
-                            closeOnClick: true,
-                            pauseOnHover: true,
-                            draggable: true,
-                            progress: undefined
-                        })
-                    );
-                }
+                toast.success(messages.messages, {
+                    position: "bottom-left",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined
+                });
             }
         }
     }, [messages]);
 
     return (
-        <If condition={props.isTransactionsLoaded}>
+        <If condition={isUserLoaded}>
             <Then>
                 <ToastContainer
                     position="bottom-left"
@@ -74,8 +85,22 @@ function App(props) {
                 <Header />
                 <Container>
                     <Switch>
-                        <Route exact path="/" component={Operations} />
-                        <Route exact path="/overview" component={Overview} />
+                        <ProtectedRoute exact path="/" component={Operations} />
+                        <ProtectedRoute
+                            exact
+                            path="/overview"
+                            component={Overview}
+                        />
+                        <RedirectIfAuthenticated
+                            exact
+                            path="/register"
+                            component={Register}
+                        />
+                        <RedirectIfAuthenticated
+                            exact
+                            path="/login"
+                            component={Login}
+                        />
                     </Switch>
                 </Container>
             </Then>
@@ -88,8 +113,12 @@ function App(props) {
     );
 }
 const mapStateToProps = state => ({
+    isUserLoaded: state.users.isUserLoaded,
     isTransactionsLoaded: state.transactions.isTransactionsLoaded,
-    messages: state.messages.messages
+    messages: state.messages
 });
 
-export default connect(mapStateToProps, { getTransactions })(App);
+export default connect(mapStateToProps, {
+    getAuthenticatedUser: userActions.getAuthenticatedUser,
+    getTransactions
+})(App);

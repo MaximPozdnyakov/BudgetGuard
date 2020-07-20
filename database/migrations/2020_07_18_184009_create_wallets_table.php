@@ -17,8 +17,13 @@ class CreateWalletsTable extends Migration
             $table->id();
             $table->string('title');
             $table->float('initialBalance');
-            $table->foreignId('owner')->references('id')->on('users');
             $table->timestamps();
+            
+            $table->unsignedBigInteger('owner');
+            $table->foreign('owner')
+                ->references('id')
+                ->on('users')
+                ->onDelete('cascade');
         });
     }
 
