@@ -23,6 +23,7 @@ Route::group([
     Route::post('refresh', 'AuthController@refresh');
     Route::post('me', 'AuthController@me');
 });
+
 Route::apiResources(['transactions' => 'API\TransactionController']);
 
 Route::get('wallets', 'API\WalletController@index');

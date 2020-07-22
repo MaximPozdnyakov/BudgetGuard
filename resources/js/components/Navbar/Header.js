@@ -2,7 +2,7 @@ import React from "react";
 
 import { Navbar, Nav, Dropdown } from "react-bootstrap";
 
-import { NavLink, Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 import { If, Then, Else } from "react-if";
 

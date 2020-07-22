@@ -9,7 +9,7 @@ import userActions from "../../actions/users";
 import MessagesAlert from "../Utils/MessagesAlert";
 
 function Login(props) {
-    const { login } = props;
+    const { login, loginGoogle } = props;
     const [email, setEmail] = useState("");
     const onChangeEmail = e => setEmail(e.target.value);
 
@@ -30,6 +30,12 @@ function Login(props) {
             }
         }
     }
+
+    const loginWithGoogle = e => {
+        e.preventDefault();
+        props.history.push("api/redirect/google");
+        props.history.go();
+    };
     return (
         <Container className="mt-3">
             <div className="bg-white mx-auto w-50 p-4 shadow-sm">
@@ -79,6 +85,28 @@ function Login(props) {
                         Login
                     </Button>
                 </Form>
+                <div className="text-center my-2">Or</div>
+                <div
+                    className="d-flex justify-content-center w-75 mx-auto"
+                    style={{ whitSpace: "nowrap" }}
+                >
+                    <Button
+                        variant="light"
+                        block
+                        className="d-flex position-relative justify-content-center"
+                        onClick={loginWithGoogle}
+                    >
+                        <img
+                            width="20"
+                            height="20"
+                            src="https://image.flaticon.com/icons/svg/281/281764.svg"
+                            alt=""
+                            className="position-absolute"
+                            style={{ left: "0.5em", top: "0.5em" }}
+                        />
+                        <div>Login with Google</div>
+                    </Button>
+                </div>
             </div>
         </Container>
     );
@@ -86,4 +114,7 @@ function Login(props) {
 
 const mapStateToProps = state => ({});
 
-export default connect(mapStateToProps, { login: userActions.login })(Login);
+export default connect(mapStateToProps, {
+    login: userActions.login,
+    loginGoogle: userActions.loginGoogle
+})(Login);

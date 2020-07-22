@@ -1,4 +1,4 @@
-import { auth } from "./api";
+import { auth, api } from "./api";
 
 export default {
     async register(credentials) {
@@ -15,6 +15,18 @@ export default {
     async login(credentials) {
         try {
             const user = await auth.post(`login`, credentials);
+            return user.data;
+        } catch (err) {
+            return {
+                isError: true,
+                errors: err.response.data
+            };
+        }
+    },
+    async loginGoogle() {
+        try {
+            const user = await api.get(`redirect/google`);
+            console.log("userService", user);
             return user.data;
         } catch (err) {
             return {

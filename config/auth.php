@@ -18,6 +18,13 @@ return [
         'passwords' => 'users',
     ],
 
+    'socialite' => [
+        'drivers' => [
+            'google',
+        ],
+    ],
+
+
     /*
     |--------------------------------------------------------------------------
     | Authentication Guards
@@ -114,4 +121,5 @@ return [
 
     'password_timeout' => 10800,
 
+    
 ];
