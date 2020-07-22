@@ -9,15 +9,28 @@ const getAuthenticatedUser = () => async (dispatch, getState) => {
     });
 
     const user = await userService.fetchUser();
+    const googleUser = await userService.fetchGoogleUser();
 
-    if (user.isError) {
+    if (user.isError && googleUser.isError) {
         dispatch({
             type: "USER_LOADED"
         });
-    } else {
+    } else if (googleUser.isError) {
         dispatch({
             type: "SET_USER",
             payload: user
+        });
+        dispatch({
+            type: "USER_LOADED"
+        });
+    } else if (user.isError) {
+        dispatch({
+            type: "SET_USER",
+            payload: {
+                id: googleUser.id,
+                name: googleUser.name,
+                isGoogleUser: true
+            }
         });
         dispatch({
             type: "USER_LOADED"
@@ -73,26 +86,11 @@ const login = credentials => async (dispatch, getState) => {
     }
 };
 
-// LOGIN WITH GOOGLE
-const loginGoogle = () => async (dispatch, getState) => {
+// NOT_LOADED
+const notLoaded = () => (dispatch, getState) => {
     dispatch({
         type: "USER_NOT_LOADED"
     });
-
-    const user = await userService.loginGoogle();
-    console.log("user", user);
-    if (user.isError) {
-        dispatch({
-            type: "USER_LOADED"
-        });
-    } else {
-        dispatch({
-            type: "SET_USER",
-            payload: user
-        });
-        dispatch(setMessage("You are successfully logged in!", "toast", false));
-        return true;
-    }
 };
 
 // LOGOUT
@@ -102,12 +100,7 @@ const logout = () => async (dispatch, getState) => {
     });
 
     const user = await userService.logout();
-    if (user.isError) {
-        dispatch(setMessage(user.errors.errors, "alert", true));
-        dispatch({
-            type: "USER_LOADED"
-        });
-    } else {
+    if (!user.isError) {
         localStorage.removeItem("token");
         dispatch({
             type: "LOGOUT"
@@ -121,4 +114,30 @@ const logout = () => async (dispatch, getState) => {
     }
 };
 
-export default { getAuthenticatedUser, register, login, logout, loginGoogle };
+const logoutGoogle = () => async (dispatch, getState) => {
+    dispatch({
+        type: "USER_NOT_LOADED"
+    });
+
+    const user = await userService.logoutGoogle();
+    if (!user.isError) {
+        dispatch({
+            type: "LOGOUT"
+        });
+        dispatch(
+            setMessage("You are successfully logged out!", "toast", false)
+        );
+        dispatch({
+            type: "USER_LOADED"
+        });
+    }
+};
+
+export default {
+    getAuthenticatedUser,
+    register,
+    login,
+    logout,
+    notLoaded,
+    logoutGoogle
+};

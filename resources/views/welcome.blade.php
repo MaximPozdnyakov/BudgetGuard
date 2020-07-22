@@ -21,11 +21,6 @@
     </head>
     <body>
         <div id="root"></div>
-        @if(Session::has('token'))
-            <div class="alert alert-danger">
-            {{ Session::get('token')}}
-            </div>
-        @endif
         <script src="{{ asset('js/app.js') }}"></script>
     </body>
 </html>

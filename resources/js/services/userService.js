@@ -23,18 +23,6 @@ export default {
             };
         }
     },
-    async loginGoogle() {
-        try {
-            const user = await api.get(`redirect/google`);
-            console.log("userService", user);
-            return user.data;
-        } catch (err) {
-            return {
-                isError: true,
-                errors: err.response.data
-            };
-        }
-    },
     async logout() {
         try {
             const user = await axios
@@ -65,6 +53,28 @@ export default {
                     }
                 })
                 .post(`me`);
+            return user.data;
+        } catch (err) {
+            return {
+                isError: true,
+                errors: err.response.data
+            };
+        }
+    },
+    async fetchGoogleUser() {
+        try {
+            const user = await api.get("google/me");
+            return user.data;
+        } catch (err) {
+            return {
+                isError: true,
+                errors: err.response.data
+            };
+        }
+    },
+    async logoutGoogle() {
+        try {
+            const user = await api.get("google/logout");
             return user.data;
         } catch (err) {
             return {

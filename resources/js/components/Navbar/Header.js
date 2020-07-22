@@ -10,7 +10,21 @@ import { connect } from "react-redux";
 import userActions from "../../actions/users";
 
 function Header(props) {
-    const { isUserAuthenticated, logout, username } = props;
+    const {
+        isUserAuthenticated,
+        logout,
+        username,
+        logoutGoogle,
+        isGoogleUser
+    } = props;
+
+    const logoutHandler = () => {
+        if (isGoogleUser) {
+            logoutGoogle();
+        } else {
+            logout();
+        }
+    };
 
     const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
         <div
@@ -95,7 +109,7 @@ function Header(props) {
                             <Dropdown.Menu>
                                 <Dropdown.Item
                                     className="text-danger"
-                                    onClick={() => logout()}
+                                    onClick={logoutHandler}
                                 >
                                     Logout
                                 </Dropdown.Item>
@@ -119,7 +133,11 @@ function Header(props) {
 
 const mapStateToProps = state => ({
     username: state.users.user.name,
+    isGoogleUser: state.users.user.isGoogleUser,
     isUserAuthenticated: state.users.isUserAuthenticated
 });
 
-export default connect(mapStateToProps, { logout: userActions.logout })(Header);
+export default connect(mapStateToProps, {
+    logout: userActions.logout,
+    logoutGoogle: userActions.logoutGoogle
+})(Header);

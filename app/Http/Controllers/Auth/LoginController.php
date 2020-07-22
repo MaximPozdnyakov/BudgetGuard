@@ -9,6 +9,8 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
+use Illuminate\Http\Request;
+
 use App\User;
 
 use Socialite;
@@ -54,9 +56,13 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
-    public function redirectToProvider()
+    public function redirectToProvider(Request $request)
     {
-        return Socialite::driver('google')->redirect();
+        if($request->session()->has('token')){
+            abort(401, 'Authorized');
+        } else {
+            return Socialite::driver('google')->redirect();
+        }
     }
 
     public function handleProviderCallback(Request $request)
@@ -87,18 +93,23 @@ class LoginController extends Controller
 
     public function me(Request $request)
     {
-        $token = $request->session()->get('key', '');
+        $token = $request->session()->get('token', '');
         if ($token == ""){
             abort(401, 'Unauthorized');
         } else {
-            return Socialite::driver('google')->userFromToken($token);
+            $user = Socialite::driver('google')->userFromToken($token);
+            return response()->json($user);
         }
     }
 
     public function logout(Request $request)
     {
-        $request->session()->flush();
-        $request->session()->regenerate();
-        return redirect('/login');
+        if($request->session()->has('token')){
+            $request->session()->flush();
+            $request->session()->regenerate();
+            return "";
+        } else {
+            abort(401, 'Unauthorized');
+        }
     }
 }

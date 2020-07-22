@@ -9,7 +9,7 @@ import userActions from "../../actions/users";
 import MessagesAlert from "../Utils/MessagesAlert";
 
 function Login(props) {
-    const { login, loginGoogle } = props;
+    const { login, notLoaded } = props;
     const [email, setEmail] = useState("");
     const onChangeEmail = e => setEmail(e.target.value);
 
@@ -33,6 +33,7 @@ function Login(props) {
 
     const loginWithGoogle = e => {
         e.preventDefault();
+        notLoaded();
         props.history.push("api/redirect/google");
         props.history.go();
     };
@@ -116,5 +117,5 @@ const mapStateToProps = state => ({});
 
 export default connect(mapStateToProps, {
     login: userActions.login,
-    loginGoogle: userActions.loginGoogle
+    notLoaded: userActions.notLoaded
 })(Login);
