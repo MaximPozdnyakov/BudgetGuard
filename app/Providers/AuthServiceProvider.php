@@ -30,6 +30,10 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
+        Gate::define('checkAuth', function () {
+            
+        });
+        
         Gate::define('add-transaction', function ($walletId) {
             return Auth::check() && Wallet::findOrFail($walletId)::where('owner', Auth::id())->first();;
         });

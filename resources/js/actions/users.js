@@ -11,6 +11,9 @@ const getAuthenticatedUser = () => async (dispatch, getState) => {
     const user = await userService.fetchUser();
     const googleUser = await userService.fetchGoogleUser();
 
+    console.log("user", user);
+    console.log("googleUser", googleUser);
+
     if (user.isError && googleUser.isError) {
         dispatch({
             type: "USER_LOADED"
@@ -35,6 +38,9 @@ const getAuthenticatedUser = () => async (dispatch, getState) => {
         dispatch({
             type: "USER_LOADED"
         });
+    } else {
+        dispatch(logout());
+        dispatch(logoutGoogle());
     }
 };
 
@@ -100,6 +106,7 @@ const logout = () => async (dispatch, getState) => {
     });
 
     const user = await userService.logout();
+
     if (!user.isError) {
         localStorage.removeItem("token");
         dispatch({

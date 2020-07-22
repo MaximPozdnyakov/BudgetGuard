@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
@@ -58,11 +59,7 @@ class LoginController extends Controller
 
     public function redirectToProvider(Request $request)
     {
-        if($request->session()->has('token')){
-            abort(401, 'Authorized');
-        } else {
-            return Socialite::driver('google')->redirect();
-        }
+        return Socialite::driver('google')->redirect();
     }
 
     public function handleProviderCallback(Request $request)
@@ -98,6 +95,10 @@ class LoginController extends Controller
             abort(401, 'Unauthorized');
         } else {
             $user = Socialite::driver('google')->userFromToken($token);
+            if(!$request->session()->has('userId')){
+                $userDB = User::where('email', $user->email)->first();
+                $request->session()->put('userId', $userDB->id);
+            }
             return response()->json($user);
         }
     }

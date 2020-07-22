@@ -5,9 +5,10 @@ import { Navbar, Nav, Dropdown } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 
 import { If, Then, Else } from "react-if";
-
+import axios from "axios";
 import { connect } from "react-redux";
 import userActions from "../../actions/users";
+import { api } from "../../services/api";
 
 function Header(props) {
     const {

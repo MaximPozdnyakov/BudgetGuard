@@ -66,8 +66,11 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function me()
+    public function me(Request $request)
     {
+        if(!$request->session()->has('userId')){
+            $request->session()->put('userId', auth()->user()->id);
+        }
         return response()->json(auth()->user());
     }
 
@@ -76,9 +79,12 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function logout()
+    public function logout(Request $request)
     {
         auth()->logout();
+
+        $request->session()->flush();
+        $request->session()->regenerate();
 
         return response()->json(['message' => 'Successfully logged out']);
     }
