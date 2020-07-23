@@ -59,6 +59,25 @@ function BalanceBar(props) {
             };
         }
     });
+    // const dataByDate = _.groupBy(data, "date");
+
+    // let dataIncomeExpense = [];
+    // for (let date in dataByDate) {
+    //     dataIncomeExpense.push({
+    //         date,
+    //         Balance: dataByDate[date].reduce((sum, b) => b.Balance + sum, 0)
+    //     });
+    // }
+
+    // dataBalance = dataBalance.map((transaction, i) => ({
+    //     ...transaction,
+    //     Balance:
+    //         transaction.Balance +
+    //         Number(
+    //             dataBalance.slice(0, i).reduce((sum, b) => b.Balance + sum, 0)
+    //         ) +
+    //         Number(initialBalance)
+    // }));
     return (
         <>
             <div className="d-flex flex-column ">

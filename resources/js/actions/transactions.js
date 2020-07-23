@@ -5,13 +5,7 @@ import { setMessage } from "./messages";
 // GET Transactions
 export const getTransactions = () => async (dispatch, getState) => {
     const transactions = await transactionService.fetchTransactions();
-
-    if (transactions.isError) {
-        dispatch(setMessage(transactions.errors));
-        dispatch({
-            type: "TRANSACTION_LOADED"
-        });
-    } else {
+    if (!transactions.isError) {
         dispatch({
             type: "GET_TRANSACTIONS",
             payload: transactions
@@ -19,10 +13,10 @@ export const getTransactions = () => async (dispatch, getState) => {
         dispatch({
             type: "SORT_TRANSACTIONS_BY_DATE"
         });
-        dispatch({
-            type: "TRANSACTION_LOADED"
-        });
     }
+    dispatch({
+        type: "TRANSACTION_LOADED"
+    });
 };
 
 // ADD Transaction
@@ -33,12 +27,10 @@ export const addTransaction = transaction => async (dispatch, getState) => {
     const newTransaction = await transactionService.createTransaction(
         transaction
     );
+    console.log("newTransaction", newTransaction);
 
     if (newTransaction.isError) {
-        dispatch(setMessage(newTransaction.errors));
-        dispatch({
-            type: "TRANSACTION_LOADED"
-        });
+        dispatch(setMessage(newTransaction.errors.errors, "alert", true));
     } else {
         dispatch({
             type: "ADD_TRANSACTION",
@@ -50,10 +42,10 @@ export const addTransaction = transaction => async (dispatch, getState) => {
         dispatch({
             type: "UPDATE_TRANSACTIONS_FILTERS"
         });
-        dispatch({
-            type: "TRANSACTION_LOADED"
-        });
     }
+    dispatch({
+        type: "TRANSACTION_LOADED"
+    });
 };
 
 // UPDATE Transaction
@@ -68,12 +60,9 @@ export const updateTransaction = (transaction, id) => async (
         transaction,
         id
     );
-    console.log("updatedTransaction", updatedTransaction);
+
     if (updatedTransaction.isError) {
-        dispatch(setMessage(updatedTransaction.errors));
-        dispatch({
-            type: "TRANSACTION_LOADED"
-        });
+        dispatch(setMessage(updatedTransaction.errors.errors, "alert", true));
     } else {
         dispatch({
             type: "UPDATE_TRANSACTION",
@@ -85,10 +74,10 @@ export const updateTransaction = (transaction, id) => async (
         dispatch({
             type: "UPDATE_TRANSACTIONS_FILTERS"
         });
-        dispatch({
-            type: "TRANSACTION_LOADED"
-        });
     }
+    dispatch({
+        type: "TRANSACTION_LOADED"
+    });
 };
 
 // DELETE Transaction
@@ -99,10 +88,7 @@ export const deleteTransaction = id => async (dispatch, getState) => {
 
     const deletedTransaction = await transactionService.deleteTransaction(id);
     if (deletedTransaction.isError) {
-        dispatch(setMessage(deletedTransaction.errors));
-        dispatch({
-            type: "TRANSACTION_LOADED"
-        });
+        dispatch(setMessage(deletedTransaction.errors.errors, "toast", true));
     } else {
         dispatch({
             type: "DELETE_TRANSACTION",
@@ -111,10 +97,16 @@ export const deleteTransaction = id => async (dispatch, getState) => {
         dispatch({
             type: "UPDATE_TRANSACTIONS_FILTERS"
         });
-        dispatch({
-            type: "TRANSACTION_LOADED"
-        });
     }
+    dispatch({
+        type: "TRANSACTION_LOADED"
+    });
+};
+
+export const removeTransactions = () => dispatch => {
+    dispatch({
+        type: "REMOVE_TRANSACTIONS"
+    });
 };
 
 export const setDateRange = dateRange => dispatch => {

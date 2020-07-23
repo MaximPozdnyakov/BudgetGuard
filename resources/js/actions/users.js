@@ -1,6 +1,8 @@
 import userService from "../services/userService";
 
 import { setMessage } from "./messages";
+import { removeTransactions } from "./transactions";
+import { removeWallets } from "./wallets";
 
 // GET AUTHENTICATED USER
 const getAuthenticatedUser = () => async (dispatch, getState) => {
@@ -11,22 +13,12 @@ const getAuthenticatedUser = () => async (dispatch, getState) => {
     const user = await userService.fetchUser();
     const googleUser = await userService.fetchGoogleUser();
 
-    console.log("user", user);
-    console.log("googleUser", googleUser);
-
-    if (user.isError && googleUser.isError) {
-        dispatch({
-            type: "USER_LOADED"
-        });
-    } else if (googleUser.isError) {
+    if (googleUser.isError && !user.isError) {
         dispatch({
             type: "SET_USER",
             payload: user
         });
-        dispatch({
-            type: "USER_LOADED"
-        });
-    } else if (user.isError) {
+    } else if (user.isError && !googleUser.isError) {
         dispatch({
             type: "SET_USER",
             payload: {
@@ -35,13 +27,13 @@ const getAuthenticatedUser = () => async (dispatch, getState) => {
                 isGoogleUser: true
             }
         });
-        dispatch({
-            type: "USER_LOADED"
-        });
-    } else {
+    } else if (!user.isError && !googleUser.isError) {
         dispatch(logout());
         dispatch(logoutGoogle());
     }
+    dispatch({
+        type: "USER_LOADED"
+    });
 };
 
 // REGISTER
@@ -88,6 +80,9 @@ const login = credentials => async (dispatch, getState) => {
     } else {
         localStorage.setItem("token", token.access_token);
         dispatch(setMessage("You are successfully logged in!", "toast", false));
+        dispatch({
+            type: "USER_LOADED"
+        });
         return true;
     }
 };
@@ -115,10 +110,10 @@ const logout = () => async (dispatch, getState) => {
         dispatch(
             setMessage("You are successfully logged out!", "toast", false)
         );
-        dispatch({
-            type: "USER_LOADED"
-        });
     }
+    dispatch({
+        type: "USER_LOADED"
+    });
 };
 
 const logoutGoogle = () => async (dispatch, getState) => {
@@ -131,13 +126,15 @@ const logoutGoogle = () => async (dispatch, getState) => {
         dispatch({
             type: "LOGOUT"
         });
+        dispatch(removeWallets());
+        dispatch(removeTransactions());
         dispatch(
             setMessage("You are successfully logged out!", "toast", false)
         );
-        dispatch({
-            type: "USER_LOADED"
-        });
     }
+    dispatch({
+        type: "USER_LOADED"
+    });
 };
 
 export default {

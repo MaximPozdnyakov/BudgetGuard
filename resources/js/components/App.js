@@ -4,9 +4,10 @@ import { If, Else, Then } from "react-if";
 
 import { connect } from "react-redux";
 import { getTransactions } from "../actions/transactions";
+import { getWallets } from "../actions/wallets";
 import userActions from "../actions/users";
 
-import { Route, Switch, Redirect } from "react-router-dom";
+import { Switch } from "react-router-dom";
 
 import { Container, Spinner } from "react-bootstrap";
 
@@ -18,8 +19,10 @@ import Overview from "./Overview/Overview";
 import Header from "./Navbar/Header";
 import Register from "./Auth/Register";
 import Login from "./Auth/Login";
-import ProtectedRoute from "./Utils/ProtectedRoute";
+import RedirectIfNotAuthenticated from "./Utils/RedirectIfNotAuthenticated";
 import RedirectIfAuthenticated from "./Utils/RedirectIfAuthenticated";
+import RedirectIfWalletsNotLoaded from "./Utils/RedirectIfWalletsNotLoaded";
+import AddWallet from "./Wallet/AddWallet";
 
 function App(props) {
     const {
@@ -27,16 +30,27 @@ function App(props) {
         getAuthenticatedUser,
         getTransactions,
         isTransactionsLoaded,
-        isUserLoaded
+        isUserLoaded,
+        isUserAuthenticated,
+        isWalletsLoaded,
+        getWallets
     } = props;
-
-    useEffect(() => {
-        // getTransactions();
-    }, []);
 
     useEffect(() => {
         getAuthenticatedUser();
     }, [localStorage.getItem("token")]);
+
+    useEffect(() => {
+        if (isUserAuthenticated && !isWalletsLoaded) {
+            getWallets();
+        }
+    }, [isUserAuthenticated]);
+
+    useEffect(() => {
+        if (isWalletsLoaded && !isTransactionsLoaded) {
+            getTransactions();
+        }
+    }, [isWalletsLoaded]);
 
     useEffect(() => {
         if (messages.type === "toast") {
@@ -69,7 +83,18 @@ function App(props) {
     }, [messages]);
 
     return (
-        <If condition={isUserLoaded}>
+        <If
+            condition={
+                (isUserLoaded &&
+                    !isUserAuthenticated &&
+                    !isTransactionsLoaded &&
+                    !isWalletsLoaded) ||
+                (isUserLoaded &&
+                    isUserAuthenticated &&
+                    isTransactionsLoaded &&
+                    isWalletsLoaded)
+            }
+        >
             <Then>
                 <ToastContainer
                     position="bottom-left"
@@ -85,11 +110,20 @@ function App(props) {
                 <Header />
                 <Container>
                     <Switch>
-                        <ProtectedRoute exact path="/" component={Operations} />
-                        <ProtectedRoute
+                        <RedirectIfWalletsNotLoaded
+                            exact
+                            path="/"
+                            component={Operations}
+                        />
+                        <RedirectIfWalletsNotLoaded
                             exact
                             path="/overview"
                             component={Overview}
+                        />
+                        <RedirectIfNotAuthenticated
+                            exact
+                            path="/wallet/create"
+                            component={AddWallet}
                         />
                         <RedirectIfAuthenticated
                             exact
@@ -115,10 +149,13 @@ function App(props) {
 const mapStateToProps = state => ({
     isUserLoaded: state.users.isUserLoaded,
     isTransactionsLoaded: state.transactions.isTransactionsLoaded,
-    messages: state.messages
+    messages: state.messages,
+    isUserAuthenticated: state.users.isUserAuthenticated,
+    isWalletsLoaded: state.wallets.isWalletsLoaded
 });
 
 export default connect(mapStateToProps, {
     getAuthenticatedUser: userActions.getAuthenticatedUser,
-    getTransactions
+    getTransactions,
+    getWallets
 })(App);

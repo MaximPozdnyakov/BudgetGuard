@@ -7,7 +7,7 @@ import _ from "lodash";
 import { connect } from "react-redux";
 
 function CurrentBalance(props) {
-    const { transactions } = props;
+    const { transactions, initialBalance } = props;
 
     const allMoney = transactions.map(transaction => {
         if (!transaction.moneySign) {
@@ -15,7 +15,7 @@ function CurrentBalance(props) {
         }
         return Number(transaction.moneyAmount);
     });
-    const balance = _.sum(allMoney).toFixed(2);
+    const balance = Number(_.sum(allMoney).toFixed(2)) + Number(initialBalance);
     return (
         <div>
             <h6 className="font-weight-bold">Current wallet balance</h6>
@@ -24,7 +24,7 @@ function CurrentBalance(props) {
                     balance > 0 ? "text-success" : "text-danger"
                 }`}
             >
-                {balance > 0 ? "+" : ""}
+                {balance < 0 ? "-" : "+"}
                 <NumberFormat
                     value={balance}
                     displayType={"text"}
@@ -37,7 +37,8 @@ function CurrentBalance(props) {
 }
 
 const mapStateToProps = state => ({
-    transactions: state.transactions.transactions
+    transactions: state.transactions.transactions,
+    initialBalance: state.wallets.currentWallet.initialBalance
 });
 
 export default connect(mapStateToProps)(CurrentBalance);

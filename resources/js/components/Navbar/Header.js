@@ -5,10 +5,9 @@ import { Navbar, Nav, Dropdown } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 
 import { If, Then, Else } from "react-if";
-import axios from "axios";
 import { connect } from "react-redux";
 import userActions from "../../actions/users";
-import { api } from "../../services/api";
+import { selectWallet } from "../../actions/wallets";
 
 function Header(props) {
     const {
@@ -16,7 +15,10 @@ function Header(props) {
         logout,
         username,
         logoutGoogle,
-        isGoogleUser
+        isGoogleUser,
+        selectedWallet,
+        wallets,
+        selectWallet
     } = props;
 
     const logoutHandler = () => {
@@ -57,27 +59,37 @@ function Header(props) {
         </div>
     ));
 
+    const dropdownWallets = wallets.map(wallet => {
+        if (wallet.id != selectedWallet.id) {
+            return (
+                <Dropdown.Item key={wallet.id} onClick={selectWallet(wallet)}>
+                    {wallet.title}
+                </Dropdown.Item>
+            );
+        }
+    });
+
     return (
-        <If condition={isUserAuthenticated}>
+        <If
+            condition={
+                isUserAuthenticated && Object.keys(selectedWallet).length !== 0
+            }
+        >
             <Then>
                 <Navbar className="border-bottom px-5 mb-5 bg-white">
                     <div className="d-flex justify-content-between w-100">
-                        <Navbar.Brand className="font-weight-bold text-dark d-flex align-content-center">
-                            Budget App
-                            <svg
-                                viewBox="0 0 24 24"
-                                width="24"
-                                height="24"
-                                stroke="currentColor"
-                                strokeWidth="2"
-                                fill="none"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                            >
-                                <polyline points="6 9 12 15 18 9"></polyline>
-                            </svg>
-                        </Navbar.Brand>
-                        <Navbar.Toggle />
+                        <Dropdown
+                            className="align-content-center"
+                            navbar={true}
+                        >
+                            <Dropdown.Toggle as={CustomToggle}>
+                                <Navbar.Brand className="font-weight-bold text-dark mr-1">
+                                    {selectedWallet.title}
+                                </Navbar.Brand>
+                            </Dropdown.Toggle>
+                            <Dropdown.Menu>{dropdownWallets}</Dropdown.Menu>
+                        </Dropdown>
+
                         <Nav className="align-content-center mt-2">
                             <Nav.Item className="mr-3">
                                 <NavLink
@@ -135,10 +147,13 @@ function Header(props) {
 const mapStateToProps = state => ({
     username: state.users.user.name,
     isGoogleUser: state.users.user.isGoogleUser,
-    isUserAuthenticated: state.users.isUserAuthenticated
+    isUserAuthenticated: state.users.isUserAuthenticated,
+    selectedWallet: state.wallets.currentWallet,
+    wallets: state.wallets.wallets
 });
 
 export default connect(mapStateToProps, {
     logout: userActions.logout,
-    logoutGoogle: userActions.logoutGoogle
+    logoutGoogle: userActions.logoutGoogle,
+    selectWallet
 })(Header);

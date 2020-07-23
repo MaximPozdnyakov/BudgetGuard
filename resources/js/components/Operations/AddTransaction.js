@@ -61,7 +61,7 @@ const formatGroupLabel = data => (
 );
 
 function AddTransaction(props) {
-    const { addTransaction } = props;
+    const { addTransaction, selectedWallet } = props;
 
     const [isFormOpen, setIsFormOpen] = useState(false);
     const [spentAt, onChangeSpentAt] = useState(new Date());
@@ -97,7 +97,8 @@ function AddTransaction(props) {
                 moneySign: !isChosenCategoryExpense(category),
                 category: category.value,
                 spent_at: moment(spentAt).format("YYYY-MM-D h:mm:ss"),
-                description: note
+                description: note,
+                wallet: selectedWallet.id
             });
         }
     }
@@ -240,6 +241,8 @@ function AddTransaction(props) {
     );
 }
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => ({
+    selectedWallet: state.wallets.currentWallet
+});
 
 export default connect(mapStateToProps, { addTransaction })(AddTransaction);

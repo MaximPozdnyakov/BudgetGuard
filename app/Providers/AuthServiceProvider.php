@@ -4,11 +4,19 @@ namespace App\Providers;
 
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Auth\Access\Response;
 
 use Illuminate\Support\Facades\Auth;
 
 use App\Wallet;
 use App\Transaction;
+
+use Illuminate\Http\Request;
+
+use Illuminate\Support\Facades\Log;
+
+
+use App\Policies\TransactionPolicy;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -18,7 +26,7 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        // 'App\Model' => 'App\Policies\ModelPolicy',
+        Transaction::class => TransactionPolicy::class,
     ];
 
     /**
@@ -29,23 +37,5 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
-
-        Gate::define('checkAuth', function () {
-            
-        });
-        
-        Gate::define('add-transaction', function ($walletId) {
-            return Auth::check() && Wallet::findOrFail($walletId)::where('owner', Auth::id())->first();;
-        });
-
-        Gate::define('authOrFail', function () {
-            return Auth::check();
-        });
-
-        Gate::define('update-delete-transaction', function ($transactionId) {
-            return Auth::check() && Transaction::findOrFail($transactionId)::where('owner', Auth::id())->first();
-        });
-
-        
     }
 }

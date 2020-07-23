@@ -2,6 +2,8 @@ import React from "react";
 
 import { Row, Col, ListGroup } from "react-bootstrap";
 
+import moment from "moment";
+
 import { If, Then, Else } from "react-if";
 
 import { connect } from "react-redux";
@@ -39,28 +41,6 @@ function StatisticContainer(props) {
             description.includes(search)
         );
     });
-
-    const filteredTransactionWithFormattedDate = filteredTransaction.map(
-        transaction => ({
-            ...transaction,
-            spent_at: moment(transaction.spent_at).format("L")
-        })
-    );
-
-    const transactionsGroupsByDateObject = _.groupBy(
-        filteredTransactionWithFormattedDate,
-        "spent_at"
-    );
-
-    let transactionsGroupsByDateArray = [];
-    for (let transactionDate in transactionsGroupsByDateObject) {
-        transactionsGroupsByDateArray.unshift(
-            <TransactionsListByDate
-                transactions={transactionsGroupsByDateObject[transactionDate]}
-                key={transactionDate}
-            />
-        );
-    }
     return (
         <>
             <If condition={filteredTransaction.length === 0}>

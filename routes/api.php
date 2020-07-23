@@ -14,7 +14,3 @@ use Illuminate\Support\Facades\Route;
 |  
 */
 
-Route::apiResources(['transactions' => 'API\TransactionController']);
-
-Route::get('wallets', 'API\WalletController@index');
-Route::post('wallets', 'API\WalletController@store'); 

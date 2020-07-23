@@ -126,6 +126,12 @@ export default function(state = initialState, action) {
                     search: action.payload
                 }
             };
+        case "REMOVE_TRANSACTIONS":
+            return {
+                transactions: [],
+                isTransactionsLoaded: false,
+                transactionsFilters: {}
+            };
         default:
             return state;
     }

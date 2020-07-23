@@ -15,11 +15,13 @@ class WalletController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        Gate::authorize('authOrFail');
-
-        return Wallet::where('owner', Auth::id())->get();
+        if($request->session()->has('userId')){
+            return Wallet::where('owner', $request->session()->get('userId'))->get();
+        } else {
+            abort(401, "Unauthorized");
+        }
     }
 
     /**
@@ -34,16 +36,18 @@ class WalletController extends Controller
             'initialBalance' => 'required|numeric',
             'title' => 'required|string',
         ]);
+        if($request->session()->has('userId')){
 
-        Gate::authorize('authOrFail');
+            $wallet = new Wallet;
+            $wallet->title = $request->title;
+            $wallet->initialBalance = $request->initialBalance;
+            $wallet->owner = $request->session()->get('userId');
 
-        $wallet = new Wallet;
-        $wallet->title = $request->title;
-        $wallet->initialBalance = $request->initialBalance;
-        $wallet->owner = Auth::id();
+            $wallet->save();
 
-        $wallet->save();
-
-        return $wallet;
+            return $wallet;
+        } else {
+            abort(401, "Unauthorized");
+        }
     }
 }
