@@ -14,12 +14,14 @@ export default function(state = initialState, action) {
                 currentDate.setMonth(currentDate.getMonth() - 1)
             );
 
-            const money = action.payload.map(transaction => {
-                if (!transaction.moneySign) {
-                    return -1 * transaction.moneyAmount;
-                }
-                return transaction.moneyAmount;
-            });
+            const money = action.payload
+                .filter(t => t.wallet === action.walletId)
+                .map(transaction => {
+                    if (!transaction.moneySign) {
+                        return -1 * transaction.moneyAmount;
+                    }
+                    return transaction.moneyAmount;
+                });
 
             return {
                 ...state,
@@ -27,7 +29,12 @@ export default function(state = initialState, action) {
                 transactionsFilters: {
                     dateRange: [monthAgo, new Date()],
                     categories: Object.keys(
-                        _.groupBy(action.payload, "category")
+                        _.groupBy(
+                            action.payload.filter(
+                                t => t.wallet === action.walletId
+                            ),
+                            "category"
+                        )
                     ),
                     search: "",
                     moneyRange: [Math.min(...money), Math.max(...money)]
@@ -74,26 +81,34 @@ export default function(state = initialState, action) {
                 )
             };
         case "UPDATE_TRANSACTIONS_FILTERS":
-            const transactionsMoney = state.transactions.map(transaction => {
-                if (!transaction.moneySign) {
-                    return -1 * transaction.moneyAmount;
-                }
-                return transaction.moneyAmount;
-            });
+            const allTransactionsMoney = state.transactions
+                .filter(t => t.wallet === action.walletId)
+                .map(transaction => {
+                    if (!transaction.moneySign) {
+                        return -1 * transaction.moneyAmount;
+                    }
+                    return transaction.moneyAmount;
+                });
 
             return {
                 ...state,
                 transactionsFilters: {
                     ...state.transactionsFilters,
                     categories: Object.keys(
-                        _.groupBy(state.transactions, "category")
+                        _.groupBy(
+                            state.transactions.filter(
+                                t => t.wallet === action.walletId
+                            ),
+                            "category"
+                        )
                     ),
                     moneyRange: [
-                        Math.min(...transactionsMoney),
-                        Math.max(...transactionsMoney)
+                        Math.min(...allTransactionsMoney),
+                        Math.max(...allTransactionsMoney)
                     ]
                 }
             };
+
         case "SET_DATE_RANGE":
             return {
                 ...state,
@@ -128,8 +143,8 @@ export default function(state = initialState, action) {
             };
         case "REMOVE_TRANSACTIONS":
             return {
+                ...state,
                 transactions: [],
-                isTransactionsLoaded: false,
                 transactionsFilters: {}
             };
         default:

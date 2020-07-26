@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 import { connect } from "react-redux";
 import { setCategories } from "../../actions/transactions";
@@ -10,20 +10,46 @@ const animatedComponents = makeAnimated();
 import { Form } from "react-bootstrap";
 
 function CategoryFilter(props) {
-    const { categories, transactions, setCategories } = props;
-    const allCategories = Object.keys(_.groupBy(transactions, "category")).map(
-        category => {
+    const { categories, transactions, setCategories, selectedWallet } = props;
+    const [allCategories, setAllCategories] = useState(
+        Object.keys(
+            _.groupBy(
+                transactions.filter(t => t.wallet === selectedWallet.id),
+                "category"
+            )
+        ).map(category => {
             return {
                 value: category,
                 label: category
             };
-        }
+        })
     );
+
+    useEffect(
+        () =>
+            setAllCategories(
+                Object.keys(
+                    _.groupBy(
+                        transactions.filter(
+                            t => t.wallet === selectedWallet.id
+                        ),
+                        "category"
+                    )
+                ).map(category => {
+                    return {
+                        value: category,
+                        label: category
+                    };
+                })
+            ),
+        [transactions, selectedWallet]
+    );
+
     return (
         <Form.Group controlId="categoriesSelect">
             <Form.Label className="text-secondary">By category</Form.Label>
             <Select
-                defaultValue={categories.map(category => {
+                value={categories.map(category => {
                     return {
                         value: category,
                         label: category
@@ -41,7 +67,8 @@ function CategoryFilter(props) {
 
 const mapStateToProps = state => ({
     transactions: state.transactions.transactions,
-    categories: state.transactions.transactionsFilters.categories
+    categories: state.transactions.transactionsFilters.categories,
+    selectedWallet: state.wallets.currentWallet
 });
 
 export default connect(mapStateToProps, { setCategories })(CategoryFilter);

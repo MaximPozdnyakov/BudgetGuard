@@ -35,6 +35,7 @@ function AddWallet(props) {
                 title,
                 initialBalance: Number(initialBalance).toFixed(2)
             });
+            props.history.push("/");
         }
     }
 

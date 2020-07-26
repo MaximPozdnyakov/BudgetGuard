@@ -56,18 +56,19 @@ export const selectWallet = wallet => async (dispatch, getState) => {
         payload: wallet
     });
     dispatch({
+        type: "UPDATE_TRANSACTIONS_FILTERS",
+        walletId: getState().wallets.currentWallet.id
+    });
+    dispatch({
         type: "WALLETS_LOADED"
     });
 };
 
 export const removeWallets = () => dispatch => {
     dispatch({
-        type: "WALLETS_NOT_LOADED"
-    });
-    dispatch({
         type: "REMOVE_WALLETS"
     });
     dispatch({
-        type: "WALLETS_LOADED"
+        type: "WALLETS_NOT_LOADED"
     });
 };

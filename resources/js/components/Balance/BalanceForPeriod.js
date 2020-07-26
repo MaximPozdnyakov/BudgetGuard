@@ -7,13 +7,14 @@ import _ from "lodash";
 import { connect } from "react-redux";
 
 function BalanceForPeriod(props) {
-    const { transactions, dateRange } = props;
+    const { transactions, dateRange, selectedWallet } = props;
 
     const filteredTransactions = transactions.filter(transaction => {
         const spent_at = new Date(transaction.spent_at);
         return (
             dateRange[1].getTime() - spent_at.getTime() >= 0 &&
-            dateRange[0].getTime() - spent_at.getTime() <= 0
+            dateRange[0].getTime() - spent_at.getTime() <= 0 &&
+            transaction.wallet === selectedWallet.id
         );
     });
     const allMoney = filteredTransactions.map(transaction => {
@@ -46,7 +47,8 @@ function BalanceForPeriod(props) {
 
 const mapStateToProps = state => ({
     transactions: state.transactions.transactions,
-    dateRange: state.transactions.transactionsFilters.dateRange
+    dateRange: state.transactions.transactionsFilters.dateRange,
+    selectedWallet: state.wallets.currentWallet
 });
 
 export default connect(mapStateToProps)(BalanceForPeriod);

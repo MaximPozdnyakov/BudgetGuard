@@ -33,8 +33,8 @@ export default function(state = initialState, action) {
             };
         case "REMOVE_WALLETS":
             return {
+                ...state,
                 wallets: [],
-                isWalletsLoaded: false,
                 currentWallet: {}
             };
         default:

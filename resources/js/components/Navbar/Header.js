@@ -62,7 +62,10 @@ function Header(props) {
     const dropdownWallets = wallets.map(wallet => {
         if (wallet.id != selectedWallet.id) {
             return (
-                <Dropdown.Item key={wallet.id} onClick={selectWallet(wallet)}>
+                <Dropdown.Item
+                    key={wallet.id}
+                    onClick={() => selectWallet(wallet)}
+                >
                     {wallet.title}
                 </Dropdown.Item>
             );
@@ -87,7 +90,17 @@ function Header(props) {
                                     {selectedWallet.title}
                                 </Navbar.Brand>
                             </Dropdown.Toggle>
-                            <Dropdown.Menu>{dropdownWallets}</Dropdown.Menu>
+                            <Dropdown.Menu>
+                                {dropdownWallets}
+                                <Dropdown.Item as="div">
+                                    <NavLink
+                                        to="/wallet/create"
+                                        className="text-success"
+                                    >
+                                        Create new wallet
+                                    </NavLink>
+                                </Dropdown.Item>
+                            </Dropdown.Menu>
                         </Dropdown>
 
                         <Nav className="align-content-center mt-2">
@@ -103,7 +116,7 @@ function Header(props) {
                             <Nav.Item>
                                 <NavLink
                                     exact
-                                    to="overview"
+                                    to="/overview"
                                     activeClassName="link-success"
                                 >
                                     Overview

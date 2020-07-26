@@ -8,7 +8,8 @@ export const getTransactions = () => async (dispatch, getState) => {
     if (!transactions.isError) {
         dispatch({
             type: "GET_TRANSACTIONS",
-            payload: transactions
+            payload: transactions,
+            walletId: getState().wallets.currentWallet.id
         });
         dispatch({
             type: "SORT_TRANSACTIONS_BY_DATE"
@@ -27,7 +28,6 @@ export const addTransaction = transaction => async (dispatch, getState) => {
     const newTransaction = await transactionService.createTransaction(
         transaction
     );
-    console.log("newTransaction", newTransaction);
 
     if (newTransaction.isError) {
         dispatch(setMessage(newTransaction.errors.errors, "alert", true));
@@ -40,7 +40,8 @@ export const addTransaction = transaction => async (dispatch, getState) => {
             type: "SORT_TRANSACTIONS_BY_DATE"
         });
         dispatch({
-            type: "UPDATE_TRANSACTIONS_FILTERS"
+            type: "UPDATE_TRANSACTIONS_FILTERS",
+            walletId: getState().wallets.currentWallet.id
         });
     }
     dispatch({
@@ -72,7 +73,8 @@ export const updateTransaction = (transaction, id) => async (
             type: "SORT_TRANSACTIONS_BY_DATE"
         });
         dispatch({
-            type: "UPDATE_TRANSACTIONS_FILTERS"
+            type: "UPDATE_TRANSACTIONS_FILTERS",
+            walletId: getState().wallets.currentWallet.id
         });
     }
     dispatch({
@@ -95,7 +97,8 @@ export const deleteTransaction = id => async (dispatch, getState) => {
             payload: id
         });
         dispatch({
-            type: "UPDATE_TRANSACTIONS_FILTERS"
+            type: "UPDATE_TRANSACTIONS_FILTERS",
+            walletId: getState().wallets.currentWallet.id
         });
     }
     dispatch({
@@ -106,6 +109,9 @@ export const deleteTransaction = id => async (dispatch, getState) => {
 export const removeTransactions = () => dispatch => {
     dispatch({
         type: "REMOVE_TRANSACTIONS"
+    });
+    dispatch({
+        type: "TRANSACTION_NOT_LOADED"
     });
 };
 

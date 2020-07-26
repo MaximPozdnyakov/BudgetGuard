@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import NumberFormat from "react-number-format";
 
@@ -14,14 +14,15 @@ import { setMoneyRange } from "../../actions/transactions";
 import { Form } from "react-bootstrap";
 
 function MoneyFilter(props) {
-    const { moneyRange, setMoneyRange, transactions } = props;
-
-    const allMoney = transactions.map(transaction => {
-        if (!transaction.moneySign) {
-            return -1 * transaction.moneyAmount;
-        }
-        return transaction.moneyAmount;
-    });
+    const { moneyRange, setMoneyRange, transactions, selectedWallet } = props;
+    const allMoney = transactions
+        .filter(t => t.wallet === selectedWallet.id)
+        .map(transaction => {
+            if (!transaction.moneySign) {
+                return -1 * transaction.moneyAmount;
+            }
+            return transaction.moneyAmount;
+        });
 
     const minMoney = Math.min(...allMoney);
     const maxMoney = Math.max(...allMoney);
@@ -109,7 +110,8 @@ function MoneyFilter(props) {
 
 const mapStateToProps = state => ({
     transactions: state.transactions.transactions,
-    moneyRange: state.transactions.transactionsFilters.moneyRange
+    moneyRange: state.transactions.transactionsFilters.moneyRange,
+    selectedWallet: state.wallets.currentWallet
 });
 
 export default connect(mapStateToProps, { setMoneyRange })(MoneyFilter);

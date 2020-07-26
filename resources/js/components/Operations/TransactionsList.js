@@ -13,7 +13,14 @@ import { If, Else, Then } from "react-if";
 import TransactionsListByDate from "./TransactionsListByDate";
 
 function TransactionsList(props) {
-    const { transactions, dateRange, categories, moneyRange, search } = props;
+    const {
+        transactions,
+        dateRange,
+        categories,
+        moneyRange,
+        search,
+        selectedWallet
+    } = props;
 
     const filteredTransaction = transactions.filter(transaction => {
         const spent_at = new Date(transaction.spent_at);
@@ -31,13 +38,15 @@ function TransactionsList(props) {
         } else {
             description = "";
         }
+
         return (
             dateRange[1].getTime() - spent_at.getTime() >= 0 &&
             dateRange[0].getTime() - spent_at.getTime() <= 0 &&
             categories.includes(transaction.category) &&
             money >= moneyRange[0] &&
             money <= moneyRange[1] &&
-            description.includes(search)
+            description.includes(search) &&
+            transaction.wallet === selectedWallet.id
         );
     });
 
@@ -85,7 +94,8 @@ const mapStateToProps = state => ({
     dateRange: state.transactions.transactionsFilters.dateRange,
     categories: state.transactions.transactionsFilters.categories,
     moneyRange: state.transactions.transactionsFilters.moneyRange,
-    search: state.transactions.transactionsFilters.search
+    search: state.transactions.transactionsFilters.search,
+    selectedWallet: state.wallets.currentWallet
 });
 
 export default connect(mapStateToProps)(TransactionsList);
