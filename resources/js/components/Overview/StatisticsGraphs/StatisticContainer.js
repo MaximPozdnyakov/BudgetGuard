@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { Row, Col, ListGroup } from "react-bootstrap";
 
@@ -70,6 +70,7 @@ function StatisticContainer(props) {
                         <Col className="bg-white p-0 mr-2">
                             <IncomePie />
                         </Col>
+
                         <Col className="bg-white p-0 ml-2">
                             <ExpensePie />
                         </Col>

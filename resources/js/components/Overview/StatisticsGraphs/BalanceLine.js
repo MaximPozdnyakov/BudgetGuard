@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import {
     LineChart,
@@ -21,7 +21,7 @@ function BalanceLine(props) {
         categories,
         moneyRange,
         search,
-        initialBalance
+        defaultBalance
     } = props;
 
     const filteredTransactions = transactions.filter(transaction => {
@@ -50,64 +50,85 @@ function BalanceLine(props) {
         );
     });
 
-    // let currentBalance =
-    //     transactions
-    //         .filter(transaction => {
-    //             const spent_at = new Date(transaction.spent_at);
-    //             spent_at.getTime() <= dateRange[0].getTime();
-    //         })
-    //         .reduce((sum, t) => {
-    //             let money;
-    //             if (!t.moneySign) {
-    //                 money = -1 * Number(t.moneyAmount);
-    //             } else {
-    //                 money = Number(t.moneyAmount);
-    //             }
-    //             return sum + money;
-    //         }, 0) + Number(initialBalance);
-    // console.log(
-    //     "currentBalance",
-    //     transactions.filter(transaction => {
-    //         const spent_at = new Date(transaction.spent_at);
-    //         console.log("spent_at.getTime()", spent_at);
-    //         console.log("dateRange[0].getTime()", dateRange[0]);
+    const beforeTransactions = transactions.filter(transaction => {
+        const spent_at = new Date(transaction.spent_at);
 
-    //         spent_at.getTime() <= dateRange[0].getTime() - 60 * 60 * 24;
-    //     })
-    // );
-
-    let data = filteredTransactions.map(t => {
-        let balance;
-        if (!t.moneySign) {
-            balance = -1 * Number(t.moneyAmount);
+        let money;
+        if (!transaction.moneySign) {
+            money = -1 * Number(transaction.moneyAmount);
         } else {
-            balance = Number(t.moneyAmount);
+            money = Number(transaction.moneyAmount);
         }
-        return {
-            date: moment(t.spent_at).format("LL"),
-            Balance: balance
-        };
+
+        let description;
+        if (transaction.description) {
+            description = transaction.description;
+        } else {
+            description = "";
+        }
+        return (
+            dateRange[0].getTime() - spent_at.getTime() >= 0 &&
+            categories.includes(transaction.category) &&
+            money >= moneyRange[0] &&
+            money <= moneyRange[1] &&
+            description.includes(search)
+        );
     });
 
-    const dataByDate = _.groupBy(data, "date");
+    let currentBalance =
+        beforeTransactions.reduce((balance, transaction) => {
+            let money;
+            if (!transaction.moneySign) {
+                money = -1 * Number(transaction.moneyAmount);
+            } else {
+                money = Number(transaction.moneyAmount);
+            }
+            return balance + money;
+        }, 0) + Number(defaultBalance);
 
-    let dataBalance = [];
-    for (let date in dataByDate) {
-        dataBalance.push({
-            date,
-            Balance: dataByDate[date].reduce((sum, b) => b.Balance + sum, 0)
-        });
-    }
-    dataBalance = dataBalance.map((transaction, i) => ({
-        ...transaction,
-        Balance:
-            transaction.Balance +
-            Number(
-                dataBalance.slice(0, i).reduce((sum, b) => b.Balance + sum, 0)
-            ) +
-            Number(initialBalance)
-    }));
-    // _.range(dateRange[0].getDay(), dateRange[1].getDay() + 1).map();
+    const dataBalance = _.range(
+        Math.floor(
+            (dateRange[1].getTime() - dateRange[0].getTime()) /
+                (60 * 60 * 24 * 1000)
+        ) + 1
+    ).map(day => {
+        const currentDate = moment(
+            new Date(
+                dateRange[0].getFullYear(),
+                dateRange[0].getMonth(),
+                dateRange[0].getDate() + day
+            )
+        ).format("L");
+
+        const currentTransaction = filteredTransactions.find(
+            t => moment(t.spent_at).format("L") == currentDate
+        );
+
+        if (!currentTransaction) {
+            return {
+                date: moment(currentDate).format("LL"),
+                Balance: currentBalance
+            };
+        } else {
+            currentBalance += _.partition(
+                filteredTransactions,
+                t => moment(t.spent_at).format("L") === currentDate
+            )[0].reduce((balance, transaction) => {
+                let money;
+                if (!transaction.moneySign) {
+                    money = -1 * Number(transaction.moneyAmount);
+                } else {
+                    money = Number(transaction.moneyAmount);
+                }
+                return balance + money;
+            }, 0);
+
+            return {
+                date: moment(currentDate).format("LL"),
+                Balance: currentBalance
+            };
+        }
+    });
     return (
         <>
             <div className="d-flex flex-column ">
@@ -141,7 +162,7 @@ const mapStateToProps = state => ({
     categories: state.transactions.transactionsFilters.categories,
     moneyRange: state.transactions.transactionsFilters.moneyRange,
     search: state.transactions.transactionsFilters.search,
-    initialBalance: state.wallets.currentWallet.initialBalance
+    defaultBalance: state.wallets.currentWallet.initialBalance
 });
 
 export default connect(mapStateToProps)(BalanceLine);

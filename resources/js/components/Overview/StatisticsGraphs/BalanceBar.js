@@ -43,41 +43,48 @@ function BalanceBar(props) {
         );
     });
 
-    const data = filteredTransactions.map(t => {
-        let balance;
-        if (!t.moneySign) {
-            balance = -1 * Number(t.moneyAmount);
+    const data = _.range(
+        Math.floor(
+            (dateRange[1].getTime() - dateRange[0].getTime()) /
+                (60 * 60 * 24 * 1000)
+        ) + 1
+    ).map(day => {
+        const currentDate = moment(
+            new Date(
+                dateRange[0].getFullYear(),
+                dateRange[0].getMonth(),
+                dateRange[0].getDate() + day
+            )
+        ).format("L");
+
+        const currentTransaction = filteredTransactions.find(
+            t => moment(t.spent_at).format("L") == currentDate
+        );
+
+        if (!currentTransaction) {
             return {
-                date: moment(t.spent_at).format("LL"),
-                Expense: balance
+                date: moment(currentDate).format("LL"),
+                Income: 0,
+                Expense: 0
             };
         } else {
-            balance = Number(t.moneyAmount);
+            console.log("object");
+            const [currentIncome, currentExpense] = _.partition(
+                _.partition(
+                    filteredTransactions,
+                    t => moment(t.spent_at).format("L") === currentDate
+                )[0],
+                "moneySign"
+            );
+
             return {
-                date: moment(t.spent_at).format("LL"),
-                Income: balance
+                date: moment(currentDate).format("LL"),
+                Income: currentIncome.reduce((s, t) => s + t.moneyAmount, 0),
+                Expense: currentExpense.reduce((s, t) => s - t.moneyAmount, 0)
             };
         }
     });
-    // const dataByDate = _.groupBy(data, "date");
 
-    // let dataIncomeExpense = [];
-    // for (let date in dataByDate) {
-    //     dataIncomeExpense.push({
-    //         date,
-    //         Balance: dataByDate[date].reduce((sum, b) => b.Balance + sum, 0)
-    //     });
-    // }
-
-    // dataBalance = dataBalance.map((transaction, i) => ({
-    //     ...transaction,
-    //     Balance:
-    //         transaction.Balance +
-    //         Number(
-    //             dataBalance.slice(0, i).reduce((sum, b) => b.Balance + sum, 0)
-    //         ) +
-    //         Number(initialBalance)
-    // }));
     return (
         <>
             <div className="d-flex flex-column ">
@@ -92,8 +99,8 @@ function BalanceBar(props) {
                         <XAxis dataKey="date" />
                         <YAxis />
                         <Tooltip />
-                        <Bar dataKey="Income" fill="#12C48B" barSize={400} />
-                        <Bar dataKey="Expense" fill="#E3342F" barSize={400} />
+                        <Bar dataKey="Income" fill="#12C48B" />
+                        <Bar dataKey="Expense" fill="#E3342F" />
                     </BarChart>
                 </ResponsiveContainer>
             </div>

@@ -11,6 +11,7 @@ import NumberFormat from "react-number-format";
 import { connect } from "react-redux";
 
 import { ListGroup, Row, Col } from "react-bootstrap";
+import { If, Then, Else } from "react-if";
 
 const colors = {
     Gift: "#18b272",
@@ -120,7 +121,6 @@ function IncomePie(props) {
             </ListGroup.Item>
         );
     }
-
     return (
         <>
             <div className="d-flex flex-column p-3">
@@ -129,24 +129,42 @@ function IncomePie(props) {
                     {moment(dateRange[0]).format("LL")} {" - "}
                     {moment(dateRange[1]).format("LL")}
                 </h6>
-                <VictoryPie
-                    data={data}
-                    colorScale={Object.keys(transactionsGroupsByCategory).map(
-                        category => colors[category]
-                    )}
-                    height={300}
-                    innerRadius={({ datum }) => 50}
-                    style={{
-                        labels: {
-                            fontSize: "12px",
-                            fontWeight: 700,
-                            lineHeight: "36px",
-                            fill: "#12C48B"
-                        }
-                    }}
-                />
+                <If condition={data.length !== 0}>
+                    <Then>
+                        <VictoryPie
+                            data={data}
+                            colorScale={Object.keys(
+                                transactionsGroupsByCategory
+                            ).map(category => colors[category])}
+                            height={300}
+                            innerRadius={({ datum }) => 50}
+                            style={{
+                                labels: {
+                                    fontSize: "12px",
+                                    fontWeight: 700,
+                                    lineHeight: "36px",
+                                    fill: "#12C48B"
+                                }
+                            }}
+                        />
+                    </Then>
+                </If>
             </div>
-            <ListGroup className="p-3">{listGroupTransactions}</ListGroup>
+            <If condition={data.length !== 0}>
+                <Then>
+                    <ListGroup className="p-3">
+                        {listGroupTransactions}
+                    </ListGroup>
+                </Then>
+                <Else>
+                    <h5
+                        style={{ fontWeight: 700 }}
+                        className="d-flex h-75 w-100 justify-content-center align-items-center"
+                    >
+                        Income for the period not found
+                    </h5>
+                </Else>
+            </If>
         </>
     );
 }
