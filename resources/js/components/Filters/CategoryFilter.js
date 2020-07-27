@@ -25,6 +25,14 @@ function CategoryFilter(props) {
         })
     );
 
+    const onChangeCategories = selectedCategories => {
+        if (!selectedCategories) {
+            setCategories([]);
+        } else {
+            setCategories(selectedCategories);
+        }
+    };
+
     useEffect(
         () =>
             setAllCategories(
@@ -59,7 +67,7 @@ function CategoryFilter(props) {
                 closeMenuOnSelect={false}
                 options={allCategories}
                 components={animatedComponents}
-                onChange={setCategories}
+                onChange={onChangeCategories}
             />
         </Form.Group>
     );
