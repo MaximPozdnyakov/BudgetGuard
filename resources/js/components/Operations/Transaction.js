@@ -131,7 +131,7 @@ function Transaction(props) {
         deleteTransaction(props.id);
     }
     const UpdateDeleteTransactionForm = (
-        <Popover id="updateTransactionForm" style={{ width: "56.3vw" }}>
+        <Popover id="updateTransactionForm" className="popover-container">
             <Popover.Content className="p-3">
                 <Button
                     variant="secondary rounded-circle"
@@ -156,7 +156,7 @@ function Transaction(props) {
                 </Button>
                 <Form>
                     <Row>
-                        <Col>
+                        <Col lg md="6">
                             <Form.Group controlId="pickCategory">
                                 <Form.Label className="text-secondary">
                                     Category
@@ -170,7 +170,7 @@ function Transaction(props) {
                                 />
                             </Form.Group>
                         </Col>
-                        <Col>
+                        <Col lg md="6">
                             <Form.Group
                                 controlId="pickCategory"
                                 className="d-flex flex-column"
@@ -185,7 +185,7 @@ function Transaction(props) {
                                 />
                             </Form.Group>
                         </Col>
-                        <Col>
+                        <Col lg md="6">
                             <Form.Group controlId="writeNote">
                                 <Form.Label className="text-secondary">
                                     Note (optionally)
@@ -197,7 +197,7 @@ function Transaction(props) {
                                 />
                             </Form.Group>
                         </Col>
-                        <Col>
+                        <Col lg md="6">
                             <Form.Group controlId="pickSum">
                                 <Form.Label className="text-secondary">
                                     Sum (USD)
@@ -215,7 +215,7 @@ function Transaction(props) {
                             </Form.Group>
                         </Col>
                     </Row>
-                    <div className="d-flex justify-content-end align-items-center">
+                    <div className="d-flex justify-content-between justify-content-lg-end align-items-center">
                         <Button
                             variant={
                                 !isValidTransaction() ? "secondary" : "success"
@@ -231,7 +231,11 @@ function Transaction(props) {
                         >
                             Delete operation
                         </Button>
-                        <Button variant="secondary" onClick={openForm}>
+                        <Button
+                            variant="secondary"
+                            className="d-none-440"
+                            onClick={openForm}
+                        >
                             Cancel
                         </Button>
                     </div>
@@ -257,12 +261,14 @@ function Transaction(props) {
                     onClick={openForm}
                 >
                     <Row>
-                        <Col xs={3}>{props.category}</Col>
-                        <Col xs={7}>
-                            {props.description ? props.description : ""}
+                        <Col xs={4}>{props.category}</Col>
+                        <Col xs={4}>
+                            <div className="d-none d-md-block">
+                                {props.description ? props.description : ""}
+                            </div>
                         </Col>
                         <Col
-                            xs={2}
+                            xs={4}
                             className={`font-weight-bold text-right ${
                                 props.moneySign ? "text-success" : "text-danger"
                             }`}

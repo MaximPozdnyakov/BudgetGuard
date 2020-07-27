@@ -16,18 +16,26 @@ function Balance(props) {
     return (
         <If condition={transactions.length !== 0}>
             <Then>
-                <Row className="mt-3 mx-0" style={{ background: "#F4F7FA" }}>
-                    <Col className="bg-white p-3 mr-2">
-                        <CurrentBalance />
+                <Row className="mx-0 mt-3" style={{ background: "#F4F7FA" }}>
+                    <Col md="6" xl className="mt-0 p-2 py-0 pl-0">
+                        <div className="bg-white p-3">
+                            <CurrentBalance />
+                        </div>
                     </Col>
-                    <Col className="bg-white p-3 mx-2">
-                        <BalanceForPeriod />
+                    <Col md="6" xl className="mt-0 p-2 py-0">
+                        <div className="bg-white p-3">
+                            <BalanceForPeriod />
+                        </div>
                     </Col>
-                    <Col className="bg-white p-3 mx-2">
-                        <OutcomeForPeriod />
+                    <Col md="6" xl className="mt-0 p-2 py-0">
+                        <div className="bg-white p-3">
+                            <OutcomeForPeriod />
+                        </div>
                     </Col>
-                    <Col className="bg-white p-3 ml-2">
-                        <IncomeForPeriod />
+                    <Col md="6" xl className="mt-0 p-2 py-0 pr-0">
+                        <div className="bg-white p-3">
+                            <IncomeForPeriod />
+                        </div>
                     </Col>
                 </Row>
             </Then>

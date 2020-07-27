@@ -26,10 +26,12 @@ function BalanceForPeriod(props) {
     console.log("allMoney", allMoney);
     const balance = _.sum(allMoney).toFixed(2);
     return (
-        <div>
-            <h6 className="font-weight-bold">Total change over the period</h6>
-            <h3
-                className={`font-weight-bold ${
+        <div className="d-md-block d-flex justify-content-between align-items-center">
+            <h6 className="font-weight-bold mb-0 mb-md-2">
+                Total change over the period
+            </h6>
+            <div
+                className={`balance-text font-weight-bold ${
                     balance >= 0 ? "text-success" : "text-danger"
                 }`}
             >
@@ -40,7 +42,7 @@ function BalanceForPeriod(props) {
                     thousandSeparator={true}
                 />
                 {" USD"}
-            </h3>
+            </div>
         </div>
     );
 }

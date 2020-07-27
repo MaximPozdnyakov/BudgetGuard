@@ -19,21 +19,23 @@ function CurrentBalance(props) {
         });
     const balance = Number(_.sum(allMoney).toFixed(2)) + Number(initialBalance);
     return (
-        <div>
-            <h6 className="font-weight-bold">Current wallet balance</h6>
-            <h3
-                className={`font-weight-bold ${
+        <div className="d-md-block d-flex justify-content-between align-items-center">
+            <h6 className="font-weight-bold mb-0 mb-md-2">
+                Current wallet balance
+            </h6>
+            <div
+                className={`balance-text font-weight-bold ${
                     balance >= 0 ? "text-success" : "text-danger"
                 }`}
             >
-                {balance == 0 ? "" : balance < 0 ? "-" : ""}
+                {balance >= 0 ? "+" : ""}
                 <NumberFormat
                     value={balance.toFixed(2)}
                     displayType={"text"}
                     thousandSeparator={true}
                 />
                 {" USD"}
-            </h3>
+            </div>
         </div>
     );
 }

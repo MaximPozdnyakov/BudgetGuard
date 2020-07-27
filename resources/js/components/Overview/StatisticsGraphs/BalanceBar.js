@@ -80,7 +80,7 @@ function BalanceBar(props) {
             return {
                 date: moment(currentDate).format("LL"),
                 Income: currentIncome.reduce((s, t) => s + t.moneyAmount, 0),
-                Expense: currentExpense.reduce((s, t) => s - t.moneyAmount, 0)
+                Expense: currentExpense.reduce((s, t) => s + t.moneyAmount, 0)
             };
         }
     });

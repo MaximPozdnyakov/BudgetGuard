@@ -11,7 +11,7 @@ export default function(state = initialState, action) {
         case "GET_TRANSACTIONS":
             const currentDate = new Date();
             const monthAgo = new Date(
-                currentDate.setMonth(currentDate.getMonth() - 1)
+                currentDate.setDate(currentDate.getDate() - 7)
             );
 
             const money = action.payload

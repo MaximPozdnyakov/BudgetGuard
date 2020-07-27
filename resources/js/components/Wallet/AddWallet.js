@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { Container, Form, Button } from "react-bootstrap";
+import { Container, Form, Button, Col, Row } from "react-bootstrap";
 
 import { connect } from "react-redux";
 import MessagesAlert from "../Utils/MessagesAlert";
@@ -40,49 +40,51 @@ function AddWallet(props) {
     }
 
     return (
-        <Container className="mt-3">
-            <div className="bg-white mx-auto w-50 p-4 shadow-sm">
-                <h2 className="text-center" style={{ fontWeight: 700 }}>
-                    Create Wallet
-                </h2>
-                <Form
-                    noValidate
-                    onSubmit={handleSubmit}
-                    className="w-75 mx-auto"
-                >
-                    <MessagesAlert />
-                    <Form.Group controlId="title">
-                        <Form.Label className="text-secondary">
-                            Title
-                        </Form.Label>
-                        <Form.Control
-                            placeholder="Enter title for your wallet"
-                            value={title}
-                            onChange={onChangeTitle}
-                        />
-                    </Form.Group>
-                    <Form.Group controlId="password">
-                        <Form.Label className="text-secondary">
-                            Initial Balance (USD)
-                        </Form.Label>
-                        <Form.Control
-                            style={{ fontWeight: 700 }}
-                            placeholder="Enter initial balance"
-                            onChange={onChangeInitialBalance}
-                            value={initialBalance}
-                            className={colorOfInitialBalance()}
-                        />
-                    </Form.Group>
-                    <Button
-                        type="submit"
-                        variant="primary"
-                        block
-                        disabled={!isValidForm()}
-                    >
+        <Container className="mt-5">
+            <Row className="mx-3">
+                <Col lg="6" className="bg-white mx-auto p-4 shadow-sm">
+                    <h2 className="text-center" style={{ fontWeight: 700 }}>
                         Create Wallet
-                    </Button>
-                </Form>
-            </div>
+                    </h2>
+                    <Row>
+                        <Col xs="12" md="9" className="mx-auto">
+                            <Form noValidate onSubmit={handleSubmit}>
+                                <MessagesAlert />
+                                <Form.Group controlId="title">
+                                    <Form.Label className="text-secondary">
+                                        Title
+                                    </Form.Label>
+                                    <Form.Control
+                                        placeholder="Enter title for your wallet"
+                                        value={title}
+                                        onChange={onChangeTitle}
+                                    />
+                                </Form.Group>
+                                <Form.Group controlId="password">
+                                    <Form.Label className="text-secondary">
+                                        Initial Balance (USD)
+                                    </Form.Label>
+                                    <Form.Control
+                                        style={{ fontWeight: 700 }}
+                                        placeholder="Enter initial balance"
+                                        onChange={onChangeInitialBalance}
+                                        value={initialBalance}
+                                        className={colorOfInitialBalance()}
+                                    />
+                                </Form.Group>
+                                <Button
+                                    type="submit"
+                                    variant="primary"
+                                    block
+                                    disabled={!isValidForm()}
+                                >
+                                    Create Wallet
+                                </Button>
+                            </Form>
+                        </Col>
+                    </Row>
+                </Col>
+            </Row>
         </Container>
     );
 }

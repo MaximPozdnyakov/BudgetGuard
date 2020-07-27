@@ -52,27 +52,29 @@ function StatisticContainer(props) {
                     </ListGroup>
                 </Then>
                 <Else>
-                    <Row
-                        className="mt-3 mx-0"
-                        style={{ background: "#F4F7FA" }}
-                    >
-                        <Col className="bg-white p-3 mr-2">
-                            <BalanceLine />
+                    <Row className="" style={{ background: "#F4F7FA" }}>
+                        <Col xs="12" lg className="mt-3">
+                            <div className="bg-white p-3">
+                                <BalanceLine />
+                            </div>
                         </Col>
-                        <Col className="bg-white p-3 ml-2">
-                            <BalanceBar />
+                        <Col xs="12" lg className="mt-3">
+                            <div className="bg-white p-3">
+                                <BalanceBar />
+                            </div>
                         </Col>
                     </Row>
-                    <Row
-                        className="mt-3 mx-0"
-                        style={{ background: "#F4F7FA" }}
-                    >
-                        <Col className="bg-white p-0 mr-2">
-                            <IncomePie />
+                    <Row className="" style={{ background: "#F4F7FA" }}>
+                        <Col xs="12" lg className="mt-3">
+                            <div className="bg-white p-1 p-md-3">
+                                <IncomePie />
+                            </div>
                         </Col>
 
-                        <Col className="bg-white p-0 ml-2">
-                            <ExpensePie />
+                        <Col xs="12" lg className="mt-3">
+                            <div className="bg-white p-1 p-md-3">
+                                <ExpensePie />
+                            </div>
                         </Col>
                     </Row>
                 </Else>

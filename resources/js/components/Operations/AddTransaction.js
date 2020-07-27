@@ -104,7 +104,7 @@ function AddTransaction(props) {
     }
 
     const addTransactionForm = (
-        <Popover id="addTransactionForm" style={{ width: "56.3vw" }}>
+        <Popover id="addTransactionForm" className="popover-container">
             <Popover.Content className="p-3">
                 <Button
                     variant="secondary rounded-circle"
@@ -129,7 +129,7 @@ function AddTransaction(props) {
                 </Button>
                 <Form>
                     <Row>
-                        <Col>
+                        <Col lg md="6">
                             <Form.Group controlId="pickCategory">
                                 <Form.Label className="text-secondary">
                                     Category
@@ -143,7 +143,7 @@ function AddTransaction(props) {
                                 />
                             </Form.Group>
                         </Col>
-                        <Col>
+                        <Col lg md="6">
                             <Form.Group
                                 controlId="pickCategory"
                                 className="d-flex flex-column"
@@ -158,7 +158,7 @@ function AddTransaction(props) {
                                 />
                             </Form.Group>
                         </Col>
-                        <Col>
+                        <Col lg md="6">
                             <Form.Group controlId="writeNote">
                                 <Form.Label className="text-secondary">
                                     Note (optionally)
@@ -170,7 +170,7 @@ function AddTransaction(props) {
                                 />
                             </Form.Group>
                         </Col>
-                        <Col>
+                        <Col lg md="6">
                             <Form.Group controlId="pickSum">
                                 <Form.Label className="text-secondary">
                                     Sum (USD)
@@ -226,7 +226,7 @@ function AddTransaction(props) {
                         fill="none"
                         strokeLinecap="round"
                         strokeLinejoin="round"
-                        className="mr-2"
+                        className="mr-2 d-none-440"
                     >
                         <circle cx="12" cy="12" r="10"></circle>
                         <line x1="12" y1="8" x2="12" y2="16"></line>

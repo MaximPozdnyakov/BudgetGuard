@@ -26,12 +26,12 @@ function IncomeForPeriod(props) {
     });
     const balance = _.sum(allMoney).toFixed(2);
     return (
-        <div>
-            <h6 className="font-weight-bold">
-                Total consumption for the period
+        <div className="d-md-block d-flex justify-content-between align-items-center">
+            <h6 className="font-weight-bold mb-0 mb-md-2">
+                Total income for the period
             </h6>
-            <h3
-                className={`font-weight-bold ${
+            <div
+                className={`balance-text font-weight-bold ${
                     balance >= 0 ? "text-success" : "text-danger"
                 }`}
             >
@@ -42,7 +42,7 @@ function IncomeForPeriod(props) {
                     thousandSeparator={true}
                 />
                 {" USD"}
-            </h3>
+            </div>
         </div>
     );
 }

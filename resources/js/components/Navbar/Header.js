@@ -79,7 +79,7 @@ function Header(props) {
             }
         >
             <Then>
-                <Navbar className="border-bottom px-5 mb-5 bg-white">
+                <Navbar className="border-bottom px-3 px-md-5  mb-5 bg-white">
                     <div className="d-flex justify-content-between w-100">
                         <Dropdown
                             className="align-content-center"
@@ -99,6 +99,19 @@ function Header(props) {
                                     >
                                         Create new wallet
                                     </NavLink>
+                                </Dropdown.Item>
+                                <Dropdown.Divider className="d-flex d-sm-none" />
+                                <Dropdown.Item
+                                    as="div"
+                                    className="d-flex d-sm-none"
+                                >
+                                    {username}
+                                </Dropdown.Item>
+                                <Dropdown.Item
+                                    className="text-danger d-flex d-sm-none"
+                                    onClick={logoutHandler}
+                                >
+                                    Logout
                                 </Dropdown.Item>
                             </Dropdown.Menu>
                         </Dropdown>
@@ -124,7 +137,7 @@ function Header(props) {
                             </Nav.Item>
                         </Nav>
                         <Dropdown
-                            className="align-content-center"
+                            className="align-content-center d-none d-sm-flex"
                             navbar={true}
                             alignRight={true}
                         >

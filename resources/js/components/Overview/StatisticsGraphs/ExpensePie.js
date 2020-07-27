@@ -85,10 +85,10 @@ function ExpensePie(props) {
         listGroupTransactions.push(
             <ListGroup.Item
                 key={transactions[0].category}
-                className="gray-on-hover border-0"
+                className="gray-on-hover border-0 px-0 px-sm-3 px-lg-0 px-xl-3"
             >
                 <Row className="w-100 d-flex align-items-center">
-                    <Col xs={5}>
+                    <Col xs={5} className="pr-0 pl-3 px-sm-2">
                         <div className="h-100 d-flex align-items-center">
                             <div
                                 className="rounded-circle mr-2"
@@ -102,12 +102,12 @@ function ExpensePie(props) {
                             <span>{transactions[0].category}</span>
                         </div>
                     </Col>
-                    <Col xs={3}>
-                        <h6>{`${transactions.length} operations`}</h6>
+                    <Col xs={4} className="px-0 px-sm-2">
+                        <h6 className=" mb-0">{`${transactions.length} operations`}</h6>
                     </Col>
-                    <Col xs={4}>
+                    <Col xs={3} className="px-0 px-sm-2">
                         <h6
-                            className={`font-weight-bold text-right text-danger`}
+                            className={` mb-0 font-weight-bold text-right text-danger`}
                         >
                             {"-"}
                             <NumberFormat
@@ -144,9 +144,9 @@ function ExpensePie(props) {
                             ).map(category => colors[category])}
                             height={300}
                             innerRadius={({ datum }) => 50}
+                            className="label-font-size"
                             style={{
                                 labels: {
-                                    fontSize: "12px",
                                     fontWeight: 700,
                                     lineHeight: "36px",
                                     fill: "#E3342F"
@@ -158,7 +158,7 @@ function ExpensePie(props) {
             </div>
             <If condition={data.length !== 0}>
                 <Then>
-                    <ListGroup className="p-3">
+                    <ListGroup className="px-0 p-md-3">
                         {listGroupTransactions}
                     </ListGroup>
                 </Then>
