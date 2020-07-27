@@ -5,6 +5,7 @@ import { setMessage } from "./messages";
 // GET Transactions
 export const getTransactions = () => async (dispatch, getState) => {
     const transactions = await transactionService.fetchTransactions();
+    console.log("transactions", transactions);
     if (!transactions.isError) {
         dispatch({
             type: "GET_TRANSACTIONS",
@@ -28,6 +29,7 @@ export const addTransaction = transaction => async (dispatch, getState) => {
     const newTransaction = await transactionService.createTransaction(
         transaction
     );
+    console.log("newTransaction", newTransaction);
 
     if (newTransaction.isError) {
         dispatch(setMessage(newTransaction.errors.errors, "alert", true));
