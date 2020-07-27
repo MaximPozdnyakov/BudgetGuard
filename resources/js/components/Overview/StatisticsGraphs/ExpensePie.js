@@ -66,15 +66,17 @@ function ExpensePie(props) {
     let listGroupTransactions = [];
 
     for (let category in transactionsGroupsByCategory) {
-        const transactions = transactionsGroupsByCategory[category];
+        const transactionsByCategory = transactionsGroupsByCategory[category];
         data.push({
-            x: transactions[0].category,
+            x: transactionsByCategory[0].category,
             y: _.sum(
-                transactions.map(transaction => Number(transaction.moneyAmount))
+                transactionsByCategory.map(transaction =>
+                    Number(transaction.moneyAmount)
+                )
             ),
-            label: `${transactions[0].category} \n ${(
+            label: `${transactionsByCategory[0].category} \n ${(
                 (_.sum(
-                    transactions.map(transaction =>
+                    transactionsByCategory.map(transaction =>
                         Number(transaction.moneyAmount)
                     )
                 ) /
@@ -84,7 +86,7 @@ function ExpensePie(props) {
         });
         listGroupTransactions.push(
             <ListGroup.Item
-                key={transactions[0].category}
+                key={transactionsByCategory[0].category}
                 className="gray-on-hover border-0 px-0 px-sm-3 px-lg-0 px-xl-3"
             >
                 <Row className="w-100 d-flex align-items-center">
@@ -94,16 +96,18 @@ function ExpensePie(props) {
                                 className="rounded-circle mr-2"
                                 style={{
                                     background:
-                                        colors[transactions[0].category],
+                                        colors[
+                                            transactionsByCategory[0].category
+                                        ],
                                     width: "1.5em",
                                     height: "1.5em"
                                 }}
                             ></div>
-                            <span>{transactions[0].category}</span>
+                            <span>{transactionsByCategory[0].category}</span>
                         </div>
                     </Col>
                     <Col xs={4} className="px-0 px-sm-2">
-                        <h6 className=" mb-0">{`${transactions.length} operations`}</h6>
+                        <h6 className=" mb-0">{`${transactionsByCategory.length} operations`}</h6>
                     </Col>
                     <Col xs={3} className="px-0 px-sm-2">
                         <h6
@@ -112,7 +116,7 @@ function ExpensePie(props) {
                             {"-"}
                             <NumberFormat
                                 value={_.sum(
-                                    transactions.map(transaction =>
+                                    transactionsByCategory.map(transaction =>
                                         Number(transaction.moneyAmount)
                                     )
                                 )}

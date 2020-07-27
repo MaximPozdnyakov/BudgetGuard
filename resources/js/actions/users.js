@@ -107,6 +107,8 @@ const logout = () => async (dispatch, getState) => {
         dispatch({
             type: "LOGOUT"
         });
+        dispatch(removeWallets());
+        dispatch(removeTransactions());
         dispatch(
             setMessage("You are successfully logged out!", "toast", false)
         );

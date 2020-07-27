@@ -68,7 +68,6 @@ function BalanceBar(props) {
                 Expense: 0
             };
         } else {
-            console.log("object");
             const [currentIncome, currentExpense] = _.partition(
                 _.partition(
                     filteredTransactions,

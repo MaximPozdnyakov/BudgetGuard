@@ -72,7 +72,7 @@ function Transaction(props) {
     const { updateTransaction, deleteTransaction } = props;
 
     const [isFormOpen, setIsFormOpen] = useState(false);
-    const [spentAt, onChangeSpentAt] = useState(props.spent_at);
+    const [spentAt, setSpentAt] = useState(new Date(props.spent_at));
     const [category, setCategory] = useState({
         value: props.category,
         label: props.category
@@ -88,6 +88,9 @@ function Transaction(props) {
     }
     function onChangeSum(e) {
         setSum(e.target.value);
+    }
+    function onChangeSpentAt(date) {
+        setSpentAt(date);
     }
 
     function openForm() {
@@ -173,7 +176,7 @@ function Transaction(props) {
                         <Col lg md="6">
                             <Form.Group
                                 controlId="pickCategory"
-                                className="d-flex flex-column"
+                                className="d-flex flex-column  mt-2"
                             >
                                 <Form.Label className="mb-0 text-secondary">
                                     Date

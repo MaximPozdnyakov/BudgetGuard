@@ -5,7 +5,6 @@ import { setMessage } from "./messages";
 // GET Wallets
 export const getWallets = () => async (dispatch, getState) => {
     const wallets = await walletService.fetchWallets();
-    console.log("wallets", wallets);
     if (!wallets.isError) {
         dispatch({
             type: "GET_WALLETS",
@@ -29,7 +28,6 @@ export const addWallet = wallet => async (dispatch, getState) => {
         type: "WALLETS_NOT_LOADED"
     });
     const newWallet = await walletService.createWallet(wallet);
-    console.log("newWallet", newWallet);
     if (newWallet.isError) {
         dispatch(setMessage(newWallet.errors.errors, "alert", true));
     } else {

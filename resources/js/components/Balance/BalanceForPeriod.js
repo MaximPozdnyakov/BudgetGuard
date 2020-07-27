@@ -23,7 +23,7 @@ function BalanceForPeriod(props) {
         }
         return Number(transaction.moneyAmount);
     });
-    console.log("allMoney", allMoney);
+
     const balance = _.sum(allMoney).toFixed(2);
     return (
         <div className="d-md-block d-flex justify-content-between align-items-center">
