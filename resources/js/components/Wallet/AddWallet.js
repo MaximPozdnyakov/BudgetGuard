@@ -42,12 +42,18 @@ function AddWallet(props) {
     return (
         <Container className="mt-5">
             <Row className="mx-3">
-                <Col lg="6" className="bg-white mx-auto p-4 shadow-sm">
+                <Col
+                    xl="6"
+                    lg="7"
+                    md="10"
+                    sm="12"
+                    className="bg-white mx-auto p-4 shadow-sm"
+                >
                     <h2 className="text-center" style={{ fontWeight: 700 }}>
                         Create Wallet
                     </h2>
                     <Row>
-                        <Col xs="12" md="9" className="mx-auto">
+                        <Col xs="12" md="11" className="mx-auto">
                             <Form noValidate onSubmit={handleSubmit}>
                                 <MessagesAlert />
                                 <Form.Group controlId="title">

@@ -108,7 +108,7 @@ function App(props) {
                     pauseOnHover
                 />
                 <Header />
-                <Container className="px-1 px-sm-5">
+                <Container className="px-0 px-sm-5 container-main">
                     <Switch>
                         <RedirectIfWalletsNotLoaded
                             exact

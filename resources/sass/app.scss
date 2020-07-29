@@ -62,7 +62,7 @@ a {
 }
 .react-daterange-picker__wrapper {
     background: #fff !important;
-    padding: 0.5em;
+    padding: 0.4em 0.5em;
     border: none !important;
     color: #495057 !important;
 }
@@ -78,39 +78,92 @@ a {
     font-size: 1.3em;
 }
 
+.top-center-links {
+    position: absolute;
+    right: 50%;
+    transform: translateX(50%);
+}
+
 @media (min-width: 1200px) {
     .popover-container {
-        width: 1015px;
+        width: 1045px;
+    }
+    .desc-filter {
+        right: -1em;
+    }
+    .top-center-links {
+        position: absolute;
+        right: 50%;
+        transform: translateX(50%);
     }
 }
 
 @media (min-width: 992px) and (max-width: 1200px) {
     .popover-container {
-        width: 840px;
+        width: 865px;
     }
     .label-font-size {
         font-size: 2.2em !important;
+    }
+    .desc-filter {
+        right: -1em;
+    }
+    .top-center-links {
+        position: absolute;
+        right: 50%;
+        transform: translateX(50%);
     }
 }
 
 @media (min-width: 768px) and (max-width: 992px) {
     .popover-container {
-        width: 600px;
+        width: 625px;
+    }
+    .desc-filter {
+        right: -1em;
+    }
+    .top-center-links {
+        position: absolute;
+        right: 50%;
+        transform: translateX(50%);
     }
 }
 
 @media (min-width: 576px) and (max-width: 768px) {
     .popover-container {
-        width: 420px;
+        width: 475px;
+    }
+    .desc-filter {
+        right: -0.5em;
+    }
+    .container-main {
+        width: 570px !important;
+        max-width: 620px !important;
+    }
+    .top-center-links {
+        position: absolute;
+        right: 50%;
+        transform: translateX(50%);
     }
 }
 
 @media (max-width: 576px) {
     .popover-container {
-        width: 90vw;
+        width: 100vw;
+        left: -5px !important;
     }
     .balance-text {
         font-size: 1.1em;
+    }
+    .label-font-size {
+        font-size: 1.2em !important;
+    }
+    .desc-filter {
+        right: -0.5em;
+    }
+    .top-center-links {
+        position: initial;
+        transform: translateX(0);
     }
 }
 

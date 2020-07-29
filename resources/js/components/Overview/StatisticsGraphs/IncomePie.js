@@ -85,7 +85,7 @@ function IncomePie(props) {
                 className="gray-on-hover border-0 px-0 px-sm-3 px-lg-0 px-xl-3"
             >
                 <Row className="w-100 d-flex align-items-center">
-                    <Col xs={4} className="pr-0 pl-3  px-sm-2">
+                    <Col xs={5} className="pr-0 pl-3  px-sm-2">
                         <div className="h-100 d-flex align-items-center">
                             <div
                                 className="rounded-circle mr-2"
@@ -104,7 +104,7 @@ function IncomePie(props) {
                     <Col xs={4} className="px-0 px-sm-2">
                         <h6 className="mb-0 ">{`${transactionsByCategory.length} operations`}</h6>
                     </Col>
-                    <Col xs={4} className="px-0 px-sm-2">
+                    <Col xs={3} className="px-0 px-sm-2">
                         <h6
                             className={`  mb-0 font-weight-bold text-right text-success`}
                         >
@@ -127,7 +127,7 @@ function IncomePie(props) {
     }
     return (
         <>
-            <div className="d-flex flex-column p-3">
+            <div className="d-flex flex-column px-3 pt-3 pb-0">
                 <h5 className="font-weight-bold ">Income for Period</h5>
                 <h6 className="font-weight-bold text-secondary">
                     {moment(dateRange[0]).format("LL")} {" - "}
@@ -145,7 +145,6 @@ function IncomePie(props) {
                             className="label-font-size"
                             style={{
                                 labels: {
-                                    fontSize: "12px",
                                     fontWeight: 700,
                                     lineHeight: "36px",
                                     fill: "#12C48B"

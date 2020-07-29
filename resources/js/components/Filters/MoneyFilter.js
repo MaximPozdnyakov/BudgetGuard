@@ -30,7 +30,11 @@ function MoneyFilter(props) {
         <If condition={_.uniq(allMoney).length >= 2}>
             <Then>
                 <div>
-                    <Form.Group controlId="moneyRange">
+                    <Form.Group
+                        controlId="moneyRange"
+                        className="desc-filter ml-3"
+                        style={{ width: "95%" }}
+                    >
                         <Form.Label className="text-secondary">
                             By money
                         </Form.Label>

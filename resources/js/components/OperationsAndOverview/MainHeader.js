@@ -13,7 +13,7 @@ function MainHeader(props) {
     const { dateRange, setDateRange } = props;
     return (
         <>
-            <div className="d-flex justify-content-between">
+            <div className="d-flex justify-content-around justify-content-sm-between align-items-center my-4">
                 <AddTransaction />
                 <DateRangePicker
                     clearIcon={null}

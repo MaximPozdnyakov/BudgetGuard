@@ -107,21 +107,21 @@ function AddTransaction(props) {
         <Popover id="addTransactionForm" className="popover-container">
             <Popover.Content className="p-3">
                 <Button
-                    variant="secondary rounded-circle"
-                    className="position-absolute p-1"
-                    style={{ top: "-1em", right: "-1em" }}
+                    variant="white"
+                    className="position-absolute p-0"
+                    style={{ top: "0.5em", right: "0.5em", zIndex: 2000 }}
                     onClick={openForm}
                 >
                     <svg
                         viewBox="0 0 24 24"
-                        width="20"
-                        height="20"
+                        width="25"
+                        height="25"
                         stroke="currentColor"
                         strokeWidth="2"
                         fill="none"
                         strokeLinecap="round"
                         strokeLinejoin="round"
-                        className="m-1"
+                        className="text-black"
                     >
                         <line x1="18" y1="6" x2="6" y2="18"></line>
                         <line x1="6" y1="6" x2="18" y2="18"></line>
@@ -188,7 +188,7 @@ function AddTransaction(props) {
                             </Form.Group>
                         </Col>
                     </Row>
-                    <div className="d-flex justify-content-end align-items-center">
+                    <div className="d-flex justify-content-between justify-content-lg-end align-items-center">
                         <Button
                             variant={
                                 !isValidTransaction() ? "secondary" : "success"
@@ -197,6 +197,9 @@ function AddTransaction(props) {
                             onClick={submitTransaction}
                         >
                             Add transaction
+                        </Button>
+                        <Button variant="secondary ml-lg-4" onClick={openForm}>
+                            Cancel
                         </Button>
                     </div>
                 </Form>

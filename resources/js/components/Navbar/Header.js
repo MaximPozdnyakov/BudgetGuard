@@ -79,7 +79,7 @@ function Header(props) {
             }
         >
             <Then>
-                <Navbar className="border-bottom px-3 px-md-5  mb-5 bg-white">
+                <Navbar className="border-bottom px-3 px-md-5  mb-3 mb-md-5 bg-white">
                     <div className="d-flex justify-content-between w-100">
                         <Dropdown
                             className="align-content-center"
@@ -116,7 +116,7 @@ function Header(props) {
                             </Dropdown.Menu>
                         </Dropdown>
 
-                        <Nav className="align-content-center mt-2">
+                        <Nav className="align-content-center mt-2 top-center-links">
                             <Nav.Item className="mr-3">
                                 <NavLink
                                     exact

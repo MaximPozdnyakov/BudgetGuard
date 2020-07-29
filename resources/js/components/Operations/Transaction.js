@@ -137,21 +137,21 @@ function Transaction(props) {
         <Popover id="updateTransactionForm" className="popover-container">
             <Popover.Content className="p-3">
                 <Button
-                    variant="secondary rounded-circle"
-                    className="position-absolute p-1"
-                    style={{ top: "-1em", right: "-1em" }}
+                    variant="white"
+                    className="position-absolute p-0"
+                    style={{ top: "0.5em", right: "0.5em", zIndex: 2000 }}
                     onClick={openForm}
                 >
                     <svg
                         viewBox="0 0 24 24"
-                        width="20"
-                        height="20"
+                        width="25"
+                        height="25"
                         stroke="currentColor"
                         strokeWidth="2"
                         fill="none"
                         strokeLinecap="round"
                         strokeLinejoin="round"
-                        className="m-1"
+                        className="text-black"
                     >
                         <line x1="18" y1="6" x2="6" y2="18"></line>
                         <line x1="6" y1="6" x2="18" y2="18"></line>
@@ -229,7 +229,7 @@ function Transaction(props) {
                             Save changes
                         </Button>
                         <Button
-                            variant="danger mx-3"
+                            variant="danger mx-lg-4"
                             onClick={deleteTransactionOnClick}
                         >
                             Delete operation

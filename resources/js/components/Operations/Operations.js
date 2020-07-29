@@ -7,10 +7,10 @@ import TransactionsList from "./TransactionsList";
 
 function Operations() {
     return (
-        <Container>
+        <>
             <MainHeader />
             <TransactionsList />
-        </Container>
+        </>
     );
 }
 

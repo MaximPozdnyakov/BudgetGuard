@@ -35,7 +35,7 @@ function TransactionsListByDate(props) {
     return (
         <>
             <div className="d-flex justify-content-between px-3 pt-3 font-weight-bold">
-                <h6 className="mb-0">{date}</h6>
+                <h6 className="mb-0 font-weight-bold">{date}</h6>
                 <h6 className={`mb-0 font-weight-bold text-secondary`}>
                     {balance > 0 ? "+" : ""}
                     <NumberFormat

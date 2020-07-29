@@ -133,7 +133,7 @@ function ExpensePie(props) {
 
     return (
         <>
-            <div className="d-flex flex-column p-3">
+            <div className="d-flex flex-column px-3 pt-3 pb-0">
                 <h5 className="font-weight-bold ">Expense for Period</h5>
                 <h6 className="font-weight-bold text-secondary">
                     {moment(dateRange[0]).format("LL")} {" - "}

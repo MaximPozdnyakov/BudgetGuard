@@ -53,25 +53,24 @@ function StatisticContainer(props) {
                 </Then>
                 <Else>
                     <Row className="" style={{ background: "#F4F7FA" }}>
-                        <Col xs="12" lg className="mt-3">
+                        <Col xs="12" lg className="mt-3 pr-lg-2">
                             <div className="bg-white p-3">
                                 <BalanceLine />
                             </div>
                         </Col>
-                        <Col xs="12" lg className="mt-3">
+                        <Col xs="12" lg className="mt-3 pl-lg-2">
                             <div className="bg-white p-3">
                                 <BalanceBar />
                             </div>
                         </Col>
                     </Row>
                     <Row className="" style={{ background: "#F4F7FA" }}>
-                        <Col xs="12" lg className="mt-3">
+                        <Col xs="12" lg className="mt-3 pr-lg-2">
                             <div className="bg-white p-1 p-md-3">
                                 <IncomePie />
                             </div>
                         </Col>
-
-                        <Col xs="12" lg className="mt-3">
+                        <Col xs="12" lg className="mt-3 pl-lg-2">
                             <div className="bg-white p-1 p-md-3">
                                 <ExpensePie />
                             </div>

@@ -20,12 +20,17 @@ function Filters(props) {
                     <Form>
                         <CategoryFilter />
                     </Form>
-                    <Form className="w-100 d-flex justify-content-between">
+                    <Form className="d-flex justify-content-between">
                         <Row className="w-100">
-                            <Col xs="12" md xl={5}>
+                            <Col xs="12" md xl={5} className="pr-0 pr-md-2">
                                 <MoneyFilter />
                             </Col>
-                            <Col xs="12" md xl={{ span: 5, offset: 2 }}>
+                            <Col
+                                xs="12"
+                                md
+                                xl={{ span: 5, offset: 2 }}
+                                className="pr-0"
+                            >
                                 <DescriptionFilter />
                             </Col>
                         </Row>

@@ -15,7 +15,10 @@ function DescriptionFilter(props) {
         setSearch(e.target.value);
     }
     return (
-        <Form.Group controlId="categoriesSelect">
+        <Form.Group
+            controlId="categoriesSelect"
+            className="pr-0 position-relative desc-filter"
+        >
             <Form.Label className="text-secondary">By note</Form.Label>
             <Form.Control
                 value={searchInput}

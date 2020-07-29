@@ -40,7 +40,13 @@ function Login(props) {
     return (
         <Container className="mt-3">
             <Row className="mx-3">
-                <Col lg="6" className="bg-white mx-auto p-4 shadow-sm">
+                <Col
+                    xl="6"
+                    lg="7"
+                    md="10"
+                    sm="12"
+                    className="bg-white mx-auto p-4 shadow-sm"
+                >
                     <h2 className="text-center" style={{ fontWeight: 700 }}>
                         Login
                     </h2>
@@ -51,7 +57,7 @@ function Login(props) {
                         </Link>
                     </div>
                     <Row>
-                        <Col xs="12" md="9" className="mx-auto">
+                        <Col xs="12" md="11" className="mx-auto">
                             <Form noValidate onSubmit={handleSubmit}>
                                 <MessagesAlert />
                                 <Form.Group controlId="email">
@@ -89,7 +95,7 @@ function Login(props) {
                     </Row>
                     <div className="text-center my-2">Or</div>
                     <Row>
-                        <Col xs="12" md="9" className="mx-auto">
+                        <Col xs="12" md="11" className="mx-auto">
                             <div
                                 className="d-flex justify-content-center"
                                 style={{ whitSpace: "nowrap" }}

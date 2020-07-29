@@ -7,10 +7,10 @@ import StatisticContainer from "./StatisticsGraphs/StatisticContainer";
 
 function Overview() {
     return (
-        <Container>
+        <>
             <MainHeader />
             <StatisticContainer />
-        </Container>
+        </>
     );
 }
 
