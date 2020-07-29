@@ -58,7 +58,7 @@ function IncomePie(props) {
         );
     });
 
-    const sum = _.sum(filteredTransactions.map(t => t.moneyAmount));
+    const sum = _.sum(filteredTransactions.map(t => Number(t.moneyAmount)));
 
     const transactionsGroupsByCategory = _.groupBy(
         filteredTransactions,
@@ -87,23 +87,6 @@ function IncomePie(props) {
                 100
             ).toFixed(1)}%`
         });
-        console.log("sum", sum);
-        console.log(
-            "sumCat",
-            _.sum(
-                transactionsByCategory.map(transaction =>
-                    Number(transaction.moneyAmount)
-                )
-            )
-        );
-        console.log(
-            "result",
-            _.sum(
-                transactionsByCategory.map(transaction =>
-                    Number(transaction.moneyAmount)
-                )
-            ) / sum
-        );
         listGroupTransactions.push(
             <ListGroup.Item
                 key={transactionsByCategory[0].category}

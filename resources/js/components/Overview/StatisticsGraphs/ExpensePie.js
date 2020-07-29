@@ -63,7 +63,7 @@ function ExpensePie(props) {
         );
     });
 
-    const sum = _.sum(filteredTransactions.map(t => t.moneyAmount));
+    const sum = _.sum(filteredTransactions.map(t => Number(t.moneyAmount)));
 
     const transactionsGroupsByCategory = _.groupBy(
         filteredTransactions,
