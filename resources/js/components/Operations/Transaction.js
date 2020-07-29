@@ -265,16 +265,24 @@ function Transaction(props) {
                         onClick={openForm}
                     >
                         <Row>
-                            <Col xs={4} style={{ fontWeight: 300 }}>
+                            <Col xs={4} md={3} style={{ fontWeight: 300 }}>
                                 {props.category}
                             </Col>
-                            <Col xs={4}>
-                                <div className="d-none d-md-block">
-                                    {props.description ? props.description : ""}
+                            <Col xs={4} md={6}>
+                                <div
+                                    className="d-none d-md-block"
+                                    style={{ fontWeight: 300 }}
+                                >
+                                    {!props.description
+                                        ? ""
+                                        : props.description.length >= 34
+                                        ? props.description.slice(0, 34) + "..."
+                                        : props.description}
                                 </div>
                             </Col>
                             <Col
                                 xs={4}
+                                md={3}
                                 className={`font-weight-bold text-right ${
                                     props.moneySign
                                         ? "text-success"
