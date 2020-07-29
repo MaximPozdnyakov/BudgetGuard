@@ -87,6 +87,23 @@ function IncomePie(props) {
                 100
             ).toFixed(1)}%`
         });
+        console.log("sum", sum);
+        console.log(
+            "sumCat",
+            _.sum(
+                transactionsByCategory.map(transaction =>
+                    Number(transaction.moneyAmount)
+                )
+            )
+        );
+        console.log(
+            "result",
+            _.sum(
+                transactionsByCategory.map(transaction =>
+                    Number(transaction.moneyAmount)
+                )
+            ) / sum
+        );
         listGroupTransactions.push(
             <ListGroup.Item
                 key={transactionsByCategory[0].category}
