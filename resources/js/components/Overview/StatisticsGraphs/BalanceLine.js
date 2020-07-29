@@ -15,63 +15,22 @@ import { connect } from "react-redux";
 import moment from "moment";
 
 function BalanceLine(props) {
-    const {
-        transactions,
-        dateRange,
-        categories,
-        moneyRange,
-        search,
-        defaultBalance
-    } = props;
+    const { transactions, dateRange, selectedWallet, defaultBalance } = props;
 
     const filteredTransactions = transactions.filter(transaction => {
         const spent_at = new Date(transaction.spent_at);
-
-        let money;
-        if (!transaction.moneySign) {
-            money = -1 * Number(transaction.moneyAmount);
-        } else {
-            money = Number(transaction.moneyAmount);
-        }
-
-        let description;
-        if (transaction.description) {
-            description = transaction.description;
-        } else {
-            description = "";
-        }
         return (
             dateRange[1].getTime() - spent_at.getTime() >= 0 &&
             dateRange[0].getTime() - spent_at.getTime() <= 0 &&
-            categories.includes(transaction.category) &&
-            money >= moneyRange[0] &&
-            money <= moneyRange[1] &&
-            description.includes(search)
+            transaction.wallet === selectedWallet.id
         );
     });
 
     const beforeTransactions = transactions.filter(transaction => {
         const spent_at = new Date(transaction.spent_at);
-
-        let money;
-        if (!transaction.moneySign) {
-            money = -1 * Number(transaction.moneyAmount);
-        } else {
-            money = Number(transaction.moneyAmount);
-        }
-
-        let description;
-        if (transaction.description) {
-            description = transaction.description;
-        } else {
-            description = "";
-        }
         return (
             dateRange[0].getTime() - spent_at.getTime() >= 0 &&
-            categories.includes(transaction.category) &&
-            money >= moneyRange[0] &&
-            money <= moneyRange[1] &&
-            description.includes(search)
+            transaction.wallet === selectedWallet.id
         );
     });
 
@@ -162,7 +121,8 @@ const mapStateToProps = state => ({
     categories: state.transactions.transactionsFilters.categories,
     moneyRange: state.transactions.transactionsFilters.moneyRange,
     search: state.transactions.transactionsFilters.search,
-    defaultBalance: state.wallets.currentWallet.initialBalance
+    defaultBalance: state.wallets.currentWallet.initialBalance,
+    selectedWallet: state.wallets.currentWallet
 });
 
 export default connect(mapStateToProps)(BalanceLine);

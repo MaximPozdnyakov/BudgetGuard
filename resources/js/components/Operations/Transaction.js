@@ -259,33 +259,39 @@ function Transaction(props) {
                 overlay={UpdateDeleteTransactionForm}
                 show={isFormOpen}
             >
-                <ListGroup.Item
-                    className="gray-on-hover border-0"
-                    onClick={openForm}
-                >
-                    <Row>
-                        <Col xs={4}>{props.category}</Col>
-                        <Col xs={4}>
-                            <div className="d-none d-md-block">
-                                {props.description ? props.description : ""}
-                            </div>
-                        </Col>
-                        <Col
-                            xs={4}
-                            className={`font-weight-bold text-right ${
-                                props.moneySign ? "text-success" : "text-danger"
-                            }`}
-                        >
-                            {props.moneySign ? "+" : "-"}
-                            <NumberFormat
-                                value={props.moneyAmount}
-                                displayType={"text"}
-                                thousandSeparator={true}
-                            />
-                            {" USD"}
-                        </Col>
-                    </Row>
-                </ListGroup.Item>
+                <a href="#updateTransactionForm">
+                    <ListGroup.Item
+                        className="gray-on-hover border-0"
+                        onClick={openForm}
+                    >
+                        <Row>
+                            <Col xs={4} style={{ fontWeight: 300 }}>
+                                {props.category}
+                            </Col>
+                            <Col xs={4}>
+                                <div className="d-none d-md-block">
+                                    {props.description ? props.description : ""}
+                                </div>
+                            </Col>
+                            <Col
+                                xs={4}
+                                className={`font-weight-bold text-right ${
+                                    props.moneySign
+                                        ? "text-success"
+                                        : "text-danger"
+                                }`}
+                            >
+                                {props.moneySign ? "+" : "-"}
+                                <NumberFormat
+                                    value={props.moneyAmount}
+                                    displayType={"text"}
+                                    thousandSeparator={true}
+                                />
+                                {" USD"}
+                            </Col>
+                        </Row>
+                    </ListGroup.Item>
+                </a>
             </OverlayTrigger>
         </div>
     );

@@ -7,15 +7,39 @@ import _ from "lodash";
 import { connect } from "react-redux";
 
 function IncomeForPeriod(props) {
-    const { transactions, dateRange, selectedWallet } = props;
+    const {
+        transactions,
+        dateRange,
+        selectedWallet,
+        categories,
+        moneyRange,
+        search
+    } = props;
 
     const filteredTransactions = transactions.filter(transaction => {
         const spent_at = new Date(transaction.spent_at);
+        let money;
+        if (!transaction.moneySign) {
+            money = -1 * Number(transaction.moneyAmount);
+        } else {
+            money = Number(transaction.moneyAmount);
+        }
+
+        let description;
+        if (transaction.description) {
+            description = transaction.description;
+        } else {
+            description = "";
+        }
         return (
             dateRange[1].getTime() - spent_at.getTime() >= 0 &&
             dateRange[0].getTime() - spent_at.getTime() <= 0 &&
             transaction.moneySign &&
-            transaction.wallet === selectedWallet.id
+            transaction.wallet === selectedWallet.id &&
+            categories.includes(transaction.category) &&
+            money >= moneyRange[0] &&
+            money <= moneyRange[1] &&
+            description.includes(search)
         );
     });
     const allMoney = filteredTransactions.map(transaction => {
@@ -50,7 +74,10 @@ function IncomeForPeriod(props) {
 const mapStateToProps = state => ({
     transactions: state.transactions.transactions,
     dateRange: state.transactions.transactionsFilters.dateRange,
-    selectedWallet: state.wallets.currentWallet
+    selectedWallet: state.wallets.currentWallet,
+    categories: state.transactions.transactionsFilters.categories,
+    moneyRange: state.transactions.transactionsFilters.moneyRange,
+    search: state.transactions.transactionsFilters.search
 });
 
 export default connect(mapStateToProps)(IncomeForPeriod);

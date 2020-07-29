@@ -26,7 +26,14 @@ const colors = {
 };
 
 function ExpensePie(props) {
-    const { transactions, dateRange, categories, moneyRange, search } = props;
+    const {
+        transactions,
+        dateRange,
+        categories,
+        moneyRange,
+        search,
+        selectedWallet
+    } = props;
 
     const filteredTransactions = transactions.filter(transaction => {
         const spent_at = new Date(transaction.spent_at);
@@ -51,7 +58,8 @@ function ExpensePie(props) {
             money >= moneyRange[0] &&
             money <= moneyRange[1] &&
             description.includes(search) &&
-            !transaction.moneySign
+            !transaction.moneySign &&
+            transaction.wallet === selectedWallet.id
         );
     });
 
@@ -184,7 +192,8 @@ const mapStateToProps = state => ({
     dateRange: state.transactions.transactionsFilters.dateRange,
     categories: state.transactions.transactionsFilters.categories,
     moneyRange: state.transactions.transactionsFilters.moneyRange,
-    search: state.transactions.transactionsFilters.search
+    search: state.transactions.transactionsFilters.search,
+    selectedWallet: state.wallets.currentWallet
 });
 
 export default connect(mapStateToProps)(ExpensePie);

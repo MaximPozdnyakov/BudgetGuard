@@ -15,7 +15,14 @@ import { connect } from "react-redux";
 import moment from "moment";
 
 function BalanceBar(props) {
-    const { transactions, dateRange, categories, moneyRange, search } = props;
+    const {
+        transactions,
+        dateRange,
+        categories,
+        moneyRange,
+        search,
+        selectedWallet
+    } = props;
 
     const filteredTransactions = transactions.filter(transaction => {
         const spent_at = new Date(transaction.spent_at);
@@ -39,7 +46,8 @@ function BalanceBar(props) {
             categories.includes(transaction.category) &&
             money >= moneyRange[0] &&
             money <= moneyRange[1] &&
-            description.includes(search)
+            description.includes(search) &&
+            transaction.wallet === selectedWallet.id
         );
     });
 
@@ -112,7 +120,8 @@ const mapStateToProps = state => ({
     dateRange: state.transactions.transactionsFilters.dateRange,
     categories: state.transactions.transactionsFilters.categories,
     moneyRange: state.transactions.transactionsFilters.moneyRange,
-    search: state.transactions.transactionsFilters.search
+    search: state.transactions.transactionsFilters.search,
+    selectedWallet: state.wallets.currentWallet
 });
 
 export default connect(mapStateToProps)(BalanceBar);

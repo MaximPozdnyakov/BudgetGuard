@@ -66,12 +66,12 @@ function StatisticContainer(props) {
                     </Row>
                     <Row className="" style={{ background: "#F4F7FA" }}>
                         <Col xs="12" lg className="mt-3 pr-lg-2">
-                            <div className="bg-white p-1 p-md-3">
+                            <div className="bg-white h-100 p-1 p-md-3">
                                 <IncomePie />
                             </div>
                         </Col>
                         <Col xs="12" lg className="mt-3 pl-lg-2">
-                            <div className="bg-white p-1 p-md-3">
+                            <div className="bg-white h-100 p-1 p-md-3">
                                 <ExpensePie />
                             </div>
                         </Col>

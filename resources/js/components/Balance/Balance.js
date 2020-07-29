@@ -32,11 +32,7 @@ function Balance(props) {
                             <OutcomeForPeriod />
                         </div>
                     </Col>
-                    <Col
-                        md="6"
-                        xl
-                        className="mt-0 pl-2 py-2 pr-0 px-sm-0 pl-md-2"
-                    >
+                    <Col md="6" xl className="mt-0 px-0 py-2 pl-md-2">
                         <div className="bg-white p-3">
                             <IncomeForPeriod />
                         </div>
