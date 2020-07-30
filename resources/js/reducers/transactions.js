@@ -10,9 +10,6 @@ export default function(state = initialState, action) {
     switch (action.type) {
         case "GET_TRANSACTIONS":
             const currentDate = new Date();
-            const monthAgo = new Date(
-                currentDate.setDate(currentDate.getDate() - 7)
-            );
 
             const money = action.payload
                 .filter(t => t.wallet === action.walletId)
@@ -27,7 +24,24 @@ export default function(state = initialState, action) {
                 ...state,
                 transactions: action.payload,
                 transactionsFilters: {
-                    dateRange: [monthAgo, new Date()],
+                    dateRange: [
+                        new Date(
+                            currentDate.getFullYear(),
+                            currentDate.getMonth(),
+                            currentDate.getDate() - 7,
+                            0,
+                            0,
+                            0
+                        ),
+                        new Date(
+                            currentDate.getFullYear(),
+                            currentDate.getMonth(),
+                            currentDate.getDate(),
+                            23,
+                            59,
+                            59
+                        )
+                    ],
                     categories: Object.keys(
                         _.groupBy(
                             action.payload.filter(

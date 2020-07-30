@@ -6,7 +6,7 @@ import { setDateRange } from "../../actions/transactions";
 import DateRangePicker from "@wojtekmaj/react-daterange-picker";
 
 import Filters from "../Filters/Filters";
-import Balance from "../Balance/Balance";
+
 import AddTransaction from "../Operations/AddTransaction";
 
 function MainHeader(props) {
@@ -23,7 +23,6 @@ function MainHeader(props) {
                 />
             </div>
             <Filters />
-            <Balance />
         </>
     );
 }
