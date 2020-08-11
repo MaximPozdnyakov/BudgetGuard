@@ -2,7 +2,7 @@ import React from "react";
 
 import { Navbar, Nav, Dropdown } from "react-bootstrap";
 
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 
 import { If, Then, Else } from "react-if";
 import { connect } from "react-redux";
@@ -120,7 +120,7 @@ function Header(props) {
                             <Nav.Item className="mr-3">
                                 <NavLink
                                     exact
-                                    to="/"
+                                    to="/operations"
                                     activeClassName="link-success"
                                 >
                                     Operations
@@ -160,9 +160,11 @@ function Header(props) {
             <Else>
                 <Navbar className="border-bottom px-5 mb-5 bg-white">
                     <div className="d-flex justify-content-center w-100">
-                        <Navbar.Brand className="font-weight-bold text-dark align-content-center">
-                            Budget App
-                        </Navbar.Brand>
+                        <Link to="/">
+                            <Navbar.Brand className="font-weight-bold text-dark align-content-center">
+                                Budget App
+                            </Navbar.Brand>
+                        </Link>
                     </div>
                 </Navbar>
             </Else>

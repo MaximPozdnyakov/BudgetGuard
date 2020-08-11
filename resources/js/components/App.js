@@ -7,7 +7,7 @@ import { getTransactions } from "../actions/transactions";
 import { getWallets } from "../actions/wallets";
 import userActions from "../actions/users";
 
-import { Switch } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 
 import { Container, Spinner } from "react-bootstrap";
 
@@ -23,6 +23,8 @@ import RedirectIfNotAuthenticated from "./Utils/RedirectIfNotAuthenticated";
 import RedirectIfAuthenticated from "./Utils/RedirectIfAuthenticated";
 import RedirectIfWalletsNotLoaded from "./Utils/RedirectIfWalletsNotLoaded";
 import AddWallet from "./Wallet/AddWallet";
+import Home from "./Home";
+import Page404 from "./Page404";
 
 function App(props) {
     const {
@@ -110,9 +112,10 @@ function App(props) {
                 <Header />
                 <Container className="px-0 px-sm-5 container-main">
                     <Switch>
+                        <Route exact path="/" component={Home} />
                         <RedirectIfWalletsNotLoaded
                             exact
-                            path="/"
+                            path="/operations"
                             component={Operations}
                         />
                         <RedirectIfWalletsNotLoaded
@@ -135,6 +138,7 @@ function App(props) {
                             path="/login"
                             component={Login}
                         />
+                        <Route component={Page404} />
                     </Switch>
                 </Container>
             </Then>

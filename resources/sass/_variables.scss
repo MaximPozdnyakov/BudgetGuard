@@ -1,5 +1,5 @@
 // Typography
-$font-family-sans-serif: 'Nunito', sans-serif;
+$font-family-sans-serif: "Nunito", sans-serif;
 $font-size-base: 0.9rem;
 $line-height-base: 1.6;
 
@@ -15,8 +15,9 @@ $green: #38c172;
 $teal: #4dc0b5;
 $cyan: #6cb2eb;
 
-$body-bg: #F4F7FA;
+$body-bg: #f4f7fa;
 
 $theme-colors: (
-    "success": #12C48B,
+    "primary": #7741ca,
+    "success": #12c48b
 );

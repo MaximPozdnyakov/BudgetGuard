@@ -26,7 +26,7 @@ function Login(props) {
                 password
             });
             if (isRedirect) {
-                props.history.push("/");
+                props.history.push("/operations");
             }
         }
     }
