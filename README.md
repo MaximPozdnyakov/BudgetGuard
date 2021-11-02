@@ -1,11 +1,12 @@
-<img src="https://i.postimg.cc/3xRSWtS3/Group-1-8.png" alt>
-<h1>Safe Budget</h1>
-<p>It's a fullstack web application, where you can plan your budget</p>
-<h4>Technologies:</h4>
-<ul>
-  <li>React + Redux</li>
-  <li>Laravel - PHP framework</li>
-  <li>Bootstrap</li>
-  <li>MySQL</li>
-</ul>
-<a href="http://safebudget.herokuapp.com/">Link to site</a>
+# Safe Budget
+Сайт для планирования бюджета
+## Стек
+- React
+- Redux
+- Bootstrap
+- Laravel
+- MySQL
+
+[Ссылка на сайт](http://safebudget.herokuapp.com)
+
+<img src="https://i.postimg.cc/L8Lr9F21/Safe-Budget.png">
