@@ -27,6 +27,7 @@
     },
     "dependencies": {
         "@wojtekmaj/react-daterange-picker": "^3.0.0",
+        "date-fns": "^2.26.0",
         "moment": "^2.27.0",
         "react-bootstrap": "^1.2.2",
         "react-date-picker": "^8.0.1",
