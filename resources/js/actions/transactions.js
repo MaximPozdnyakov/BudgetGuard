@@ -1,145 +1,80 @@
+import {
+    SET_TRANSACTIONS,
+    ADD_TRANSACTION,
+    SET_TRANSACTION_ID,
+    UPDATE_TRANSACTION,
+    DELETE_TRANSACTION,
+    SET_DATE_RANGE,
+    SET_CATEGORIES,
+    SET_MONEY_RANGE,
+    SET_SEARCH,
+    REMOVE_TRANSACTIONS
+} from "../constants";
+
 import transactionService from "../services/transactionService";
 
-import { setMessage } from "./messages";
-
-// GET Transactions
 export const getTransactions = () => async (dispatch, getState) => {
-    const transactions = await transactionService.fetchTransactions();
+    const { fetchTransactions } = transactionService;
+    const transactions = await fetchTransactions();
+    if (transactions.isError) return;
 
-    if (!transactions.isError) {
-        dispatch({
-            type: "GET_TRANSACTIONS",
-            payload: transactions,
-            walletId: getState().wallets.currentWallet.id
-        });
-        dispatch({
-            type: "SORT_TRANSACTIONS_BY_DATE"
-        });
-    }
+    const walletId = getState().wallets.currentWallet.id;
+    dispatch({ type: SET_TRANSACTIONS, payload: { transactions, walletId } });
+};
+
+export const addTransaction = newTransaction => async (dispatch, getState) => {
+    const walletId = getState().wallets.currentWallet.id;
     dispatch({
-        type: "TRANSACTION_LOADED"
+        type: ADD_TRANSACTION,
+        payload: { newTransaction, walletId }
+    });
+
+    const { createTransaction } = transactionService;
+    const { id } = await createTransaction(newTransaction);
+    dispatch({
+        type: SET_TRANSACTION_ID,
+        payload: { newId: id, temporaryId: newTransaction.temporaryId }
     });
 };
 
-// ADD Transaction
-export const addTransaction = transaction => async (dispatch, getState) => {
-    dispatch({
-        type: "TRANSACTION_NOT_LOADED"
-    });
-    const newTransaction = await transactionService.createTransaction(
-        transaction
-    );
-
-    if (newTransaction.isError) {
-        dispatch(setMessage(newTransaction.errors.errors, "alert", true));
-    } else {
-        dispatch({
-            type: "ADD_TRANSACTION",
-            payload: newTransaction
-        });
-        dispatch({
-            type: "SORT_TRANSACTIONS_BY_DATE"
-        });
-        dispatch({
-            type: "UPDATE_TRANSACTIONS_FILTERS",
-            walletId: getState().wallets.currentWallet.id
-        });
-    }
-    dispatch({
-        type: "TRANSACTION_LOADED"
-    });
-};
-
-// UPDATE Transaction
-export const updateTransaction = (transaction, id) => async (
+export const updateTransaction = ({ updatedTransaction, id }) => async (
     dispatch,
     getState
 ) => {
+    const walletId = getState().wallets.currentWallet.id;
     dispatch({
-        type: "TRANSACTION_NOT_LOADED"
+        type: UPDATE_TRANSACTION,
+        payload: { updatedTransaction, walletId }
     });
-    const updatedTransaction = await transactionService.updateTransaction(
-        transaction,
-        id
-    );
 
-    if (updatedTransaction.isError) {
-        dispatch(setMessage(updatedTransaction.errors.errors, "alert", true));
-    } else {
-        dispatch({
-            type: "UPDATE_TRANSACTION",
-            payload: updatedTransaction
-        });
-        dispatch({
-            type: "SORT_TRANSACTIONS_BY_DATE"
-        });
-        dispatch({
-            type: "UPDATE_TRANSACTIONS_FILTERS",
-            walletId: getState().wallets.currentWallet.id
-        });
-    }
-    dispatch({
-        type: "TRANSACTION_LOADED"
-    });
+    const { updateTransaction } = transactionService;
+    await updateTransaction({ updatedTransaction, id });
 };
 
-// DELETE Transaction
 export const deleteTransaction = id => async (dispatch, getState) => {
-    dispatch({
-        type: "TRANSACTION_NOT_LOADED"
-    });
+    const walletId = getState().wallets.currentWallet.id;
+    dispatch({ type: DELETE_TRANSACTION, payload: { id, walletId } });
 
-    const deletedTransaction = await transactionService.deleteTransaction(id);
-    if (deletedTransaction.isError) {
-        dispatch(setMessage(deletedTransaction.errors.errors, "toast", true));
-    } else {
-        dispatch({
-            type: "DELETE_TRANSACTION",
-            payload: id
-        });
-        dispatch({
-            type: "UPDATE_TRANSACTIONS_FILTERS",
-            walletId: getState().wallets.currentWallet.id
-        });
-    }
-    dispatch({
-        type: "TRANSACTION_LOADED"
-    });
+    const { deleteTransaction } = transactionService;
+    await deleteTransaction({ id });
 };
 
 export const removeTransactions = () => dispatch => {
-    dispatch({
-        type: "REMOVE_TRANSACTIONS"
-    });
-    dispatch({
-        type: "TRANSACTION_NOT_LOADED"
-    });
+    dispatch({ type: REMOVE_TRANSACTIONS });
 };
 
 export const setDateRange = dateRange => dispatch => {
-    dispatch({
-        type: "SET_DATE_RANGE",
-        payload: dateRange
-    });
+    dispatch({ type: SET_DATE_RANGE, payload: { dateRange } });
 };
 
 export const setCategories = categories => dispatch => {
-    dispatch({
-        type: "SET_CATEGORIES",
-        payload: categories.map(option => option.value)
-    });
+    dispatch({ type: SET_CATEGORIES, payload: { categories } });
 };
 
 export const setMoneyRange = moneyRange => dispatch => {
-    dispatch({
-        type: "SET_MONEY_RANGE",
-        payload: moneyRange
-    });
+    dispatch({ type: SET_MONEY_RANGE, payload: { moneyRange } });
 };
 
 export const setSearch = search => dispatch => {
-    dispatch({
-        type: "SET_SEARCH",
-        payload: search
-    });
+    dispatch({ type: SET_SEARCH, payload: { search } });
 };
