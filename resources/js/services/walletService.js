@@ -6,21 +6,12 @@ export default {
             const wallets = await api.get("wallets");
             return wallets.data;
         } catch (err) {
-            return {
-                isError: true,
-                errors: err.response.data
-            };
+            return { isError: true };
         }
     },
-    async createWallet(payload) {
+    async createWallet(wallet) {
         try {
-            const newWallet = await api.post(`wallets`, payload);
-            return newWallet.data;
-        } catch (err) {
-            return {
-                isError: true,
-                errors: err.response.data
-            };
-        }
+            await api.post(`wallets`, wallet);
+        } catch (err) {}
     }
 };
