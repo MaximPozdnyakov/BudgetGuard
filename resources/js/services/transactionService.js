@@ -6,48 +6,23 @@ export default {
             const transactions = await api.get("transactions");
             return transactions.data;
         } catch (err) {
-            return {
-                isError: true,
-                errors: err.response.data
-            };
+            return { isError: true };
         }
     },
-    async createTransaction(payload) {
+    async createTransaction(transaction) {
         try {
-            const newTransaction = await api.post(`transactions`, payload);
+            const newTransaction = await api.post(`transactions`, transaction);
             return newTransaction.data;
-        } catch (err) {
-            return {
-                isError: true,
-                errors: err.response.data
-            };
-        }
+        } catch (err) {}
     },
-    async updateTransaction(payload, transactionId) {
+    async updateTransaction({ updatedTransaction, id }) {
         try {
-            const updatedTransaction = await api.patch(
-                `transactions/${transactionId}`,
-                payload
-            );
-            return updatedTransaction.data;
-        } catch (err) {
-            return {
-                isError: true,
-                errors: err.response.data
-            };
-        }
+            await api.patch(`transactions/${id}`, updatedTransaction);
+        } catch (err) {}
     },
-    async deleteTransaction(transactionId) {
+    async deleteTransaction({ id }) {
         try {
-            const deletedTransaction = await api.delete(
-                `transactions/${transactionId}`
-            );
-            return deletedTransaction;
-        } catch (err) {
-            return {
-                isError: true,
-                errors: err.response.data
-            };
-        }
+            await api.delete(`transactions/${id}`);
+        } catch (err) {}
     }
 };
