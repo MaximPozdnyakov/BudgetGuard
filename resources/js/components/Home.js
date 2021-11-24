@@ -10,12 +10,14 @@ function Home() {
                 lg={6}
                 xs={12}
             >
-                <div className="hero-title">Keep your budget safe</div>
+                <div className="hero-title">
+                    Experience a fresh way to manage money
+                </div>
                 <div className="hero-text">
-                    Copper mug try-hard pitchfork pour-over freegan heirloom
-                    neutra air plant cold-pressed tacos poke beard tote bag.
-                    Heirloom echo park mlkshk tote bag selvage hot chicken
-                    authentic tumeric truffaut hexagon try-hard chambray.
+                    Stop living paycheck-to-paycheck, get out of debt, and save
+                    more money. Reach your goals with personalized insights,
+                    custom budgets, spend tracking, and subscription
+                    monitoring—all for free.
                 </div>
                 <div className="mb-4 d-flex justify-content-center justify-content-lg-start w-100">
                     <Link to="/operations">
