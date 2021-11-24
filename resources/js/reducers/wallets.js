@@ -1,3 +1,11 @@
+import {
+    SET_WALLETS,
+    ADD_WALLET,
+    SET_CURRENT_WALLET,
+    REMOVE_WALLETS,
+    SET_WALLETS_LOADED
+} from "../constants";
+
 const initialState = {
     wallets: [],
     isWalletsLoaded: false,
@@ -5,38 +13,28 @@ const initialState = {
 };
 
 export default function(state = initialState, action) {
+    const { wallet } = action.payload || {};
     switch (action.type) {
-        case "GET_WALLETS":
+        case SET_WALLETS:
+            const { wallets } = action.payload;
             return {
                 ...state,
-                wallets: action.payload
+                wallets,
+                isWalletsLoaded: true,
+                currentWallet: wallets.length !== 0 ? wallets[0] : {}
             };
-        case "ADD_WALLET":
+        case ADD_WALLET:
             return {
                 ...state,
-                wallets: [...state.wallets, action.payload]
+                wallets: [...state.wallets, wallet],
+                currentWallet: wallet
             };
-        case "WALLETS_NOT_LOADED":
-            return {
-                ...state,
-                isWalletsLoaded: false
-            };
-        case "WALLETS_LOADED":
-            return {
-                ...state,
-                isWalletsLoaded: true
-            };
-        case "SET_CURRENT_WALLET":
-            return {
-                ...state,
-                currentWallet: action.payload
-            };
-        case "REMOVE_WALLETS":
-            return {
-                ...state,
-                wallets: [],
-                currentWallet: {}
-            };
+        case SET_CURRENT_WALLET:
+            return { ...state, currentWallet: wallet };
+        case REMOVE_WALLETS:
+            return { ...state, wallets: [], currentWallet: {} };
+        case SET_WALLETS_LOADED:
+            return { ...state, isWalletsLoaded: true };
         default:
             return state;
     }
