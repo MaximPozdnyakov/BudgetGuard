@@ -3,7 +3,15 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import thunk from "redux-thunk";
 import rootReducer from "./reducers";
 
-const initialState = {};
+const initialState = {
+    user: { user: {}, isUserAuthenticated: false, isUserLoaded: false },
+    wallets: { wallets: [], isWalletsLoaded: false, currentWallet: {} },
+    transactions: {
+        transactions: [],
+        isTransactionsLoaded: false,
+        transactionsFilters: {}
+    }
+};
 
 const middleware = [thunk];
 
