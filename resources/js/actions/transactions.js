@@ -8,16 +8,19 @@ import {
     SET_CATEGORIES,
     SET_MONEY_RANGE,
     SET_SEARCH,
-    REMOVE_TRANSACTIONS
+    REMOVE_TRANSACTIONS,
+    SET_TRANSACTIONS_LOADED
 } from "../constants";
 
 import transactionService from "../services/transactionService";
 
-export const getTransactions = () => async (dispatch, getState) => {
+export const fetchTransactions = () => async (dispatch, getState) => {
     const { fetchTransactions } = transactionService;
     const transactions = await fetchTransactions();
-    if (transactions.isError) return;
-
+    if (transactions.isError) {
+        dispatch({ type: SET_TRANSACTIONS_LOADED });
+        return;
+    }
     const walletId = getState().wallets.currentWallet.id;
     dispatch({ type: SET_TRANSACTIONS, payload: { transactions, walletId } });
 };
