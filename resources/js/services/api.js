@@ -13,3 +13,12 @@ export const auth = axios.create({
         "Content-Type": "application/json"
     }
 });
+
+export const createAxiosWithToken = () =>
+    axios.create({
+        baseURL: "/api/auth",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`
+        }
+    });
