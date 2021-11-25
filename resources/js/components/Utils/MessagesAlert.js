@@ -1,45 +1,33 @@
 import React, { useState, useEffect } from "react";
-
-import { If, Then } from "react-if";
-
 import { Alert } from "react-bootstrap";
-
 import { connect } from "react-redux";
 
-function MessagesAlert(props) {
-    const { messages } = props;
-
-    const [showAlert, setShowAlert] = useState(true);
+function MessagesAlert({ messages, type, isError }) {
+    const [isAlertOpen, setAlertOpen] = useState(false);
 
     useEffect(() => {
-        setShowAlert(true);
+        setAlertOpen(true);
     }, [messages]);
 
-    let messagesLi = [];
-    if (messages.type === "alert") {
-        for (let typeOfMessage in messages.messages) {
-            messages.messages[typeOfMessage].forEach(message =>
-                messagesLi.push(<li key={message}>{message}</li>)
-            );
-        }
+    const closeAlert = () => setAlertOpen(false);
+
+    if (type !== "alert" || !isAlertOpen) {
+        return null;
     }
+    const messagesComponents = messages.map(message => (
+        <li key={message}>{message}</li>
+    ));
     return (
-        <If condition={messages.type === "alert" && showAlert}>
-            <Then>
-                <Alert
-                    variant={"danger"}
-                    onClose={() => setShowAlert(false)}
-                    dismissible
-                >
-                    <ul className="pl-3 mb-0">{messagesLi}</ul>
-                </Alert>
-            </Then>
-        </If>
+        <Alert
+            variant={isError ? "danger" : "success"}
+            onClose={closeAlert}
+            dismissible
+        >
+            <ul className="pl-3 mb-0">{messagesComponents}</ul>
+        </Alert>
     );
 }
 
-const mapStateToProps = state => ({
-    messages: state.messages
-});
+const mapStateToProps = state => state.messages;
 
 export default connect(mapStateToProps)(MessagesAlert);
