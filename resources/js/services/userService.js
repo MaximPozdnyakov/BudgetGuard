@@ -6,7 +6,10 @@ export default {
             const newUser = await auth.post("registration", credentials);
             return newUser.data;
         } catch (err) {
-            return { isError: true, errors: err.response.data.errors };
+            const errors = Object.values(err.response.data.errors).map(
+                arr => arr[0]
+            );
+            return { isError: true, errors };
         }
     },
     async login(credentials) {
