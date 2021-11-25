@@ -7,11 +7,7 @@ const initialState = {
 export default function(state = initialState, action) {
     switch (action.type) {
         case "SET_MESSAGES":
-            return {
-                isError: action.payload.isError,
-                type: action.payload.type,
-                messages: action.payload.messages
-            };
+            return action.payload;
         default:
             return state;
     }
