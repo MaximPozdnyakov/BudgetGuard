@@ -3,7 +3,8 @@ import {
     ADD_WALLET,
     SET_CURRENT_WALLET,
     REMOVE_WALLETS,
-    SET_WALLETS_LOADED
+    SET_WALLETS_LOADED,
+    SET_WALLETS_NOT_LOADED
 } from "../constants";
 
 const initialState = {
@@ -35,6 +36,8 @@ export default function(state = initialState, action) {
             return { ...state, wallets: [], currentWallet: {} };
         case SET_WALLETS_LOADED:
             return { ...state, isWalletsLoaded: true };
+        case SET_WALLETS_NOT_LOADED:
+            return { ...state, isWalletsLoaded: false };
         default:
             return state;
     }
