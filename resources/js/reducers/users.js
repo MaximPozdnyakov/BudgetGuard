@@ -1,3 +1,5 @@
+import { SET_USER, LOGOUT, SET_USER_LOADED } from "../constants";
+
 const initialState = {
     user: {},
     isUserAuthenticated: false,
@@ -6,28 +8,18 @@ const initialState = {
 
 export default function(state = initialState, action) {
     switch (action.type) {
-        case "SET_USER":
+        case SET_USER:
+            const { user } = action.payload;
             return {
                 ...state,
-                user: action.payload,
-                isUserAuthenticated: true
-            };
-        case "LOGOUT":
-            return {
-                ...state,
-                user: {},
-                isUserAuthenticated: false
-            };
-        case "USER_LOADED":
-            return {
-                ...state,
+                user,
+                isUserAuthenticated: true,
                 isUserLoaded: true
             };
-        case "USER_NOT_LOADED":
-            return {
-                ...state,
-                isUserLoaded: false
-            };
+        case LOGOUT:
+            return { ...state, user: {}, isUserAuthenticated: false };
+        case SET_USER_LOADED:
+            return { ...state, isUserLoaded: true };
         default:
             return state;
     }
