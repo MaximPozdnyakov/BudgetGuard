@@ -13,7 +13,8 @@ import {
     SET_MONEY_RANGE,
     SET_SEARCH,
     REMOVE_TRANSACTIONS,
-    SET_TRANSACTIONS_LOADED
+    SET_TRANSACTIONS_LOADED,
+    SET_TRANSACTIONS_NOT_LOADED
 } from "../constants";
 
 const initialState = {
@@ -196,6 +197,8 @@ export default function(state = initialState, action) {
             return { ...state, transactions: [], transactionsFilters: {} };
         case SET_TRANSACTIONS_LOADED:
             return { ...state, isTransactionsLoaded: true };
+        case SET_TRANSACTIONS_NOT_LOADED:
+            return { ...state, isTransactionsLoaded: false };
         default:
             return state;
     }
