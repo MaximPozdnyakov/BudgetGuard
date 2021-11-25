@@ -9,12 +9,20 @@ import {
     SET_MONEY_RANGE,
     SET_SEARCH,
     REMOVE_TRANSACTIONS,
-    SET_TRANSACTIONS_LOADED
+    SET_TRANSACTIONS_LOADED,
+    SET_TRANSACTIONS_NOT_LOADED
 } from "../constants";
 
 import transactionService from "../services/transactionService";
 
 export const fetchTransactions = () => async (dispatch, getState) => {
+    const { isUserAuthenticated } = getState().user;
+    if (!isUserAuthenticated) {
+        dispatch({ type: SET_TRANSACTIONS_LOADED });
+        return;
+    }
+    dispatch({ type: SET_TRANSACTIONS_NOT_LOADED });
+
     const { fetchTransactions } = transactionService;
     const transactions = await fetchTransactions();
     if (transactions.isError) {
