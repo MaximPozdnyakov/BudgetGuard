@@ -7,7 +7,7 @@ import { connect } from "react-redux";
 import { register } from "../../actions/users";
 
 import MessagesAlert from "../Utils/MessagesAlert";
-import FormField from "../Utils/FormField";
+import FormField from "./FormField";
 
 function RegisterForm({ register }) {
     const history = useHistory();
@@ -47,7 +47,7 @@ function RegisterForm({ register }) {
                 ...values,
                 password_confirmation: values.passwordConfirm
             });
-            if (isSuccess) history.push("/overview");
+            if (isSuccess) history.push("/operations");
         }
     });
 
