@@ -9,13 +9,11 @@ import App from "./components/App";
 
 function Providers() {
     return (
-        <React.StrictMode>
-            <Provider store={store}>
-                <Router>
-                    <App />
-                </Router>
-            </Provider>
-        </React.StrictMode>
+        <Provider store={store}>
+            <Router>
+                <App />
+            </Router>
+        </Provider>
     );
 }
 
