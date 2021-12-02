@@ -27,17 +27,24 @@ const sortByDate = transactions =>
     transactions.sort((a, b) => new Date(a.spent_at) - new Date(b.spent_at));
 
 const filterTransactionsByWallet = ({ transactions, walletId }) =>
-    transactions.filter(({ wallet }) => wallet === walletId);
+    transactions.filter(({ wallet }) => wallet == walletId);
 
-const getMoneyRange = transactions => {
-    const moneyData = transactions.map(
-        ({ moneyAmount, moneySign }) => moneyAmount * (moneySign ? 1 : -1)
-    );
+const getMoneyRange = ({ transactions, startDate, endDate }) => {
+    const moneyData = transactions
+        .filter(
+            ({ spent_at }) =>
+                new Date(spent_at) >= new Date(startDate) &&
+                new Date(spent_at) <= new Date(endDate)
+        )
+        .map(
+            ({ moneyAmount, moneySign }) =>
+                moneyAmount * (moneySign == 0 ? -1 : 1)
+        );
     return [Math.min(...moneyData), Math.max(...moneyData)];
 };
 
 const getCategories = transactions =>
-    Object.keys(_.groupBy(transactions), "category");
+    Object.keys(_.groupBy(transactions, "category"));
 
 const getInitialDateRange = () => [
     sub(startOfToday(), { weeks: 1 }),
@@ -49,22 +56,32 @@ const getInitialFilters = ({ transactions, walletId }) => {
         transactions,
         walletId
     });
+    const dateRange = getInitialDateRange();
     return {
-        dateRange: getInitialDateRange(),
+        dateRange,
         categories: getCategories(filteredTransactions),
         search: "",
-        moneyRange: getMoneyRange(filteredTransactions)
+        moneyRange: getMoneyRange({
+            transactions: filteredTransactions,
+            startDate: dateRange[0],
+            endDate: dateRange[1]
+        })
     };
 };
 
-const getUpdatedFilters = ({ transactions, walletId }) => {
+const getUpdatedFilters = ({ transactions, walletId, dateRange }) => {
     const filteredTransactions = filterTransactionsByWallet({
         transactions,
         walletId
     });
+    const [startDate, endDate] = dateRange;
     return {
         categories: getCategories(filteredTransactions),
-        moneyRange: getMoneyRange(filteredTransactions)
+        moneyRange: getMoneyRange({
+            transactions: filteredTransactions,
+            startDate,
+            endDate
+        })
     };
 };
 
@@ -81,12 +98,13 @@ const setTransactions = (state, action) => {
 const addTransaction = (state, action) => {
     const { newTransaction, walletId } = action.payload;
     const transactions = sortByDate([...state.transactions, newTransaction]);
+    const dateRange = state.transactionsFilters.dateRange;
     return {
         ...state,
         transactions,
         transactionsFilters: {
             ...state.transactionsFilters,
-            ...getUpdatedFilters({ transactions, walletId })
+            ...getUpdatedFilters({ transactions, walletId, dateRange })
         }
     };
 };
@@ -100,12 +118,13 @@ const updateTransaction = (state, action) => {
                 : transaction
         )
     );
+    const dateRange = state.transactionsFilters.dateRange;
     return {
         ...state,
         transactions,
         transactionsFilters: {
             ...state.transactionsFilters,
-            ...getUpdatedFilters({ transactions, walletId })
+            ...getUpdatedFilters({ transactions, walletId, dateRange })
         }
     };
 };
@@ -115,12 +134,13 @@ const deleteTransaction = (state, action) => {
     const transactions = state.transactions.filter(
         transaction => transaction.id !== id
     );
+    const dateRange = state.transactionsFilters.dateRange;
     return {
         ...state,
         transactions,
         transactionsFilters: {
             ...state.transactionsFilters,
-            ...getUpdatedFilters({ transactions, walletId })
+            ...getUpdatedFilters({ transactions, walletId, dateRange })
         }
     };
 };
@@ -159,7 +179,8 @@ export default function(state = initialState, action) {
                     ...state.transactionsFilters,
                     ...getUpdatedFilters({
                         transactions: state.transactions,
-                        walletId
+                        walletId,
+                        dateRange: state.transactionsFilters.dateRange
                     })
                 }
             };
