@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Alert } from "react-bootstrap";
 import { connect } from "react-redux";
+import { PropTypes } from "prop-types";
 
 function MessagesAlert({ messages, type, isError }) {
     const [isAlertOpen, setAlertOpen] = useState(false);
@@ -14,9 +15,13 @@ function MessagesAlert({ messages, type, isError }) {
     if (type !== "alert" || !isAlertOpen) {
         return null;
     }
-    const messagesComponents = messages.map(message => (
-        <li key={message}>{message}</li>
-    ));
+
+    const messagesComponents = Array.isArray(messages) ? (
+        messages.map(message => <li key={message}>{message}</li>)
+    ) : (
+        <li>{messages}</li>
+    );
+
     return (
         <Alert
             variant={isError ? "danger" : "success"}
@@ -27,6 +32,15 @@ function MessagesAlert({ messages, type, isError }) {
         </Alert>
     );
 }
+
+MessagesAlert.propTypes = {
+    messages: PropTypes.oneOfType([
+        PropTypes.arrayOf(PropTypes.string),
+        PropTypes.string
+    ]).isRequired,
+    type: PropTypes.string.isRequired,
+    isError: PropTypes.bool.isRequired
+};
 
 const mapStateToProps = state => state.messages;
 
