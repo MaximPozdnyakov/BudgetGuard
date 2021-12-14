@@ -1,13 +1,10 @@
-import _ from "lodash";
-import { sub, startOfToday, endOfToday } from "date-fns";
-
 import {
     SET_TRANSACTIONS,
     ADD_TRANSACTION,
     SET_TRANSACTION_ID,
     UPDATE_TRANSACTION,
     DELETE_TRANSACTION,
-    UPDATE_TRANSACTIONS_FILTERS,
+    RESET_TRANSACTIONS_FILTERS,
     SET_DATE_RANGE,
     SET_CATEGORIES,
     SET_MONEY_RANGE,
@@ -15,116 +12,49 @@ import {
     REMOVE_TRANSACTIONS,
     SET_TRANSACTIONS_LOADED,
     SET_TRANSACTIONS_NOT_LOADED
-} from "../constants";
+} from "../constants/redux";
 
-const initialState = {
-    transactions: [],
-    isTransactionsLoaded: false,
-    transactionsFilters: {}
-};
-
-const sortByDate = transactions =>
-    transactions.sort((a, b) => new Date(a.spent_at) - new Date(b.spent_at));
-
-const filterTransactionsByWallet = ({ transactions, walletId }) =>
-    transactions.filter(({ wallet }) => wallet == walletId);
-
-const getMoneyRange = ({ transactions, startDate, endDate }) => {
-    const moneyData = transactions
-        .filter(
-            ({ spent_at }) =>
-                new Date(spent_at) >= new Date(startDate) &&
-                new Date(spent_at) <= new Date(endDate)
-        )
-        .map(
-            ({ moneyAmount, moneySign }) =>
-                moneyAmount * (moneySign == 0 ? -1 : 1)
-        );
-    return [Math.min(...moneyData), Math.max(...moneyData)];
-};
-
-const getCategories = transactions =>
-    Object.keys(_.groupBy(transactions, "category"));
-
-const getInitialDateRange = () => [
-    sub(startOfToday(), { weeks: 1 }),
-    endOfToday()
-];
-
-const getInitialFilters = ({ transactions, walletId }) => {
-    const filteredTransactions = filterTransactionsByWallet({
-        transactions,
-        walletId
-    });
-    const dateRange = getInitialDateRange();
-    return {
-        dateRange,
-        categories: getCategories(filteredTransactions),
-        search: "",
-        moneyRange: getMoneyRange({
-            transactions: filteredTransactions,
-            startDate: dateRange[0],
-            endDate: dateRange[1]
-        })
-    };
-};
-
-const getUpdatedFilters = ({ transactions, walletId, dateRange }) => {
-    const filteredTransactions = filterTransactionsByWallet({
-        transactions,
-        walletId
-    });
-    const [startDate, endDate] = dateRange;
-    return {
-        categories: getCategories(filteredTransactions),
-        moneyRange: getMoneyRange({
-            transactions: filteredTransactions,
-            startDate,
-            endDate
-        })
-    };
-};
+import { resetFilters, syncFilters } from "../helpers/transactions";
 
 const setTransactions = (state, action) => {
     const { transactions, walletId } = action.payload;
+    const { dateRange } = state.filters;
     return {
-        ...state,
-        transactions: sortByDate(transactions),
-        transactionsFilters: getInitialFilters({ transactions, walletId }),
-        isTransactionsLoaded: true
+        transactions,
+        isTransactionsLoaded: true,
+        filters: {
+            ...state.filters,
+            ...resetFilters(transactions, walletId, dateRange)
+        }
     };
 };
 
 const addTransaction = (state, action) => {
     const { newTransaction, walletId } = action.payload;
-    const transactions = sortByDate([...state.transactions, newTransaction]);
-    const dateRange = state.transactionsFilters.dateRange;
+    const transactions = [...state.transactions, newTransaction];
     return {
         ...state,
         transactions,
-        transactionsFilters: {
-            ...state.transactionsFilters,
-            ...getUpdatedFilters({ transactions, walletId, dateRange })
+        filters: {
+            ...state.filters,
+            ...syncFilters(state, transactions, walletId)
         }
     };
 };
 
 const updateTransaction = (state, action) => {
     const { updatedTransaction, walletId } = action.payload;
-    const transactions = sortByDate(
-        state.transactions.map(transaction =>
-            transaction.id === updatedTransaction.id
-                ? updatedTransaction
-                : transaction
-        )
+    const transactions = state.transactions.map(transaction =>
+        transaction.id === updatedTransaction.id
+            ? updatedTransaction
+            : transaction
     );
-    const dateRange = state.transactionsFilters.dateRange;
     return {
         ...state,
         transactions,
-        transactionsFilters: {
-            ...state.transactionsFilters,
-            ...getUpdatedFilters({ transactions, walletId, dateRange })
+        filters: {
+            ...state.filters,
+            ...syncFilters(state, transactions, walletId)
         }
     };
 };
@@ -134,32 +64,37 @@ const deleteTransaction = (state, action) => {
     const transactions = state.transactions.filter(
         transaction => transaction.id !== id
     );
-    const dateRange = state.transactionsFilters.dateRange;
     return {
         ...state,
         transactions,
-        transactionsFilters: {
-            ...state.transactionsFilters,
-            ...getUpdatedFilters({ transactions, walletId, dateRange })
+        filters: {
+            ...state.filters,
+            ...syncFilters(state, transactions, walletId)
         }
     };
 };
 
 const setTransactionId = (state, action) => {
     const { newId, temporaryId } = action.payload;
-    const transactions = state.transactions.map(transaction => {
-        if (transaction.temporaryId === temporaryId) {
-            transaction.id = newId;
-        }
-        return transaction;
-    });
+    const transactions = state.transactions.map(transaction => ({
+        ...transaction,
+        id: transaction.temporaryId === temporaryId ? newId : id
+    }));
+    return { ...state, transactions };
+};
+
+const setDateRange = (state, action) => {
+    const { dateRange, walletId } = action.payload;
     return {
         ...state,
-        transactions
+        filters: {
+            dateRange,
+            ...resetFilters(state.transactions, walletId, dateRange)
+        }
     };
 };
 
-export default function(state = initialState, action) {
+export default function(state = {}, action) {
     switch (action.type) {
         case SET_TRANSACTIONS:
             return setTransactions(state, action);
@@ -171,51 +106,32 @@ export default function(state = initialState, action) {
             return updateTransaction(state, action);
         case DELETE_TRANSACTION:
             return deleteTransaction(state, action);
-        case UPDATE_TRANSACTIONS_FILTERS:
-            const { walletId } = action.payload;
+        case RESET_TRANSACTIONS_FILTERS:
+            const { walletId } = action.payload || {};
             return {
                 ...state,
-                transactionsFilters: {
-                    ...state.transactionsFilters,
-                    ...getUpdatedFilters({
-                        transactions: state.transactions,
+                filters: {
+                    ...state.filters,
+                    ...resetFilters(
+                        state.transactions,
                         walletId,
-                        dateRange: state.transactionsFilters.dateRange
-                    })
+                        state.filters.dateRange
+                    )
                 }
             };
         case SET_DATE_RANGE:
-            const { dateRange } = action.payload;
-            return {
-                ...state,
-                transactionsFilters: { ...state.transactionsFilters, dateRange }
-            };
+            return setDateRange(state, action);
         case SET_CATEGORIES:
             const { categories } = action.payload;
-            return {
-                ...state,
-                transactionsFilters: {
-                    ...state.transactionsFilters,
-                    categories
-                }
-            };
+            return { ...state, filters: { ...state.filters, categories } };
         case SET_MONEY_RANGE:
             const { moneyRange } = action.payload;
-            return {
-                ...state,
-                transactionsFilters: {
-                    ...state.transactionsFilters,
-                    moneyRange
-                }
-            };
+            return { ...state, filters: { ...state.filters, moneyRange } };
         case SET_SEARCH:
             const { search } = action.payload;
-            return {
-                ...state,
-                transactionsFilters: { ...state.transactionsFilters, search }
-            };
+            return { ...state, filters: { ...state.filters, search } };
         case REMOVE_TRANSACTIONS:
-            return { ...state, transactions: [], transactionsFilters: {} };
+            return { ...state, transactions: [], filters: {} };
         case SET_TRANSACTIONS_LOADED:
             return { ...state, isTransactionsLoaded: true };
         case SET_TRANSACTIONS_NOT_LOADED:
