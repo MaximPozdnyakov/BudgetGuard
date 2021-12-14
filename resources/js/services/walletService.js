@@ -11,7 +11,8 @@ export default {
     },
     async createWallet(wallet) {
         try {
-            await api.post(`wallets`, wallet);
+            const result = await api.post(`wallets`, wallet);
+            return result.data;
         } catch (err) {}
     }
 };
