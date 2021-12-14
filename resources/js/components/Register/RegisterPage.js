@@ -2,7 +2,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Row, Col } from "react-bootstrap";
 
-import GoogleBtn from "./GoogleBtn";
 import RegisterForm from "./RegisterForm";
 
 function RegisterPage() {
@@ -25,12 +24,6 @@ function RegisterPage() {
                 <Row>
                     <Col xs="11" md="11" className="mx-auto">
                         <RegisterForm />
-                    </Col>
-                </Row>
-                <div className="text-center my-2">Or</div>
-                <Row>
-                    <Col xs="11" md="11" className="mx-auto">
-                        <GoogleBtn />
                     </Col>
                 </Row>
             </Col>
