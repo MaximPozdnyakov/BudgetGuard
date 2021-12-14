@@ -11,7 +11,7 @@ import {
     REMOVE_TRANSACTIONS,
     SET_TRANSACTIONS_LOADED,
     SET_TRANSACTIONS_NOT_LOADED
-} from "../constants";
+} from "../constants/redux";
 
 import transactionService from "../services/transactionService";
 
@@ -74,8 +74,9 @@ export const removeTransactions = () => dispatch => {
     dispatch({ type: REMOVE_TRANSACTIONS });
 };
 
-export const setDateRange = dateRange => dispatch => {
-    dispatch({ type: SET_DATE_RANGE, payload: { dateRange } });
+export const setDateRange = dateRange => (dispatch, getState) => {
+    const walletId = getState().wallets.currentWallet.id;
+    dispatch({ type: SET_DATE_RANGE, payload: { dateRange, walletId } });
 };
 
 export const setCategories = categories => dispatch => {
