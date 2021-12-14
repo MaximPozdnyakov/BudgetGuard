@@ -1,6 +1,7 @@
 import React from "react";
 import { Form } from "react-bootstrap";
 import FieldError from "./FieldError";
+import PropTypes from "prop-types";
 
 function FormField({
     value,
@@ -27,5 +28,18 @@ function FormField({
         </Form.Group>
     );
 }
+
+FormField.propTypes = {
+    value: PropTypes.string.isRequired,
+    error: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.arrayOf(PropTypes.string)
+    ]),
+    handleChange: PropTypes.func.isRequired,
+    label: PropTypes.string.isRequired,
+    placeholder: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    type: PropTypes.string
+};
 
 export default FormField;
