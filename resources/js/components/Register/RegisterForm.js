@@ -3,6 +3,7 @@ import { Form, Button } from "react-bootstrap";
 import { useFormik } from "formik";
 import { useHistory } from "react-router-dom";
 import { connect } from "react-redux";
+import PropTypes from "prop-types";
 
 import { register } from "../../actions/users";
 
@@ -113,5 +114,9 @@ function RegisterForm({ register }) {
         </Form>
     );
 }
+
+RegisterForm.propTypes = {
+    register: PropTypes.func.isRequired
+};
 
 export default connect(null, { register })(RegisterForm);
