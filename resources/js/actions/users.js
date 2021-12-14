@@ -1,4 +1,4 @@
-import { SET_USER, LOGOUT, SET_USER_LOADED } from "../constants";
+import { SET_USER, LOGOUT, SET_USER_LOADED } from "../constants/redux";
 
 import userService from "../services/userService";
 
@@ -7,24 +7,10 @@ import { removeTransactions, fetchTransactions } from "./transactions";
 import { removeWallets, fetchWallets } from "./wallets";
 
 export const fetchUser = () => async dispatch => {
-    const { fetchUser, fetchGoogleUser } = userService;
+    const { fetchUser } = userService;
     const user = await fetchUser();
     if (!user.isError) {
         dispatch({ type: SET_USER, payload: { user } });
-        return;
-    }
-    const googleUser = await fetchGoogleUser();
-    if (!googleUser.isError) {
-        dispatch({
-            type: SET_USER,
-            payload: {
-                user: {
-                    id: googleUser.id,
-                    name: googleUser.name,
-                    isGoogleUser: true
-                }
-            }
-        });
     }
     dispatch({ type: SET_USER_LOADED });
 };
@@ -69,7 +55,10 @@ export const login = credentials => async dispatch => {
 
     localStorage.setItem("token", access_token);
     dispatch({ type: SET_USER, payload: { user } });
-    await Promise.all([fetchWallets(), fetchTransactions()]);
+    await Promise.all([
+        dispatch(fetchWallets()),
+        dispatch(fetchTransactions())
+    ]);
     dispatch(
         setMessage({
             messages: "You are successfully logged in!",
@@ -81,7 +70,6 @@ export const login = credentials => async dispatch => {
 };
 
 export const logout = () => async dispatch => {
-    localStorage.removeItem("token");
     dispatch({ type: LOGOUT });
     dispatch(removeWallets());
     dispatch(removeTransactions());
@@ -92,6 +80,7 @@ export const logout = () => async dispatch => {
             isError: false
         })
     );
-    const { logout, logoutGoogle } = userService;
-    await Promise.all([logout(), logoutGoogle()]);
+    const { logout } = userService;
+    await logout();
+    localStorage.removeItem("token");
 };
