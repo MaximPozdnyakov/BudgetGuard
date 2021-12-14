@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-
+import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -24,6 +24,15 @@ function MessagesToast({ messages, type, isError }) {
 
     return <ToastContainer {...toastOptions} />;
 }
+
+MessagesToast.propTypes = {
+    messages: PropTypes.oneOfType([
+        PropTypes.arrayOf(PropTypes.string),
+        PropTypes.string
+    ]).isRequired,
+    type: PropTypes.string.isRequired,
+    isError: PropTypes.bool.isRequired
+};
 
 const mapStateToProps = state => state.messages;
 
