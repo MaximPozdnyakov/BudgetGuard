@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { useFormik } from "formik";
 import NumberFormat from "react-number-format";
+import PropTypes from "prop-types";
 
 import { createWallet } from "../../actions/wallets";
 
@@ -12,9 +13,9 @@ function WalletForm({ createWallet }) {
 
     const { values, handleChange, handleSubmit } = useFormik({
         initialValues: { title: "", balance: "0" },
-        onSubmit({ title, balance }) {
+        async onSubmit({ title, balance }) {
+            await createWallet({ title, initialBalance: Number(balance) });
             history.push("/operations");
-            createWallet({ title, initialBalance: Number(balance) });
         }
     });
     const { title, balance } = values;
@@ -63,5 +64,9 @@ function WalletForm({ createWallet }) {
         </Form>
     );
 }
+
+WalletForm.propTypes = {
+    createWallet: PropTypes.func.isRequired
+};
 
 export default connect(null, { createWallet })(WalletForm);
