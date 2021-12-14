@@ -8,7 +8,7 @@ function DefaultHeader() {
             <div className="d-flex justify-content-center w-100">
                 <Link to="/">
                     <Navbar.Brand className="font-weight-bold text-dark align-content-center">
-                        Budget App
+                        Budget Guard
                     </Navbar.Brand>
                 </Link>
             </div>
