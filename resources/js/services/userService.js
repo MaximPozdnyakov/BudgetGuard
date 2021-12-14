@@ -1,4 +1,4 @@
-import { auth, api, createAxiosWithToken } from "./api";
+import { auth, createAxiosWithToken } from "./api";
 
 export default {
     async register(credentials) {
@@ -32,18 +32,5 @@ export default {
         } catch (err) {
             return { isError: true };
         }
-    },
-    async fetchGoogleUser() {
-        try {
-            const user = await api.get("google/me");
-            return user.data;
-        } catch (err) {
-            return { isError: true };
-        }
-    },
-    async logoutGoogle() {
-        try {
-            await api.get("google/logout");
-        } catch (err) {}
     }
 };
