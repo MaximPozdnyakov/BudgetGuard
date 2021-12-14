@@ -5,7 +5,7 @@ import {
     REMOVE_WALLETS,
     SET_WALLETS_LOADED,
     SET_WALLETS_NOT_LOADED
-} from "../constants";
+} from "../constants/redux";
 
 const initialState = {
     wallets: [],
@@ -17,12 +17,12 @@ export default function(state = initialState, action) {
     const { wallet } = action.payload || {};
     switch (action.type) {
         case SET_WALLETS:
-            const { wallets } = action.payload;
+            const { wallets, currentWallet } = action.payload;
             return {
                 ...state,
                 wallets,
                 isWalletsLoaded: true,
-                currentWallet: wallets.length !== 0 ? wallets[0] : {}
+                currentWallet
             };
         case ADD_WALLET:
             return {
