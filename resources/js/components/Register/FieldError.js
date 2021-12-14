@@ -1,5 +1,6 @@
 import React from "react";
 import { Form } from "react-bootstrap";
+import PropTypes from "prop-types";
 
 function FieldError({ error }) {
     if (!Array.isArray(error)) {
@@ -19,5 +20,12 @@ function FieldError({ error }) {
         </Form.Control.Feedback>
     );
 }
+
+FieldError.propTypes = {
+    error: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.arrayOf(PropTypes.string)
+    ])
+};
 
 export default FieldError;
