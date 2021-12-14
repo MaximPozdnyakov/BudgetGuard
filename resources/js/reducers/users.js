@@ -1,4 +1,4 @@
-import { SET_USER, LOGOUT, SET_USER_LOADED } from "../constants";
+import { SET_USER, LOGOUT, SET_USER_LOADED } from "../constants/redux";
 
 const initialState = {
     user: {},
