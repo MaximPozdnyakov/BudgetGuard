@@ -3,11 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-
 use App\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-
 
 class AuthController extends Controller
 {
@@ -26,15 +24,15 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function login()
+    public function login(Request $request)
     {
         $credentials = request(['email', 'password']);
-
-        if (! $token = auth()->attempt($credentials)) {
+        $token = auth()->attempt($credentials);
+        if (!$token) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
-
-        return $this->respondWithToken($token);
+        $request->session()->put('userId', auth()->user()->id);
+        return response()->json(['access_token' => $token, 'user' => auth()->user()]);
     }
 
     /**
@@ -43,11 +41,11 @@ class AuthController extends Controller
     public function registration(Request $request)
     {
         $validatedData = $request->validate([
-        'name' => ['required', 'string', 'max:255', "min:3"],
-        'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-        'password' => ['required', 'string', 'min:8', 'confirmed', "regex:/^\S*(?=\S{8,})(?=\S*[a-z])(?=\S*[A-Z])(?=\S*[\d])\S*$/"],
+            'name' => ['required', 'string', 'max:255', "min:3"],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8', 'confirmed', "regex:/^\S*(?=\S{8,})(?=\S*[a-z])(?=\S*[A-Z])(?=\S*[\d])\S*$/"],
         ]);
-        
+
         $name = request('name');
         $email = request('email');
         $password = request('password');
@@ -58,7 +56,9 @@ class AuthController extends Controller
         $user->password = Hash::make($password);
         $user->save();
 
-        return response()->json(['message' => 'Successfully registration!']);
+        $token = auth()->attempt(['email' => $email, 'password' => $password]);
+        $request->session()->put('userId', auth()->user()->id);
+        return response()->json(['access_token' => $token, 'user' => auth()->user()]);
     }
 
     /**
@@ -68,9 +68,6 @@ class AuthController extends Controller
      */
     public function me(Request $request)
     {
-        if(!$request->session()->has('userId')){
-            $request->session()->put('userId', auth()->user()->id);
-        }
         return response()->json(auth()->user());
     }
 
@@ -82,10 +79,8 @@ class AuthController extends Controller
     public function logout(Request $request)
     {
         auth()->logout();
-
         $request->session()->flush();
         $request->session()->regenerate();
-
         return response()->json(['message' => 'Successfully logged out']);
     }
 
@@ -108,10 +103,6 @@ class AuthController extends Controller
      */
     protected function respondWithToken($token)
     {
-        return response()->json([
-            'access_token' => $token,
-            'token_type' => 'bearer',
-            'expires_in' => auth()->factory()->getTTL() * 60
-        ]);
+        return response()->json(['access_token' => $token]);
     }
 }
