@@ -14,7 +14,7 @@ class AddColumnWalletToTransactions extends Migration
     public function up()
     {
         Schema::table('transactions', function (Blueprint $table) {
-            $table->unsignedBigInteger('wallet');
+            $table->unsignedBigInteger('wallet')->nullable();
             $table->foreign('wallet')
                 ->references('id')
                 ->on('wallets')
