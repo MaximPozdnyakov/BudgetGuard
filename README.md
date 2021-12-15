@@ -1,8 +1,8 @@
-# Safe Budget
+# Budget Guard
 Сайт для планирования бюджета
 ## Стек
 - React
-- Redux
+- Redux (Redux Thunk)
 - Bootstrap
 - Laravel
 - MySQL
