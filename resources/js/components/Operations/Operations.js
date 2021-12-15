@@ -1,13 +1,13 @@
 import React from "react";
 
-import Balance from "../Balance/Balance";
-import MainHeader from "../OperationsAndOverview/MainHeader";
+import TransactionsHeader from "../Transactions/TransactionsHeader";
 import TransactionsList from "./TransactionsList";
+import Balance from "../Transactions/Balance/Balance";
 
 function Operations() {
     return (
         <>
-            <MainHeader />
+            <TransactionsHeader />
             <Balance />
             <TransactionsList />
         </>
