@@ -4,7 +4,7 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-        <title>Budget App</title>
+        <title>Budget Guard</title>
 
         <!-- Fonts -->
         <link
