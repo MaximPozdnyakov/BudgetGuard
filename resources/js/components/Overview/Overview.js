@@ -1,13 +1,13 @@
 import React from "react";
 
-import MainHeader from "../OperationsAndOverview/MainHeader";
-import StatisticContainer from "./StatisticsGraphs/StatisticContainer";
+import TransactionsHeader from "../Transactions/TransactionsHeader";
+import ChartsContainer from "./Charts/ChartsContainer";
 
 function Overview() {
     return (
         <>
-            <MainHeader />
-            <StatisticContainer />
+            <TransactionsHeader />
+            <ChartsContainer />
         </>
     );
 }
