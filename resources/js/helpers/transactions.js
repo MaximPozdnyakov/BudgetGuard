@@ -2,6 +2,7 @@ import {
     sub,
     startOfToday,
     endOfToday,
+    startOfDay,
     eachDayOfInterval,
     isSameDay,
     format,
@@ -21,8 +22,9 @@ const getCurrentTransactions = (transactions, walletId, [startDate, endDate]) =>
     transactions.filter(
         ({ wallet, spent_at }) =>
             wallet == walletId &&
-            differenceInDays(new Date(spent_at), new Date(startDate)) >= 0 &&
-            differenceInDays(new Date(spent_at), new Date(endDate)) <= 0
+            startOfDay(new Date(spent_at)) - startOfDay(new Date(startDate)) >=
+                0 &&
+            startOfDay(new Date(spent_at)) - startOfDay(new Date(endDate)) <= 0
     );
 
 export const getMoneyRange = transactions => {
@@ -89,12 +91,14 @@ export const resetFilters = (transactions, walletId, dateRange) => {
 export const filterByWallet = (transactions, walletId) =>
     transactions.filter(t => t.wallet == walletId);
 
-export const filterByDateRange = (transactions, [startDate, endDate]) =>
-    transactions.filter(
+export const filterByDateRange = (transactions, [startDate, endDate]) => {
+    return transactions.filter(
         ({ spent_at }) =>
-            differenceInDays(new Date(spent_at), new Date(startDate)) >= 0 &&
-            differenceInDays(new Date(spent_at), new Date(endDate)) <= 0
+            startOfDay(new Date(spent_at)) - startOfDay(new Date(startDate)) >=
+                0 &&
+            startOfDay(new Date(spent_at)) - startOfDay(new Date(endDate)) <= 0
     );
+};
 
 export const filterByTransactionsFilters = (
     transactions,
