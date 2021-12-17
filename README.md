@@ -7,6 +7,6 @@
 - Laravel
 - MySQL
 
-[Ссылка на сайт](http://safebudget.herokuapp.com)
+[Ссылка на сайт](http://budgetguard.herokuapp.com/)
 
 <img src="https://i.postimg.cc/L8Lr9F21/Safe-Budget.png">
