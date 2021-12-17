@@ -1,5 +1,9 @@
 # Budget Guard
 Сайт для планирования бюджета
+
+Логин и пароль для тестирования:
+johndoe@gmail.com
+Qwerty123
 ## Стек
 - React
 - Redux (Redux Thunk)
